@@ -6,7 +6,7 @@
  * enabled or disabled with a compile time switch.  This compile time switch
  * should be enabled with a VERBOSE flag in the Makefile.    
  *
- * @author Brian Kelly
+ * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *
  */
@@ -14,6 +14,8 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
+#include <stdint.h>
+#include <stdio.h>
 #include <stdint.h>
 
 /**

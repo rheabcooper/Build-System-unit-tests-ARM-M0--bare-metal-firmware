@@ -4,7 +4,7 @@
  *
  * A header file containing functions to perform data conversion.
  *
- * @author Brian Kelly
+ * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *
  */
@@ -13,6 +13,12 @@
 #define __CONVERSION_H__
 
 #include <stdint.h>
+
+#define NEGATIVE_NUM  (-1)
+#define NEGATIVE_CHAR ('-')
+#define NULL_TERM     ('\0')
+#define ZERO_CHAR     ('0')
+#define ONE_CHAR	  ('1')
 
 /**
  * @brief A function to convert data from an integer data type into an ASCII string

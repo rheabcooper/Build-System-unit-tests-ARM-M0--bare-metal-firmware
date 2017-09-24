@@ -4,7 +4,7 @@
  *
  * A header file containing functions to perform memory manipulation.
  *
- * @author Brian Kelly
+ * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *
  */
@@ -12,6 +12,8 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
+#include <stdint.h>
+#include <stdlib.h>
 #include <stdint.h>
 
 /**

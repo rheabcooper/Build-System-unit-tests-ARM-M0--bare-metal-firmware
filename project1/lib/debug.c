@@ -9,9 +9,14 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
 #include "debug.h"
 
-void print_memory(uint8_t * start, uint32_t length)
+void print_array(uint8_t * start, uint32_t length)
 {
-	/* will implement here during the implementation phase */
+	uint32_t element;
+	for(element = 0; element < length; element++)
+	{
+		printf("%d", *(start + element));
+	}
 }

@@ -12,9 +12,7 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include "common.h"
 
 /**
  * @brief A function to move data from one memory location to another memory location
@@ -56,7 +54,7 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length);
  *
  * @return a pointer to the source memory location
  */
-int8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
 
 /**
  * @brief A function to zero out all of the memory
@@ -107,6 +105,6 @@ int32_t * reserve_words(size_t length);
  *
  * @return void
  */
-void free_words(int32_t * src);
+void free_words(uint32_t * src);
 
 #endif /* __MEMORY_H__ */

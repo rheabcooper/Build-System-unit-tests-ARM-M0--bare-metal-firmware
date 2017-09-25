@@ -14,9 +14,7 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdint.h>
+#include "common.h"
 
 /**
  * @brief A function to print the hex output of bytes 
@@ -33,6 +31,6 @@
  *
  * @return void
  */
-void print_memory(uint8_t * start, uint32_t length);
+void print_array(uint8_t * start, uint32_t length);
 
 #endif /* __DEBUG_H__ */

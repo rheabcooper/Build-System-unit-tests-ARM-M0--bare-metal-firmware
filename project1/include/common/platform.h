@@ -13,9 +13,8 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include "common.h"
+#include "debug.h"
 
 /**
  * @brief A feature to enable the printf functionality to be platform independent.

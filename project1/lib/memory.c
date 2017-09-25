@@ -8,8 +8,6 @@
  *
  */
 
-#include <stdint.h>
-#include <stdlib.h>
 #include "memory.h"
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
@@ -41,7 +39,7 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length)
 	return dst;
 }
 
-int8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
 {
 	size_t element;
 	for(element = 0; element < length; element++)
@@ -67,7 +65,7 @@ uint8_t * my_reverse(uint8_t * src, size_t length)
 	uint8_t * temp = ((void *) NULL);
 	for (element = 0; element < length/2; element++)
 	{
-		*(temp + element) = *(src + element)
+		*(temp + element) = *(src + element);
 		*(src + element) = *(src + length - 1 - element);
 		*(src + length - 1 - element) = *(temp + element);
 	}	
@@ -89,7 +87,7 @@ int32_t * reserve_words(size_t length)
 	}
 }
 
-void free_words(int32_t * src)
+void free_words(uint32_t * src)
 {
 	free(src);	
 }

@@ -10,7 +10,7 @@
  *
  */
 
-#include <stdint.h>
+#include "common.h"
 
 /**
  * @brief A function to perform a complete reverse

@@ -8,8 +8,6 @@
  *
  */
 
-#include <stdint.h>
-#include <stdio.h>
 #include "debug.h"
 
 void print_array(uint8_t * start, uint32_t length)

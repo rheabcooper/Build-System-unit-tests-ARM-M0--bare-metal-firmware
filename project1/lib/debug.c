@@ -17,4 +17,5 @@ void print_array(uint8_t * start, uint32_t length)
 	{
 		printf("%d", *(start + element));
 	}
+	putchar('\n');
 }

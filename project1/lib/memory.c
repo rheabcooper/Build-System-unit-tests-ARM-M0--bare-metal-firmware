@@ -14,11 +14,26 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
 	/* TODO: check the memory & potential data corruption when memmove */	
 	size_t element;
-	uint8_t *temp = ((void *) NULL);	
-	for (element = 0; element < length; element++)
+	uint8_t temp;
+
+	uint8_t diff = abs(dst - src);
+	printf("difference in address is %d, the length is %zu\n", diff, length);
+	if(diff < length)
 	{
-		*(dst + element) = *(src + element);
-		*(src + element) = *(temp + element);  
+		for (element = 0; element < length; element++)
+		{
+			temp = *(src + element);
+			*(dst + element) = temp;
+		}
+	}
+	else
+	{
+		for (element = 0; element < length; element++)
+		{
+			/* *(dst + element) = *(src + element); */
+			temp = *(src + element);
+			*(dst + element) = temp;
+		}
 	}
 	return dst;
 }	
@@ -62,12 +77,12 @@ uint8_t * my_memzero(uint8_t * src, size_t length)
 uint8_t * my_reverse(uint8_t * src, size_t length)
 {
 	uint32_t element;
-	uint8_t * temp = ((void *) NULL);
+	uint8_t temp;
 	for (element = 0; element < length/2; element++)
 	{
-		*(temp + element) = *(src + element);
+		temp = *(src + element);
 		*(src + element) = *(src + length - 1 - element);
-		*(src + length - 1 - element) = *(temp + element);
+		*(src + length - 1 - element) = temp;
 	}	
 	return src;
 }

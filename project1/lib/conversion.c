@@ -13,7 +13,7 @@
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 {
-	uint8_t length = 0;  /* first element in the array */
+	uint32_t length = 0;  /* first element in the array */
 	int8_t sign;         /* sign representation */
 	uint8_t rem; 	     /* remainder variable for the base */
 	char hex;		     /* hexadecimal value for base 16 */
@@ -22,8 +22,8 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 	/* For negative integer, it becomes a positive integer */
 	if (0 > data)
 	{
-		sign = NEGATIVE_NUM;
-		data *= -1;
+		sign = NEGATIVE_NUM; 
+		data *= NEGATIVE_NUM;
 	}
 
 	/* for zero integer, assign '0' char to the array */
@@ -62,6 +62,12 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 				data /= base;
 				length++;
 			}
+			if (NEGATIVE_NUM == sign)
+			{
+				*(ptr + length) = NEGATIVE_CHAR;
+				length++; 
+			}		
+			reverse(ptr, length);
 		}
 		else if (BASE_2 == base)
 		{
@@ -125,7 +131,7 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 {
 	/* TODO: This is easily done with positve char values and 
-			  negative base 10 values, but we still need to figure
+			  base values with the negative sign, but we still need to figure
               out the negative base 2 and 16 with 2's complement */
 	int32_t result = 0;
 	uint8_t element = 0;

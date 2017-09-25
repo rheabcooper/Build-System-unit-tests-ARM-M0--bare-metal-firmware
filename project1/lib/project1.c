@@ -30,7 +30,7 @@ int8_t test_data1() {
 
   printf("\ntest_data1();\n");
   ptr = (uint8_t*) reserve_words( DATA_SET_SIZE_W );
-
+ 
   if (! ptr )
   {
     return TEST_ERROR;
@@ -117,6 +117,7 @@ int8_t test_memmove1() {
   }
 
   free_words( (uint32_t*)set );
+  printf("Test result: %d\n", ret);
   return ret;
 }
 
@@ -155,6 +156,7 @@ int8_t test_memmove2() {
   }
 
   free_words( (uint32_t*)set );
+  printf("Test result: %d\n", ret);
   return ret;
 }
 
@@ -195,6 +197,7 @@ int8_t test_memmove3() {
 
 
   free_words( (uint32_t*)set );
+  printf("Test result: %d\n", ret);
   return ret;
 
 }
@@ -234,6 +237,7 @@ int8_t test_memcpy() {
   }
 
   free_words( (uint32_t*)set );
+  printf("Test result: %d\n", ret);
   return ret;
 }
 
@@ -280,6 +284,7 @@ int8_t test_memset()
   }
   
   free_words( (uint32_t*)set );
+  printf("Test result: %d\n", ret);
   return ret;
 }
 
@@ -316,10 +321,11 @@ int8_t test_reverse()
   }
 
   free_words( (uint32_t*)copy );
+  printf("Test result: %d\n", ret);
   return ret;
 }
 
-void course1(void) 
+void project1(void) 
 {
   uint8_t i;
   int8_t failed = 0;

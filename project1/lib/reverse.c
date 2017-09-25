@@ -15,15 +15,15 @@
 void reverse(uint8_t * str, uint32_t length)
 {
 	uint32_t element;
-	uint8_t * temp = ((void *) NULL);
+	uint8_t temp;
 
 	/* This is a more efficient method that
 		uses less looping when performing the
 		array reverse computation */
 	for (element = 0; element < length/2; element++)
 	{
-		*(temp + element) = *(str + element);
+		temp = *(str + element);
 		*(str + element) = *(str + length - 1 - element);
-		*(str + length - 1 - element) = *(temp + element);
+		*(str + length - 1 - element) = temp;
 	}	
 }

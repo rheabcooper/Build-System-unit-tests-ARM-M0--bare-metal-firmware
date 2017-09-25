@@ -7,23 +7,12 @@
  *
  */
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-
-#include "platform.h"
 #include "project1.h"
-#include "memory.h"
-#include "conversion.h"
-#include "debug.h"
-
-#define PROJECT1
-#define HOST
 
 int main(void)
 {
 	#ifdef PROJECT1	
-		project1();
+		project1(); 
 	#endif
 
 	return 0;

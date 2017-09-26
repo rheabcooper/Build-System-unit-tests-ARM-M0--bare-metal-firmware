@@ -1,7 +1,7 @@
 #####################################################
 #													#
-#	@file standard_macro.txt						#
-#	@brief A standard macro file for the build		#
+#	@file sources.mk								#
+#	@brief A source file for the build				#
 #													#
 # 	@author Brian Kelly								#
 #	@date September 24, 2017						#
@@ -19,10 +19,17 @@ INC_DIR 		= $(PROJ_DIR)/include
 LIB_DIR 		= $(PROJ_DIR)/lib
 PLATFORM_DIR 	= $(PROJ_DIR)/platform
 SRC_DIR 		= $(PROJ_DIR)/src
-OBJ_DIR			= $(PROJ_DIR)/obj
+OBJ_DIR			= $(SRC_DIR)/obj
 
 # Source Directory
 MAIN_SRC 		= $(SRC_DIR)/main.c
+CONV_SRC		= $(SRC_DIR)/conversion.c
+DEBUG_SRC		= $(SRC_DIR)/debug.c
+MEMORY_SRC		= $(SRC_DIR)/memory.c
+PROJ1_SRC		= $(SRC_DIR)/project1.c
+REVERSE_SRC		= $(SRC_DIR)/reverse.c
+KL25Z_SYS_SRC	= $(SRC_DIR)/system_MKL25Z4.c
+KL25Z_SUP_SRC	= $(SRC_DIR)/startup_MKL25Z4.S
 
 # Include Directory
 INC_CMN_DIR 	= $(INC_DIR)/common
@@ -44,13 +51,6 @@ CMINSTR_INC		= $(INC_DMSIS_DIR)/core_cmInstr.h
 INC_KL25Z_DIR	= $(INC_DIR)/kl25z
 KL25Z_INC		= $(INC_KL25Z_DIR)/MKL25Z4.h
 SYS_KL25Z_INC	= $(INC_KL25Z_DIR)/system_MKL25Z4.h
-
-# Library Directory
-CONV_SRC		= $(LIB_DIR)/conversion.c
-DEBUG_SRC		= $(LIB_DIR)/debug.c
-MEMORY_SRC		= $(LIB_DIR)/memory.c
-PROJ1_SRC		= $(LIB_DIR)/project1.c
-REVERSE_SRC		= $(LIB_DIR)/reverse.c
 
 # Platform Directory
 KL25Z_LD		= $(PLATFORM_DIR)/MKL25Z128xxx4_flash.ld

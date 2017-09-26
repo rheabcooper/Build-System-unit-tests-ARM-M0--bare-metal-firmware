@@ -12,10 +12,12 @@
 
 void print_array(uint8_t * start, uint32_t length)
 {
+	#ifdef VERBOSE
 	uint32_t element;
 	for(element = 0; element < length; element++)
 	{
 		printf("%d", *(start + element));
 	}
 	putchar('\n');
+	#endif
 }

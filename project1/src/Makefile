@@ -11,6 +11,7 @@
 include sources.mk
 
 EXECUTABLE = project1.elf
+MAP_FILE = project1.map
 
 SOURCES += $(MAIN_SRC)
 
@@ -49,12 +50,16 @@ CC=gcc
 # Specify platforms for those variables
 ifeq ($(PLATFORM),HOST) 
 CC = gcc
-CODE_SIZE = size --format=SysV 
+CODE_SIZE = size -B
+LD = ld 
+LD_ENTRY = main
 endif
 
 ifeq ($(PLATFORM),BBB)
 CC = arm-linux-gnueabihf-gcc
-CODE_SIZE = arm-linux-gnueabihf-size --format=SysV
+CODE_SIZE = arm-linux-gnueabihf-size -B
+LD = arm-linux-gnueabihf-ld 
+LD_ENTRY = main
 endif
 
 ifeq ($(PLATFORM),KL25Z)
@@ -64,7 +69,9 @@ ARCH = armv6-m
 FLOAT = soft
 FPU = fpv4-sp-d16
 SPECS = nosys.specs
-CODE_SIZE = arm-none-eabi-size --format=SysV 
+CODE_SIZE = arm-none-eabi-size -B
+LD = arm-none-eabi-ld 
+LD_ENTRY = Reset_Handler
 endif
 
 CFLAGS = -g \
@@ -85,12 +92,16 @@ endif
 DEPFLAGS += -MD \
 			-MP
 
-LDFLAGS += -L$(LIB_DIR) 	-lproject1 \
-		   -Xlinker -Map=project1.map
-
 ifeq ($(PLATFORM),KL25Z)
 LDFLAGS += -T$(KL25Z_LD)
 endif
+
+LDFLAGS += -L$(LIB_DIR) \
+           -lproject1 \
+		   -Map=$(MAP_FILE) \
+		   -e $(LD_ENTRY) \
+	       -N \
+		   -r
 
 PLATFORM_FLAGS += -mcpu=$(CPU) \
 				  -mthumb \
@@ -102,7 +113,7 @@ PLATFORM_FLAGS += -mcpu=$(CPU) \
 ifeq ($(PLATFORM),KL25Z)
 .PHONY: build comiple-all build-lib
 build: compile-all build-lib
-	$(CC) $(PLATFORM_FLAGS) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(LDFLAGS)
+	$(LD) $(LDFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
 	$(CODE_SIZE) $(EXECUTABLE) 
 
 %.i: %.c
@@ -114,24 +125,14 @@ build: compile-all build-lib
 %.o: %.c 
 	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) -c $< $(INCLUDES)
 
-%.i: %.S
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) -E $(INCLUDES) $< > $@ 
-
-%.o: %.S 
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) -c $< $(INCLUDES)
-
-#dep: $(SOURCES) $(LIB_SRC)
-#	$(CC) $(CFLAGS) $(CPPFLAGS) $(PLATFORM_FLAGS) $(INCLUDES) 	
 .PHONY: compile-all
 compile-all: $(SOURCES) $(ASM_SRC) $(LIB_SRC)
 	$(CC) $(PLATFORM_FLAGS) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(ASM_SRC) $(LIB_SRC) $(INCLUDES)
 
--include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
-
 else
 .PHONY: build compile-all build-lib
 build: compile-all build-lib
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(LDFLAGS)
+	$(LD) $(LDFLAGS) -o $(EXECUTABLE) $(OBJECTS)
 	$(CODE_SIZE) $(EXECUTABLE)  
 
 %.i: %.c
@@ -143,13 +144,9 @@ build: compile-all build-lib
 %.o: %.c 
 	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) $(INCLUDES)
 
-#dep: $(SOURCES) $(LIB_SRC)
-#	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) 	
 .PHONY: compile-all
 compile-all: $(SOURCES) $(LIB_SRC)
 	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES)
-
--include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 
 endif
 .PHONY: build-lib
@@ -159,3 +156,6 @@ build-lib: $(LIB_OBJ)
 .PHONY: clean
 clean:
 	rm -f *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR)/*.a
+
+-include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
+

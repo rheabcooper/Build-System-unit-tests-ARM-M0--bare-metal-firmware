@@ -162,7 +162,7 @@ build-lib: $(LIB_OBJ)
 
 .PHONY: clean
 clean:
-	rm -f *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR)
+	rm -rf *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR)
 
 -include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

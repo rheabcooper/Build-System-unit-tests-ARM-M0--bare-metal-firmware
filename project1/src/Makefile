@@ -36,10 +36,10 @@ ASM_DEP = $(ASM_SRC:.S=.d)
 AR = ar -rvc
 LIBRARY = $(LIB_DIR)/libproject1.a
 LIB_SRC := $(CONV_SRC) \
-		$(DEBUG_SRC) \
-		$(MEMORY_SRC) \
-		$(PROJ1_SRC) \
-		$(REVERSE_SRC)	
+			$(DEBUG_SRC) \
+			$(MEMORY_SRC) \
+			$(PROJ1_SRC) \
+			$(REVERSE_SRC)	
 
 LIB_OBJ = $(LIB_SRC:.c=.o)
 LIB_DEP = $(LIB_SRC:.c=.d)
@@ -51,15 +51,13 @@ CC=gcc
 ifeq ($(PLATFORM),HOST) 
 CC = gcc
 CODE_SIZE = size -B
-LD = ld 
-LD_ENTRY = main
+LD = ld
 endif
 
 ifeq ($(PLATFORM),BBB)
 CC = arm-linux-gnueabihf-gcc
 CODE_SIZE = arm-linux-gnueabihf-size -B
-LD = arm-linux-gnueabihf-ld 
-LD_ENTRY = main
+LD = arm-linux-gnueabihf-ld
 endif
 
 ifeq ($(PLATFORM),KL25Z)
@@ -71,7 +69,6 @@ FPU = fpv4-sp-d16
 SPECS = nosys.specs
 CODE_SIZE = arm-none-eabi-size -B
 LD = arm-none-eabi-ld 
-LD_ENTRY = Reset_Handler
 endif
 
 CFLAGS = -g \
@@ -93,15 +90,22 @@ DEPFLAGS += -MD \
 			-MP
 
 ifeq ($(PLATFORM),KL25Z)
-LDFLAGS += -T$(KL25Z_LD)
+CC_LDFLAGS += -T$(KL25Z_LD)
 endif
 
-LDFLAGS += -L$(LIB_DIR) \
+CC_LDFLAGS += -L$(LIB_DIR) \
+           -lproject1 \
+		   -Xlinker -Map=$(MAP_FILE)
+
+ifeq ($(PLATFORM),KL25Z)
+LD_LDFLAGS += -T$(KL25Z_LD)
+endif
+
+LD_LDFLAGS += -L$(LIB_DIR) \
            -lproject1 \
 		   -Map=$(MAP_FILE) \
-		   -e $(LD_ENTRY) \
-	       -N \
-		   -r
+		   -N \
+		   -r 
 
 PLATFORM_FLAGS += -mcpu=$(CPU) \
 				  -mthumb \
@@ -112,8 +116,9 @@ PLATFORM_FLAGS += -mcpu=$(CPU) \
 
 ifeq ($(PLATFORM),KL25Z)
 .PHONY: build comiple-all build-lib
-build: compile-all build-lib
-	$(LD) $(LDFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
+build: compile-all build-lib	
+#	$(LD) $(LD_LDFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
+	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE) 
 
 %.i: %.c
@@ -132,7 +137,8 @@ compile-all: $(SOURCES) $(ASM_SRC) $(LIB_SRC)
 else
 .PHONY: build compile-all build-lib
 build: compile-all build-lib
-	$(LD) $(LDFLAGS) -o $(EXECUTABLE) $(OBJECTS)
+#	$(LD) -v $(LD_LDFLAGS) -o $(EXECUTABLE) $(OBJECTS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE)  
 
 %.i: %.c

@@ -157,11 +157,12 @@ compile-all: $(SOURCES) $(LIB_SRC)
 endif
 .PHONY: build-lib
 build-lib: $(LIB_OBJ)
+	@mkdir -p $(LIB_DIR)
 	$(AR) $(LIBRARY) $(LIB_OBJ)   
 
 .PHONY: clean
 clean:
-	rm -f *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR)/*.a
+	rm -f *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR)
 
 -include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

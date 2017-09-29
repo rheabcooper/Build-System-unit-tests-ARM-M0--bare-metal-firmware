@@ -14,25 +14,27 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
 	/* TODO: check the memory & potential data corruption when memmove */	
 	size_t element;
-	uint8_t temp;
-
+	uint8_t * temp;
+	uint8_t buffer[length];
+	temp = &buffer[0];
 	uint8_t diff = abs(dst - src);
-	printf("difference in address is %d, the length is %zu\n", diff, length);
+
 	if(diff < length)
 	{
 		for (element = 0; element < length; element++)
 		{
-			temp = *(src + element);
-			*(dst + element) = temp;
+			*(temp + element) = *(src + element);
+		}
+		for (element = 0; element < length; element++)
+		{
+			*(dst + element) = *(temp + element);
 		}
 	}
 	else
 	{
 		for (element = 0; element < length; element++)
 		{
-			/* *(dst + element) = *(src + element); */
-			temp = *(src + element);
-			*(dst + element) = temp;
+			*(dst + element) = *(src + element);
 		}
 	}
 	return dst;

@@ -156,52 +156,26 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 
 int8_t big_to_little32(uint32_t * data, uint32_t length)
 {
-	/* TODO:  Need to clean up and improve the conversion formula */
 	int32_t element;
-	if (NULL != data)
+	for(element = 0; element < length; element++)
 	{
-		for(element = 0; element < length; element++)
-		{
-			/* int32_t b0 =  0x000000FF & *(data + element);
-			int32_t b1 = (0x0000FF00 & *(data + element)) >> 8;
-			int32_t b2 = (0x00FF0000 & *(data + element)) >> 16;
-			int32_t b3 = (0xFF000000 & *(data + element)) >> 24;
-			int32_t a0 = b0 << 24;
-			int32_t a1 = b1 << 16;
-			int32_t a2 = b2 << 8;
-			int32_t a3 = b3;
-		    int32_t  a = a0 | a1 | a2 | a3; */
-		}
-		return 0;
+		*(data + element)=(0x000000FF & *(data + element))<<24|
+                         ((0x0000FF00 & *(data + element))>>8)<<16|
+                         ((0x00FF0000 & *(data + element))>>16)<<8|
+                         ((0xFF000000 & *(data + element))>>24);
 	}
-	else
-	{
-		return -1;
-	}
+	return 0;
 }
 
 int8_t little_to_big32(uint32_t * data, uint32_t length)
 {
-	/* TODO:  Need to clean up and improve the conversion formula */
 	int32_t element;
-	if (NULL != data)
+	for(element = 0; element < length; element++)
 	{
-		for(element = 0; element < length; element++)
-		{
-			/* int32_t b0 =  0x000000FF & *(data + element);
-			int32_t b1 = (0x0000FF00 & *(data + element)) >> 8;
-			int32_t b2 = (0x00FF0000 & *(data + element)) >> 16;
-			int32_t b3 = (0xFF000000 & *(data + element)) >> 24;
-			int32_t a0 = b0 << 24;
-			int32_t a1 = b1 << 16;
-			int32_t a2 = b2 << 8;
-			int32_t a3 = b3;
-			int32_t  a = a0 | a1 | a2 | a3; */
-		}
-		return 0;
+		*(data + element)=(0x000000FF & *(data + element))<<24|
+                         ((0x0000FF00 & *(data + element))>>8)<<16|
+                         ((0x00FF0000 & *(data + element))>>16)<<8|
+                         ((0xFF000000 & *(data + element))>>24);
 	}
-	else
-	{
-		return -1;
-	}		
+	return 0;
 }

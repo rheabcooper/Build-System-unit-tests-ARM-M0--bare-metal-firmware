@@ -3,6 +3,9 @@
  * @brief This file contains the function implementations 
  *         for performing memory manipulation.
  *
+ * These functions were originally developed by Rhea Cooper
+ *  and Brian Kelly modified and improved the code.  
+ *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *
@@ -12,7 +15,6 @@
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
-	/* TODO: check the memory & potential data corruption when memmove */	
 	size_t element;
 	uint8_t * temp;
 	uint8_t buffer[length];
@@ -42,12 +44,13 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 
 uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length)
 {
-	/* TODO: check the memory & potential data corruption when memcpy */
 	size_t element;
 	uint32_t diff = abs(dst - src);
 	if (diff < length)
 	{
-		/* Error! Data corruption! */
+		#ifdef VERBOSE
+		printf("Data Corruption Error!\n");
+		#endif		
 	}
 	for(element = 0; element < length; element++)
 	{
@@ -63,6 +66,7 @@ uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
 	{
 		*(src + element) = value;
 	}	
+	src = (uint8_t *)src;
 	return src;
 }
 
@@ -73,6 +77,7 @@ uint8_t * my_memzero(uint8_t * src, size_t length)
 	{
 		*(src + element) = 0;
 	}
+	src = (uint8_t *)src;
 	return src;	
 }
 

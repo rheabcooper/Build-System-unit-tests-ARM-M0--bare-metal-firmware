@@ -3,6 +3,8 @@
 #	@file sources.mk								#
 #	@brief A source file for the build				#
 #													#
+#	This file was all developed by Brian Kelly.		#				
+#									 				#
 # 	@author Brian Kelly								#
 #	@date September 24, 2017						#
 #													#

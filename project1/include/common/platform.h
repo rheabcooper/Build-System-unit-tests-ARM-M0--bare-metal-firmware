@@ -5,6 +5,8 @@
  * A header file for creating an independent layer to switch between 
  * platform specific lower-level functions.      
  *
+ * This file was originally developed by Rhea Cooper. 
+ *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *

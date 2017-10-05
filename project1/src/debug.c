@@ -3,6 +3,9 @@
  * @brief A file to implement the function for debug printing 
  *           if it is enabled by the compile time switch. 
  *
+ * These functions were originally developed by Rhea Cooper
+ *  and Brian Kelly modified and improved the code.  
+ *
  * @author Brian Kelly
  * @date September 23, 2017
  *

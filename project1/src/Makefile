@@ -3,6 +3,8 @@
 # @file Makefile											#
 # @brief A main Makefile for building the project1 system	#
 #															#
+# This Makefile was all developed by Brian Kelly.			#	
+#															#
 # @author Brian Kelly										#
 # @date September 23, 2017									#
 #															#
@@ -97,7 +99,7 @@ ifeq ($(PLATFORM),KL25Z)
 CC_LDFLAGS += -T$(KL25Z_LD)
 endif
 
-CC_LDFLAGS += -L$(LIB_DIR)\
+CC_LDFLAGS += -L$(LIB_DIR) \
            -lproject1 \
 		   -Xlinker -Map=$(MAP_FILE)
 
@@ -105,7 +107,7 @@ ifeq ($(PLATFORM),KL25Z)
 LD_LDFLAGS += -T$(KL25Z_LD)
 endif
 
-LD_LDFLAGS += \
+LD_LDFLAGS += -L$(LIB_DIR) \
            -lproject1 \
 		   -m $(LD_ARCH) \
 		   -Map=$(MAP_FILE) \
@@ -128,7 +130,7 @@ build: compile-all build-lib
 	@echo;
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
-#	$(LD) $(LD_LDFLAGS) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
+#	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
 	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE) 
 
@@ -187,7 +189,7 @@ compile-all: $(SOURCES) $(LIB_SRC)
 	@echo;
 	@echo "##################### Compiling ... $@ target on $(PLATFORM) ########################"
 	@echo;
-	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES)
+	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES) 
 
 endif
 build-lib: $(LIB_OBJ)

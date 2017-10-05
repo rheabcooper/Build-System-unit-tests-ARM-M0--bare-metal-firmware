@@ -3,11 +3,15 @@
  * @brief A file to implement the functions for performing 
  *          data conversion. 
  *
+ * These functions were originally developed by Rhea Cooper
+ *  and Brian Kelly modified and improved the code.  
+ *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *
  */
 
+#include "common.h"
 #include "conversion.h"
 #include "reverse.h"
 
@@ -17,7 +21,6 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 	int8_t sign;         /* sign representation */
 	uint8_t rem; 	     /* remainder variable for the base */
 	char hex;		     /* hexadecimal value for base 16 */
-	uint8_t element;     /* defined element in the array */
 
 	/* For negative integer, it becomes a positive integer */
 	if (0 > data)
@@ -36,7 +39,6 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 	{
 		if (BASE_16 == base)
 		{
-			/* TODO: Figure out the base 16 value for negative integer */
 			while (0 < data)
 			{
 				rem = data % base;
@@ -62,42 +64,8 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 				data /= base;
 				length++;
 			}
-			if (NEGATIVE_NUM == sign)
-			{
-				*(ptr + length) = NEGATIVE_CHAR;
-				length++; 
-			}		
-			reverse(ptr, length);
 		}
-		else if (BASE_2 == base)
-		{
-			while (0 != data)
-			{
-				rem = data % base;
-				*(ptr + length) = rem + ZERO_CHAR;
-				data /= base;
-				length++;
-			}		    
-            reverse(ptr, length);
-			if (NEGATIVE_NUM == sign)
-			{
-				for (element = 0; element <= length; element++)
-				{
-					if (*(ptr + element) == ZERO_CHAR)
-					{
-						*(ptr + element) = ONE_CHAR;
-					}
-					else
-					{
-						*(ptr + element) = ZERO_CHAR;
-					}
-				}
-				/* TODO: Add the "add one to the char array" code
-						  as the second part of two's complement for 
-						   the negative integer. */	
-			}
-		}
-		else if (BASE_10 == base) 
+		else if (BASE_10 == base || BASE_2 == base) 
 		{
 			while (0 != data)
 			{
@@ -106,18 +74,20 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 				data /= base;
 				length++;
 			}
-			if (NEGATIVE_NUM == sign)
-			{
-				*(ptr + length) = NEGATIVE_CHAR;
-				length++; 
-			}
-			reverse(ptr, length);
 		}
 		else
 		{
-			/* ERROR! Missing the base number! */
-			/* TODO: Do we need to printf the error here? */
+			#ifdef VERBOSE
+			printf("Error! Incorrect Base number!\n");
+			#endif
 		}
+		if (NEGATIVE_NUM == sign)
+		{
+			*(ptr + length) = NEGATIVE_CHAR;
+			length++; 
+		}
+		reverse(ptr, length);
+
 	}
 	
 	/* adding the null terminator to the array */
@@ -130,9 +100,6 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 {
-	/* TODO: This is easily done with positve char values and 
-			  base values with the negative sign, but we still need to figure
-              out the negative base 2 and 16 with 2's complement */
 	int32_t result = 0;
 	uint8_t element = 0;
 	int8_t sign = 1;
@@ -156,26 +123,78 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 
 int8_t big_to_little32(uint32_t * data, uint32_t length)
 {
+	uint32_t b0, b1, b2, b3, x0, x1, x2, x3;
 	int32_t element;
 	for(element = 0; element < length; element++)
 	{
-		*(data + element)=(0x000000FF & *(data + element))<<24|
-                         ((0x0000FF00 & *(data + element))>>8)<<16|
-                         ((0x00FF0000 & *(data + element))>>16)<<8|
-                         ((0xFF000000 & *(data + element))>>24);
+		/* extracting the bytes before conversion */
+		b0 = BYTE4 & *(data + element);
+		b1 = (BYTE3 & *(data + element)) >> 8;
+		b2 = (BYTE2 & *(data + element)) >> 16;
+		b3 = (BYTE1 & *(data + element)) >> 24;
+
+		/* shifting the bytes for conversion */
+		*(data + element)=(BYTE4 & *(data + element))<<24|
+                         ((BYTE3 & *(data + element))>>8)<<16|
+                         ((BYTE2 & *(data + element))>>16)<<8|
+                         ((BYTE1 & *(data + element))>>24);
 	}
-	return 0;
+	for (uint32_t element = 0; element < length; element++)
+	{
+		/* extracting the bytes after conversion */
+		x0 = BYTE4 & *(data + element);
+		x1 = (BYTE3 & *(data + element)) >> 8;
+		x2 = (BYTE2 & *(data + element)) >> 16;
+		x3 = (BYTE3 & *(data + element)) >> 24;
+	}
+	if (x0 == b3 && x1 == b2 && x2 == b1 && x3 == b0)
+	{
+		return 0;
+	}
+	else
+	{
+		#ifdef VERBOSE
+		printf("Error!  Cannot convert from big endian to little endian!\n");
+		#endif
+		return -1;
+	}
 }
 
 int8_t little_to_big32(uint32_t * data, uint32_t length)
 {
+	uint32_t b0, b1, b2, b3, x0, x1, x2, x3;
 	int32_t element;
 	for(element = 0; element < length; element++)
 	{
-		*(data + element)=(0x000000FF & *(data + element))<<24|
-                         ((0x0000FF00 & *(data + element))>>8)<<16|
-                         ((0x00FF0000 & *(data + element))>>16)<<8|
-                         ((0xFF000000 & *(data + element))>>24);
+		/* extracting the bytes before conversion */
+		b0 = BYTE4 & *(data + element);
+		b1 = (BYTE3 & *(data + element)) >> 8;
+		b2 = (BYTE2 & *(data + element)) >> 16;
+		b3 = (BYTE1 & *(data + element)) >> 24;
+
+		/* shifting the bytes for conversion */
+		*(data + element)=(BYTE4 & *(data + element))<<24|
+                         ((BYTE3 & *(data + element))>>8)<<16|
+                         ((BYTE2 & *(data + element))>>16)<<8|
+                         ((BYTE1 & *(data + element))>>24);
 	}
-	return 0;
+	for (uint32_t element = 0; element < length; element++)
+	{
+		/* extracting the bytes after conversion */
+		x0 = BYTE4 & *(data + element);
+		x1 = (BYTE3 & *(data + element)) >> 8;
+		x2 = (BYTE2 & *(data + element)) >> 16;
+		x3 = (BYTE3 & *(data + element)) >> 24;
+	}
+	if (x0 == b3 && x1 == b2 && x2 == b1 && x3 == b0)
+	{
+		return 0;
+	}
+	else
+	{
+		#ifdef VERBOSE
+		printf("Error!  Cannot convert from big endian to little endian!\n");
+		#endif
+		return -1;
+	}
 }

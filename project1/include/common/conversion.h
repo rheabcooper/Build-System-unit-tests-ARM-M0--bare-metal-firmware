@@ -3,6 +3,7 @@
  * @brief A header file to perform data conversion. 
  *
  * A header file containing functions to perform data conversion.
+ * This header file was all developed by Brian Kelly.
  *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
@@ -20,9 +21,10 @@
 #define ZERO_CHAR     ('0')
 #define ONE_CHAR	  ('1')
 
-#define BASE_2		  (2)
-#define BASE_10		  (10)
-#define BASE_16       (16)
+#define BYTE1		0xFF000000
+#define BYTE2		0x00FF0000
+#define BYTE3		0x0000FF00
+#define BYTE4		0x000000FF
 
 /**
  * @brief A function to convert data from an integer data type into an ASCII string

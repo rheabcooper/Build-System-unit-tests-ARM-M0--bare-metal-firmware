@@ -4,6 +4,8 @@
  *
  * A header file containing functions to perform memory manipulation.
  *
+ * This header file was all developed by Brian Kelly.
+ *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017
  *

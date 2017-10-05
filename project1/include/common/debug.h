@@ -4,7 +4,9 @@
  *
  * A header file containing functions to perform debug printing.  This can be
  * enabled or disabled with a compile time switch.  This compile time switch
- * should be enabled with a VERBOSE flag in the Makefile.    
+ * should be enabled with a VERBOSE flag in the Makefile.   
+ *
+ * This header file was all developed by Brian Kelly. 
  *
  * @author Brian Kelly and Rhea Cooper
  * @date September 23, 2017

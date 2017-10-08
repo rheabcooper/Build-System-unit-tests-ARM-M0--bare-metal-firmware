@@ -22,6 +22,7 @@ LIB_DIR 		= $(PROJ_DIR)/lib
 PLATFORM_DIR 	= $(PROJ_DIR)/platform
 SRC_DIR 		= $(PROJ_DIR)/src
 OBJ_DIR			= $(SRC_DIR)/obj
+DEP_DIR			= $(SRC_DIR)/dep
 
 # Source Directory
 MAIN_SRC 		= $(SRC_DIR)/main.c

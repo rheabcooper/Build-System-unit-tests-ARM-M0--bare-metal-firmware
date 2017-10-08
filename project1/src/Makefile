@@ -34,9 +34,9 @@ OBJECTS_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(OBJECTS)))
 ASM_OBJ = $(ASM_SRC:.S=.o)
 ASM_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_OBJ)))
 SRC_DEP = $(SOURCES:.c=.d)
-SRC_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC_DEP)))
+SRC_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(SRC_DEP)))
 ASM_DEP = $(ASM_SRC:.S=.d)
-ASM_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_DEP)))
+ASM_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(ASM_DEP)))
 
 # For Building the library directory
 AR = ar -rvc
@@ -50,7 +50,7 @@ LIB_SRC := $(CONV_SRC) \
 LIB_OBJ = $(LIB_SRC:.c=.o)
 LIB_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ)))
 LIB_DEP = $(LIB_SRC:.c=.d)
-LIB_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_DEP)))
+LIB_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP)))
 
 # Default compiler if the user doesn't specify the PLATFORM
 CC=gcc
@@ -128,6 +128,8 @@ PLATFORM_FLAGS += -mcpu=$(CPU) \
 		          -mfpu=$(FPU) \
 		          --specs=$(SPECS)
 
+POSTCOMPILE = @mv $(OBJ_DIR)/*.d $(DEP_DIR)/.
+
 .PHONY: build compile-all build-lib
 .PHONY: clean
 
@@ -163,9 +165,10 @@ compile-all: $(SOURCES) $(ASM_SRC) $(LIB_SRC)
 	@echo;
 	@echo "##################### Compiling ... $@ target on $(PLATFORM) ########################"
 	@echo;
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 	cd $(OBJ_DIR) && \
 	$(CC) $(PLATFORM_FLAGS) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(ASM_SRC) $(LIB_SRC) $(INCLUDES)
+	$(POSTCOMPILE)
 
 else
 build: compile-all build-lib
@@ -199,9 +202,10 @@ compile-all: $(SOURCES) $(LIB_SRC)
 	@echo;
 	@echo "##################### Compiling ... $@ target on $(PLATFORM) ########################"
 	@echo;
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 	cd $(OBJ_DIR) && \
 	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES) 
+	$(POSTCOMPILE)
 
 endif
 build-lib: $(LIB_OBJ_PATH)
@@ -216,7 +220,7 @@ clean:
 	@echo;
 	@echo "##################### Cleaning up ... ########################"
 	@echo;
-	rm -rf *.i *.asm $(OBJ_DIR) *.o *.d *.map $(EXECUTABLE) $(LIB_DIR) *.a
+	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) *.map $(EXECUTABLE) $(LIB_DIR)
 
 -include $(SRC_DEP_PATH) $(ASM_DEP_PATH) $(LIB_DEP_PATH)
 

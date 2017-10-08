@@ -29,14 +29,14 @@ INCLUDES += -I$(INC_CMSIS_DIR) \
 			-I$(INC_KL25Z_DIR)
 endif
 
-OBJECTS = $(SOURCES:.c=.o)
-OBJECTS_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(OBJECTS)))
-ASM_OBJ = $(ASM_SRC:.S=.o)
-ASM_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_OBJ)))
-SRC_DEP = $(SOURCES:.c=.d)
-SRC_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(SRC_DEP)))
-ASM_DEP = $(ASM_SRC:.S=.d)
-ASM_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(ASM_DEP)))
+OBJECTS_PATH = $(SOURCES:.c=.o)
+OBJECTS = $(addprefix $(OBJ_DIR)/,$(notdir $(OBJECTS_PATH)))
+ASM_OBJ_PATH = $(ASM_SRC:.S=.o)
+ASM_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_OBJ_PATH)))
+SRC_DEP_PATH = $(SOURCES:.c=.d)
+SRC_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(SRC_DEP_PATH)))
+ASM_DEP_PATH = $(ASM_SRC:.S=.d)
+ASM_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(ASM_DEP_PATH)))
 
 # For Building the library directory
 AR = ar -rvc
@@ -47,10 +47,10 @@ LIB_SRC := $(CONV_SRC) \
 			$(PROJ1_SRC) \
 			$(REVERSE_SRC)	
 
-LIB_OBJ = $(LIB_SRC:.c=.o)
-LIB_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ)))
-LIB_DEP = $(LIB_SRC:.c=.d)
-LIB_DEP_PATH = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP)))
+LIB_OBJ_PATH = $(LIB_SRC:.c=.o)
+LIB_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ_PATH)))
+LIB_DEP_PATH = $(LIB_SRC:.c=.d)
+LIB_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP_PATH)))
 
 # Default compiler if the user doesn't specify the PLATFORM
 CC=gcc
@@ -138,8 +138,8 @@ build: compile-all build-lib
 	@echo;
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
-#	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS_PATH) $(ASM_OBJ_PATH)
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS_PATH) $(ASM_OBJ_PATH) $(CC_LDFLAGS)
+#	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
+	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE) 
 
 %.i: %.c
@@ -176,7 +176,7 @@ build: compile-all build-lib
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
 #	$(LD) $(LD_LDFLAGS) -o $(EXECUTABLE) $(OBJECTS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS_PATH) $(CC_LDFLAGS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE)  
 
 %.i: %.c
@@ -208,12 +208,12 @@ compile-all: $(SOURCES) $(LIB_SRC)
 	$(POSTCOMPILE)
 
 endif
-build-lib: $(LIB_OBJ_PATH)
+build-lib: $(LIB_OBJ)
 	@echo;
 	@echo "##################### Building Library ... $@ target on $(PLATFORM) ########################"
 	@echo;
 	@mkdir -p $(LIB_DIR)
-	$(AR) $(LIBRARY) $(LIB_OBJ_PATH)   
+	$(AR) $(LIBRARY) $(LIB_OBJ)   
 
 .PHONY: clean
 clean:
@@ -222,5 +222,5 @@ clean:
 	@echo;
 	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) *.map $(EXECUTABLE) $(LIB_DIR)
 
--include $(SRC_DEP_PATH) $(ASM_DEP_PATH) $(LIB_DEP_PATH)
+-include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

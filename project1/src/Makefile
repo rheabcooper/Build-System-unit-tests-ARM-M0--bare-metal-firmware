@@ -30,9 +30,13 @@ INCLUDES += -I$(INC_CMSIS_DIR) \
 endif
 
 OBJECTS = $(SOURCES:.c=.o)
+OBJECTS_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(OBJECTS)))
 ASM_OBJ = $(ASM_SRC:.S=.o)
+ASM_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_OBJ)))
 SRC_DEP = $(SOURCES:.c=.d)
+SRC_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC_DEP)))
 ASM_DEP = $(ASM_SRC:.S=.d)
+ASM_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_DEP)))
 
 # For Building the library directory
 AR = ar -rvc
@@ -44,7 +48,9 @@ LIB_SRC := $(CONV_SRC) \
 			$(REVERSE_SRC)	
 
 LIB_OBJ = $(LIB_SRC:.c=.o)
+LIB_OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ)))
 LIB_DEP = $(LIB_SRC:.c=.d)
+LIB_DEP_PATH = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_DEP)))
 
 # Default compiler if the user doesn't specify the PLATFORM
 CC=gcc
@@ -130,8 +136,8 @@ build: compile-all build-lib
 	@echo;
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
-#	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS)
+#	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS_PATH) $(ASM_OBJ_PATH)
+	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS_PATH) $(ASM_OBJ_PATH) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE) 
 
 %.i: %.c
@@ -150,12 +156,15 @@ build: compile-all build-lib
 	@echo;
 	@echo "##################### Producing $@ file on $(PLATFORM) ########################"
 	@echo;
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) -c $< $(INCLUDES)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) -c $< $(INCLUDES) -o obj/$@
 
 compile-all: $(SOURCES) $(ASM_SRC) $(LIB_SRC)
 	@echo;
 	@echo "##################### Compiling ... $@ target on $(PLATFORM) ########################"
 	@echo;
+	@mkdir -p $(OBJ_DIR)
+	cd $(OBJ_DIR) && \
 	$(CC) $(PLATFORM_FLAGS) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(ASM_SRC) $(LIB_SRC) $(INCLUDES)
 
 else
@@ -164,7 +173,7 @@ build: compile-all build-lib
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
 #	$(LD) $(LD_LDFLAGS) -o $(EXECUTABLE) $(OBJECTS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(CC_LDFLAGS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS_PATH) $(CC_LDFLAGS)
 	$(CODE_SIZE) $(EXECUTABLE)  
 
 %.i: %.c
@@ -183,27 +192,31 @@ build: compile-all build-lib
 	@echo;
 	@echo "##################### Producing $@ file on $(PLATFORM) ########################"
 	@echo;
-	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) $(INCLUDES)
+	@mkdir -p $(OBJ_DIR)
+	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o obj/$@
 
 compile-all: $(SOURCES) $(LIB_SRC)
 	@echo;
 	@echo "##################### Compiling ... $@ target on $(PLATFORM) ########################"
 	@echo;
+	@mkdir -p $(OBJ_DIR)
+	cd $(OBJ_DIR) && \
 	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES) 
 
 endif
-build-lib: $(LIB_OBJ)
+build-lib: $(LIB_OBJ_PATH)
 	@echo;
 	@echo "##################### Building Library ... $@ target on $(PLATFORM) ########################"
 	@echo;
 	@mkdir -p $(LIB_DIR)
-	$(AR) $(LIBRARY) $(LIB_OBJ)   
+	$(AR) $(LIBRARY) $(LIB_OBJ_PATH)   
 
+.PHONY: clean
 clean:
 	@echo;
 	@echo "##################### Cleaning up ... ########################"
 	@echo;
-	rm -rf *.i *.asm *.o *.d *.map $(EXECUTABLE) $(LIB_DIR) *.a
+	rm -rf *.i *.asm $(OBJ_DIR) *.o *.d *.map $(EXECUTABLE) $(LIB_DIR) *.a
 
--include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
+-include $(SRC_DEP_PATH) $(ASM_DEP_PATH) $(LIB_DEP_PATH)
 

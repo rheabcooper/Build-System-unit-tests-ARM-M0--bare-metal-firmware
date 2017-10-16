@@ -16,20 +16,11 @@
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
 	size_t element;
-	uint8_t * temp;
-	uint8_t buffer[length];
-	temp = &buffer[0];
-	uint8_t diff = abs(dst - src);
-
-	if(diff < length)
+	if(src < dst)
 	{
-		for (element = 0; element < length; element++)
+		for (element = 1; element <= length; element++)
 		{
-			*(temp + element) = *(src + element);
-		}
-		for (element = 0; element < length; element++)
-		{
-			*(dst + element) = *(temp + element);
+			*(dst + length - element) = *(src + length - element); 
 		}
 	}
 	else

@@ -13,6 +13,16 @@
 # Set up the location for the project directory
 MYDIR = /home/brian/repos/BMK-ecen5813-project1
 
+# login info for the BeagleBone Black
+BBB_ROOT = root@192.168.240.31
+BBB_USER = debian@192.168.240.31
+BBB_USB_ROOT = root@192.168.7.2
+BBB_USB_USER = debian@192.168.7.2
+
+#File Paths on the BeagleBone Black
+BBB_USER_DIR = /home/debian
+BBB_USER_BIN = $(BBB_USER_DIR)/bin
+
 # Project Master or Top Level Directory
 PROJ_DIR 		= $(MYDIR)/project1
 
@@ -21,8 +31,8 @@ INC_DIR 		= $(PROJ_DIR)/include
 LIB_DIR 		= $(PROJ_DIR)/lib
 PLATFORM_DIR 	= $(PROJ_DIR)/platform
 SRC_DIR 		= $(PROJ_DIR)/src
-OBJ_DIR			= $(SRC_DIR)/obj
-DEP_DIR			= $(SRC_DIR)/dep
+OBJ_DIR			= $(PROJ_DIR)/obj
+DEP_DIR			= $(PROJ_DIR)/dep
 
 # Source Directory
 MAIN_SRC 		= $(SRC_DIR)/main.c

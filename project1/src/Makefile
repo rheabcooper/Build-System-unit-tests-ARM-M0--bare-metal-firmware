@@ -196,7 +196,7 @@ build: compile-all build-lib
 	@echo "##################### Producing $@ file on $(PLATFORM) ########################"
 	@echo;
 	@mkdir -p $(OBJ_DIR)
-	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o obj/$@
+	$(CC) -c $< $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(OBJ_DIR)/$@
 
 compile-all: $(SOURCES) $(LIB_SRC)
 	@echo;
@@ -206,6 +206,11 @@ compile-all: $(SOURCES) $(LIB_SRC)
 	cd $(OBJ_DIR) && \
 	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES) 
 	$(POSTCOMPILE)
+
+.PHONY: upload build
+upload: build
+	@scp $(SRC_DIR)/$(EXECUTABLE) $(BBB_ROOT):$(BBB_USER_BIN)
+	@ssh $(BBB_ROOT) -X $(BBB_USER_BIN)/$(EXECUTABLE)
 
 endif
 build-lib: $(LIB_OBJ)

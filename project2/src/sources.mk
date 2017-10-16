@@ -43,6 +43,7 @@ PROJ1_SRC		= $(SRC_DIR)/project1.c
 REVERSE_SRC		= $(SRC_DIR)/reverse.c
 CIRBUF_SRC		= $(SRC_DIR)/cirbuf.c
 UART_SRC		= $(SRC_DIR)/uart.c
+PROJ2_SRC		= $(SRC_DIR)/project2.c
 KL25Z_SYS_SRC	= $(SRC_DIR)/system_MKL25Z4.c
 KL25Z_SUP_SRC	= $(SRC_DIR)/startup_MKL25Z4.S
 
@@ -56,6 +57,7 @@ PLATFORM_INC	= $(INC_CMN_DIR)/platform.h
 PROJ1_INC		= $(INC_CMN_DIR)/project1.h
 REVERSE_INC		= $(INC_CMN_DIR)/reverse.h
 CIRBUF_INC		= $(INC_CMN_DIR)/cirbuf.h
+PROJ2_INC		= $(INC_CMN_DIR)/project2.h
 
 INC_CMSIS_DIR	= $(INC_DIR)/CMSIS
 CM0PLUS_INC		= $(INC_CMSIS_DIR)/core_cm0plus.h

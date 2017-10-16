@@ -12,13 +12,11 @@
 
 include sources.mk
 
-EXECUTABLE = project2.elf
-MAP_FILE = project2.map
-
 SOURCES += $(MAIN_SRC)
 
 ifeq ($(PLATFORM),KL25Z)
-SOURCES += $(KL25Z_SYS_SRC) 
+SOURCES += $(KL25Z_SYS_SRC) \
+		   $(UART_SRC) 
 ASM_SRC = $(KL25Z_SUP_SRC)
 endif
 
@@ -45,7 +43,9 @@ LIB_SRC := $(CONV_SRC) \
 			$(DEBUG_SRC) \
 			$(MEMORY_SRC) \
 			$(PROJ1_SRC) \
-			$(REVERSE_SRC)	
+			$(REVERSE_SRC) \
+			$(CIRBUF_SRC) \
+			$(PROJ2_SRC)	
 
 LIB_OBJ_PATH = $(LIB_SRC:.c=.o)
 LIB_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ_PATH)))
@@ -89,7 +89,16 @@ CFLAGS = -g \
 		-Werror \
 		-O0 
 
+ifeq ($(PROJECT),PROJECT1)
+EXECUTABLE = project1.elf
+MAP_FILE = project1.map
+CPPFLAGS += -DPROJECT1
+endif
+ifeq ($(PROJECT),PROJECT2)
+EXECUTABLE = project2.elf
+MAP_FILE = project2.map
 CPPFLAGS += -DPROJECT2
+endif
 		
 ifeq ($(PLATFORM),HOST)
 CPPFLAGS += -DVERBOSE 

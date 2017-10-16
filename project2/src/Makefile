@@ -234,7 +234,7 @@ clean:
 	@echo;
 	@echo "##################### Cleaning up ... ########################"
 	@echo;
-	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) $(MAP_FILE) $(EXECUTABLE) $(LIB_DIR)
+	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) *.map *.elf $(LIB_DIR)
 
 -include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

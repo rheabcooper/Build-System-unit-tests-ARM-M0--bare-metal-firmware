@@ -9,3 +9,9 @@
 
 #include "project2.h"
 
+void project2(void) 
+{
+	#ifdef VERBOSE
+	printf("Hello Project2, we love you!!!\n");
+	#endif
+}

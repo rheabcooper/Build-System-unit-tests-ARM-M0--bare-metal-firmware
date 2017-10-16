@@ -10,5 +10,16 @@
 #ifndef __PROJECT2_H__
 #define __PROJECT2_H__
 
+#include "common.h"
+
+/**
+ * @brief function to run project2 materials
+ * 
+ * This function calls some various tests that we can run to test 
+ * the circular buffer and uart code for the project 2. 
+ *
+ * @return void
+ */
+void project2(void);
 
 #endif /* __PROJECT2_H__ */

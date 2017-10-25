@@ -7,52 +7,81 @@
  *  and Brian Kelly modified and improved the code.  
  *
  * @author Brian Kelly and Rhea Cooper
- * @date October 15, 2017
+ * @date October 24, 2017
  *
  */
 
 #include "cirbuf.h"
 
-
-
-CB_e CB_is_empty(CB *buf)
+CB_status CB_Init(CB_t *buf, uint32_t length)
 {
-	if(buf ==NULL)
+	buf->size=length;
+	buf->buffer_pointer=malloc(length*sizeof(uint32_t*));
+
+	if(NULL == buf->buffer_pointer)
+	{
+		return BUFFER_ALLOCATION_FAILURE;
+		printf("\nBuffer not allocated");
+	}
+
+	buf->head=buf->buffer_pointer;
+	buf->tail=buf->buffer_pointer;
+	buf->count=0;
+	return NO_ERROR;
+}
+
+CB_status CB_IsEmpty(CB_t *buf)
+{
+	if(NULL == buf)
+	{
 		return NULL_POINTER;
-	if(buf->tail==buf->head){
+	}
+	if(buf->tail == buf->head)
+	{
 		printf("\nempty");
 		return BUFFER_EMPTY;
 	}
-	else{
-		return NO_ERROR;
-	}
-}
-CB_e CB_is_full(CB *buf)
-{
-	if(buf ==NULL)
-		return NULL_POINTER;
-	if(buf->count=buff->size){
-		return BUFFER_FULL;
-	}
-	else{
+	else
+	{
 		return NO_ERROR;
 	}
 }
 
-CB_e buffer_add_item(CB *buf,int32_t data)
-{   
-	if(buf == NULL){
+CB_status CB_IsFull(CB_t *buf)
+{
+	if(NULL == buf)
+	{
 		return NULL_POINTER;
 	}
-	if(buf->count==buf->size)
+	if( buf->count == buf->size)
+	{
+		return BUFFER_FULL;
+	}
+	else
+	{
+		return NO_ERROR;
+	}
+}
+
+CB_status CB_AddItem(CB_t *buf, uint32_t data)
+{   
+	if(NULL == buf)
+	{
+		return NULL_POINTER;
+	}
+
+	if(buf->count == buf->size)
+	{
  	     return BUFFER_FULL;
+	}
+
  	else 
 	{     
 		buf->head=&data;
 		printf("\ndata stored inside= %d", *(buf->head));
 		printf("\ncount in loop %d", buf->count);
 		/* still to implement wrap around*/
-		(buf->head)=(buf->head)++;
+		/* (buf->head)=(buf->head)++; */
 		
 		buf->count++;
 		printf("\ncount after add= %d",buf->count);
@@ -60,13 +89,18 @@ CB_e buffer_add_item(CB *buf,int32_t data)
 	}
 }
 
-CB_e CB_buffer_remove_item(CB *buf,int32_t *data_rem)
-{   uint32_t i;
-	if(buf == NULL)
+CB_status CB_RemoveItem(CB_t *buf, uint32_t *data_rem)
+{  
+	if(NULL == buf)
+	{
 		return NULL_POINTER;	
-    if(buf->count==0)
+    }
+
+	if(0 == buf->count)
+	{
         return BUFFER_EMPTY;
-    else
+    }
+	else
 	{
         *data_rem=*(buf->tail);
 		printf("\ndata removed inside is %d", *data_rem);
@@ -78,20 +112,21 @@ CB_e CB_buffer_remove_item(CB *buf,int32_t *data_rem)
 	}
 } 
 
-CB_e CB_peek(CB *buf,uint32_t position,int32_t *ptr)
+CB_status CB_Peek(CB_t *buf, uint32_t position)
 {
-	int32_t value;
-	if(buf==NULL){
+	if(NULL == buf)
+	{
 		return NULL_POINTER;
 	}
-	if(buf->count==0)
+	if(0 == buf->count)
+	{
 		return BUFFER_EMPTY;
+	}
 	else
 	{
-		*ptr=*((buf->aptr)+position);
-		if(*ptr!=NULL)
+		if(NULL != (buf->buffer_pointer + position))
 		{
-			printf("Value a position %d is %d", position ,*ptr);
+			printf("Value a position %d is %d", position, *(buf->buffer_pointer + position));
 		}
 		else
 		{
@@ -101,43 +136,15 @@ CB_e CB_peek(CB *buf,uint32_t position,int32_t *ptr)
 	}
 }
 
-CB_e CB_destroy(CB *buf)
+CB_status CB_Destroy(CB_t *buf)
 {
-	if(buf==NULL)
+	if(NULL == buf)
+	{
 		return NULL_POINTER;
+	}
 	else
 	{
 		free(buf->buffer_pointer);
 		return NO_ERROR;
 	}
 }
-
-CB_e CB_print(CB *buf)
-{   uint32_t i;
-    
-    for(i=0;i<buf->size;i++)
-    {
-        printf("%d",*((buf->aptr)+i));
-    }
-    return NO_ERROR;
-}
-
-CB_e CB_init(CB *buf,uint32_t length)
-{
-	buf->size=length;
-	buf->buffer_pointer=malloc(length*sizeof(uint32_t*));
-	if(buf->buffer_pointer==NULL)
-	{
-		return BUFFER_ALLOCATION_FAILURE;
-		printf("\nBuffer not allocated");
-	}
-	buf->head=buf->buffer_pointer;
-	buf->tail=buf->buffer_pointer;
-	buf->aptr=buf->buffer_pointer;
-	buf->count=0;
-	return NO_ERROR;
-}
-
-
-
-

@@ -89,12 +89,12 @@ CFLAGS = -g \
 		-Werror \
 		-O0 
 
-ifeq ($(PROJECT),PROJECT1)
+ifeq ($(MAIN),PROJECT1)
 EXECUTABLE = project1.elf
 MAP_FILE = project1.map
 CPPFLAGS += -DPROJECT1
 endif
-ifeq ($(PROJECT),PROJECT2)
+ifeq ($(MAIN),PROJECT2)
 EXECUTABLE = project2.elf
 MAP_FILE = project2.map
 CPPFLAGS += -DPROJECT2

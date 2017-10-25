@@ -33,6 +33,8 @@ PLATFORM_DIR 	= $(PROJ_DIR)/platform
 SRC_DIR 		= $(PROJ_DIR)/src
 OBJ_DIR			= $(PROJ_DIR)/obj
 DEP_DIR			= $(PROJ_DIR)/dep
+TEST_DIR		= $(PROJ_DIR)/test
+THIRD_PARTY_DIR = $(PROJ_DIR)/3rd-party
 
 # Source Directory
 MAIN_SRC 		= $(SRC_DIR)/main.c
@@ -74,3 +76,11 @@ UART_INC		= $(INC_KL25Z_DIR)/uart.h
 # Platform Directory
 KL25Z_LD		= $(PLATFORM_DIR)/MKL25Z128xxx4_flash.ld
 
+# Test Directory
+CONV_TEST		= $(TEST_DIR)/conversion_test.c
+MEM_TEST		= $(TEST_DIR)/memory_test.c
+CIRBUF_TEST		= $(TEST_DIR)/cirbuf_test.c
+
+# Third Party Directory
+CMOCKA_INCLUDE_DIR	= $(THIRD_PARTY_DIR)/build-Debug/include
+CMOCKA_LIBRARY		= $(THIRD_PARTY_DIR)/build-Debug/lib/libcmocka.a		

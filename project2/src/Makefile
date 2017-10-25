@@ -6,7 +6,7 @@
 # This Makefile was all developed by Brian Kelly.			#	
 #															#
 # @author Brian Kelly										#
-# @date September 23, 2017									#
+# @date October 24, 2017									#
 #															#
 #############################################################
 
@@ -36,7 +36,7 @@ SRC_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(SRC_DEP_PATH)))
 ASM_DEP_PATH = $(ASM_SRC:.S=.d)
 ASM_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(ASM_DEP_PATH)))
 
-# For Building the library directory
+# For building the library directory
 AR = ar -rvc
 LIBRARY = $(LIB_DIR)/libproject1.a
 LIB_SRC := $(CONV_SRC) \
@@ -51,6 +51,13 @@ LIB_OBJ_PATH = $(LIB_SRC:.c=.o)
 LIB_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ_PATH)))
 LIB_DEP_PATH = $(LIB_SRC:.c=.d)
 LIB_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP_PATH)))
+
+# For building the test directory
+TEST_SRC := $(CONV_TEST) \
+			$(MEM_TEST) \
+			$(CIRBUF_TEST)
+
+TEST_OBJ = $(TEST_SRC:%.c=%.o)
 
 # Default compiler if the user doesn't specify the PLATFORM
 CC=gcc
@@ -215,19 +222,32 @@ compile-all: $(SOURCES) $(LIB_SRC)
 	cd $(OBJ_DIR) && \
 	$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c $(SOURCES) $(LIB_SRC) $(INCLUDES) 
 	$(POSTCOMPILE)
-
-.PHONY: upload build
-upload: build
-	@scp $(SRC_DIR)/$(EXECUTABLE) $(BBB_ROOT):$(BBB_USER_BIN)
-	@ssh $(BBB_ROOT) -X $(BBB_USER_BIN)/$(EXECUTABLE)
-
 endif
+
 build-lib: $(LIB_OBJ)
 	@echo;
 	@echo "##################### Building Library ... $@ target on $(PLATFORM) ########################"
 	@echo;
 	@mkdir -p $(LIB_DIR)
 	$(AR) $(LIBRARY) $(LIB_OBJ)   
+
+ifeq ($(PLATFORM),BBB)
+# Target Functionality:  copy to the BBB's OS and execute it remotely.  
+.PHONY: upload build
+upload: build
+	@scp $(SRC_DIR)/$(EXECUTABLE) $(BBB_ROOT):$(BBB_USER_BIN)
+	@ssh $(BBB_ROOT) -X $(BBB_USER_BIN)/$(EXECUTABLE)
+endif
+
+ifeq ($(PLATFORM),HOST)
+# Target Functionality: build and run the unit tests using the cmocka framework.  
+.PHONY: unittests 
+
+cmocka:
+
+unittests: 
+	
+endif
 
 .PHONY: clean
 clean:

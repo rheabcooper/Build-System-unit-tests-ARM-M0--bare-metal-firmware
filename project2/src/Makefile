@@ -53,6 +53,7 @@ LIB_DEP_PATH = $(LIB_SRC:.c=.d)
 LIB_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP_PATH)))
 
 # For building the test directory
+TEST_EXE = test.out
 TEST_SRC := $(CONV_TEST) \
 			$(MEM_TEST) \
 			$(CIRBUF_TEST)
@@ -241,20 +242,41 @@ endif
 
 ifeq ($(PLATFORM),HOST)
 # Target Functionality: build and run the unit tests using the cmocka framework.  
-.PHONY: unittests 
+.PHONY: cmocka  
+cmocka: $(THIRD_PARTY_DIR)
+	@cd $< && \
+		make cmocka
 
-cmocka:
+.PHONY: build-tests compile-all build-lib
+build-tests: compile-all build-lib
+	@echo;
+	@echo "##################### Compiling Unit Tests ... $@ target on $(PLATFORM) ########################"
+	@echo;
+	cd $(TEST_DIR) && \
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -c $(TEST_SRC)  
 
-unittests: 
-	
+.PHONY: unittests
+unittests: build-tests
+	@echo;
+	@echo "##################### Building Unit Tests ... $@ target on $(PLATFORM) ########################"
+	@echo;
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(TEST_EXE) $(OBJECTS) $(TEST_OBJ) $(CC_LDFLAGS) $(CMOCKA_LIBRARY)
+
 endif
 
 .PHONY: clean
-clean:
+clean: FORCE
 	@echo;
 	@echo "##################### Cleaning up ... ########################"
 	@echo;
-	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) *.map *.elf $(LIB_DIR)
+	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) $(TEST_DIR)/*.o *.map *.elf *.out $(LIB_DIR)
+
+.PHONY: clobber
+clobber: clean
+	rm -rf $(THIRD_PARTY_DIR)/build-Debug
+
+FORCE:
+
 
 -include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

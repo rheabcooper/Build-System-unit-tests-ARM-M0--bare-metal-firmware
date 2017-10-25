@@ -1,13 +1,13 @@
 #####################################################
-#													#
-#	@file sources.mk								#
-#	@brief A source file for the build				#
-#													#
-#	This file was all developed by Brian Kelly.		#				
-#									 				#
-# 	@author Brian Kelly								#
-#	@date September 24, 2017						#
-#													#
+#													
+#	@file sources.mk								
+#	@brief A source file for the build of project 2	
+#													
+#	This file was all developed by Brian Kelly.						
+#									 				
+# 	@author Brian Kelly								
+#	@date September 24, 2017						
+#													
 #####################################################
 
 # Set up the location for the project directory
@@ -24,7 +24,7 @@ BBB_USER_DIR = /home/debian
 BBB_USER_BIN = $(BBB_USER_DIR)/bin
 
 # Project Master or Top Level Directory
-PROJ_DIR 		= $(MYDIR)/project1
+PROJ_DIR 		= $(MYDIR)/project2
 
 # Subdirectories under the Master Directory
 INC_DIR 		= $(PROJ_DIR)/include
@@ -41,6 +41,9 @@ DEBUG_SRC		= $(SRC_DIR)/debug.c
 MEMORY_SRC		= $(SRC_DIR)/memory.c
 PROJ1_SRC		= $(SRC_DIR)/project1.c
 REVERSE_SRC		= $(SRC_DIR)/reverse.c
+CIRBUF_SRC		= $(SRC_DIR)/cirbuf.c
+UART_SRC		= $(SRC_DIR)/uart.c
+PROJ2_SRC		= $(SRC_DIR)/project2.c
 KL25Z_SYS_SRC	= $(SRC_DIR)/system_MKL25Z4.c
 KL25Z_SUP_SRC	= $(SRC_DIR)/startup_MKL25Z4.S
 
@@ -53,6 +56,8 @@ MEMORY_INC 		= $(INC_CMN_DIR)/memory.h
 PLATFORM_INC	= $(INC_CMN_DIR)/platform.h
 PROJ1_INC		= $(INC_CMN_DIR)/project1.h
 REVERSE_INC		= $(INC_CMN_DIR)/reverse.h
+CIRBUF_INC		= $(INC_CMN_DIR)/cirbuf.h
+PROJ2_INC		= $(INC_CMN_DIR)/project2.h
 
 INC_CMSIS_DIR	= $(INC_DIR)/CMSIS
 CM0PLUS_INC		= $(INC_CMSIS_DIR)/core_cm0plus.h
@@ -64,6 +69,7 @@ CMINSTR_INC		= $(INC_DMSIS_DIR)/core_cmInstr.h
 INC_KL25Z_DIR	= $(INC_DIR)/kl25z
 KL25Z_INC		= $(INC_KL25Z_DIR)/MKL25Z4.h
 SYS_KL25Z_INC	= $(INC_KL25Z_DIR)/system_MKL25Z4.h
+UART_INC		= $(INC_KL25Z_DIR)/uart.h
 
 # Platform Directory
 KL25Z_LD		= $(PLATFORM_DIR)/MKL25Z128xxx4_flash.ld

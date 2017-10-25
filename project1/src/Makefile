@@ -83,7 +83,20 @@ CFLAGS = -g \
 		-Werror \
 		-O0 
 
+<<<<<<< HEAD:project1/src/Makefile
 CPPFLAGS += -DPROJECT1
+=======
+ifeq ($(MAIN),PROJECT1)
+EXECUTABLE = project1.elf
+MAP_FILE = project1.map
+CPPFLAGS += -DPROJECT1
+endif
+ifeq ($(MAIN),PROJECT2)
+EXECUTABLE = project2.elf
+MAP_FILE = project2.map
+CPPFLAGS += -DPROJECT2
+endif
+>>>>>>> Modified the Makefile for project2 time compile:project2/src/Makefile
 		
 ifeq ($(PLATFORM),HOST)
 CPPFLAGS += -DVERBOSE 

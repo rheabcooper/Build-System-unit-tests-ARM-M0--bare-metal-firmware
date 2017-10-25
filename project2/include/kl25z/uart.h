@@ -6,15 +6,22 @@
  * A header file containing functions to configure UART interface
  *	on the Freedom Freescale board.  
  *
- * This header file was all developed by Brian Kelly.
+ * This header file was originally developed by Rhea Cooper.  
+ * Brian Kelly modified the functions and code to improve the 
+ * UART interface from the host machine.  
  *
  * @author Brian Kelly and Rhea Cooper
- * @date October 15, 2017
+ * @date October 24, 2017
  *
  */
 
 #ifndef __UART_H__
 #define __UART_H__
+
+#include <stdint.h>
+#include "MKL25Z4.h"
+
+#define CLOCK_SETUP (1)
 #define MCGFLLCLK (0x04000000)
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
@@ -22,77 +29,76 @@
 #define BAUD (115200)
 #define CLOCK_FREQUENCY (41940000)
 #define SBR  ((CLOCK_FREQUENCY/(OSR+1))/BAUD)
-#define BDH (0x00)
-#define BDL ((uint8_t)SBR)
+/* #define BDH (0x00)
+#define BDL	((uint8_t)SBR) */
 
 /**
- * @brief A function to set up the UART interface on the KL25Z as per the project requirements to transmit and receive characters without the use of printf
+ * @brief A function to set up the UART interface on the KL25Z 
  *
- * This function sets the baud rate to 115200 and initializes the required registers to certain values to enable transmit and receive.
- 
+ * This function sets the baud rate to 115200 and initializes the 
+ * required registers to certain values to enable transmit and receive.
+ * Per the project2 requirements, transmit and receive characters should 
+ * function without the use of printf. 
  * 
+ * @return void
  */
-
 void UART_configure();
 
 /**
- * @brief A function to send a single byte data down a uart device 
+ * @brief A function to send a single byte data on a uart device 
  *
  * This function takes in a pointer to the data to be sent through the UART.
  *
- * @param data-pointer to byte to be sent
- 
+ * @param data - unsigned 8-bit pointer data to be sent 
  *
- * 
+ * @return void
  */
 void UART_send(uint8_t *data);
+
 /**
- * @brief A function to send a single byte data down a uart device 
+ * @brief A function to receive a single byte data from an UART interface 
  *
  * This function takes in a pointer to the data to be received from the UART.
  *
- * @param data-pointer to byte to be received
- 
+ * @param data - unsigned 8-bit pointer data to be received
  *
- * 
+ * @return void 
  */
 void UART_receive(uint8_t *data);
-/**
- * @brief A function to send a contiguous block of data down a uart
- *
- * This function takes in a pointer to the data to be sent and the number of bytes.
- *
- * @param data-pointer to data to be sent
- * @param count-number of bytes
- *
- * 
-*/
 
-void UART_send_n(uint32_t *data,uint32_t count);
 /**
- * @brief A function to send a contiguous block of data down a uart
+ * @brief A function to send a contiguous block of data over the UART interface
  *
- * This function takes in a pointer to the data to be received and the number of bytes.
+ * This function takes in a pointer to the data to be sent and the length of data.
  *
- * @param data-pointer to data to be received
- * @param count-number of bytes
+ * @param data - unsigned 32-bit pointer data to be sent
+ * @param length - length of the data 
  *
- * 
+ * @return void 
 */
+void UART_send_n(uint32_t *data, uint32_t length);
 
-void UART_receive_n(uint32_t *data,uint32_t count);
+/**
+ * @brief A function to receive a contiguous block of data from the UART interface
+ *
+ * This function takes in a pointer to the data to be received and the length of data.
+ *
+ * @param data - unsigned 32-bit pointer data to be received
+ * @param length - length of the data
+ *
+ * @return void
+ */
+void UART_receive_n(uint32_t *data, uint32_t length);
+
 /**
  * @brief A function to handle UART interrupts
  *
- * This function needs to handle both transmit and receive interrupts and each interrupt should clear their associated flag if set.
+ * This function needs to handle both transmit and receive interrupts 
+ * and each interrupt should clear their associated flag if set.
  * 
- *
- * 
-*/
-
+ * @return void
+ */
 void UART_IRQhandler();
-
-
 
 
 #endif /* __UART_H__ */

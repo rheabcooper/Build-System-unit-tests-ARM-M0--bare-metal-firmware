@@ -21,7 +21,6 @@ CB_status CB_Init(CB_t *buf, uint32_t length)
 	if(NULL == buf->buffer_pointer)
 	{
 		return BUFFER_ALLOCATION_FAILURE;
-		printf("\nBuffer not allocated");
 	}
 
 	buf->head=buf->buffer_pointer;
@@ -38,7 +37,6 @@ CB_status CB_IsEmpty(CB_t *buf)
 	}
 	if(buf->tail == buf->head)
 	{
-		printf("\nempty");
 		return BUFFER_EMPTY;
 	}
 	else
@@ -78,13 +76,12 @@ CB_status CB_AddItem(CB_t *buf, uint32_t data)
  	else 
 	{     
 		buf->head=&data;
-		printf("\ndata stored inside= %d", *(buf->head));
-		printf("\ncount in loop %d", buf->count);
+/*		printf("\ndata stored inside= %d", *(buf->head));
+		printf("\ncount in loop %d", buf->count); */
 		/* still to implement wrap around*/
 		/* (buf->head)=(buf->head)++; */
 		
 		buf->count++;
-		printf("\ncount after add= %d",buf->count);
 	    return NO_ERROR;
 	}
 }
@@ -103,11 +100,11 @@ CB_status CB_RemoveItem(CB_t *buf, uint32_t *data_rem)
 	else
 	{
         *data_rem=*(buf->tail);
-		printf("\ndata removed inside is %d", *data_rem);
+/*		printf("\ndata removed inside is %d", *data_rem); */
 		/*still to implement wrap around*/
         (buf->tail)++;
 		buf->count--;
-        printf("\ncount after remove= %d",buf->count);		
+/*        printf("\ncount after remove= %d",buf->count); */
 		return NO_ERROR;
 	}
 } 
@@ -126,11 +123,15 @@ CB_status CB_Peek(CB_t *buf, uint32_t position)
 	{
 		if(NULL != (buf->buffer_pointer + position))
 		{
+			#ifdef VERBOSE
 			printf("Value a position %d is %d", position, *(buf->buffer_pointer + position));
+			#endif
 		}
 		else
 		{
+			#ifdef VERBOSE
 			printf("no value");
+			#endif
 		}
 		return NO_ERROR;
 	}

@@ -79,8 +79,8 @@ CB_status CB_IsFull(CB_t *buf);
  * @param data - unsigned 32-bit int data
  *
  * @return an enumerated status of the buffer - success or failure
- */
-CB_status CB_AddItem(CB_t *buf, uint32_t data);
+ */*
+CB_status CB_AddItem(CB_t *buf, uint32_t *data);
 
 /**
  * @brief A function to remove item from the buffer 

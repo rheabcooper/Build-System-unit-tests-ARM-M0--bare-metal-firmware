@@ -61,7 +61,7 @@ CB_status CB_IsFull(CB_t *buf)
 	}
 }
 
-CB_status CB_AddItem(CB_t *buf, uint32_t data)
+CB_status CB_AddItem(CB_t *buf, uint32_t *data)
 {   
 	if(NULL == buf)
 	{
@@ -75,11 +75,11 @@ CB_status CB_AddItem(CB_t *buf, uint32_t data)
 
  	else 
 	{     
-		buf->head=&data;
+		*(buf->head)=*data;
 /*		printf("\ndata stored inside= %d", *(buf->head));
 		printf("\ncount in loop %d", buf->count); */
 		/* still to implement wrap around*/
-		/* (buf->head)=(buf->head)++; */
+		(buf->head)=(buf->head)++; 
 		
 		buf->count++;
 	    return NO_ERROR;

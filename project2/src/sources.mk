@@ -81,6 +81,17 @@ CONV_TEST		= $(TEST_DIR)/conversion_test.c
 MEM_TEST		= $(TEST_DIR)/memory_test.c
 CIRBUF_TEST		= $(TEST_DIR)/cirbuf_test.c
 
+# Test Object files
+CONV_TEST_OBJ	= $(TEST_DIR)/conversion_test.o
+MEM_TEST_OBJ	= $(TEST_DIR)/memory_test.o
+CIRBUF_TEST_OBJ	= $(TEST_DIR)/cirbuf_test.o
+
+# Test Output executables
+CONV_TEST_EXE   = conv_test.out
+MEM_TEST_EXE    = mem_test.out
+CIRBUF_TEST_EXE = cirbuf_test.out
+
 # Third Party Directory
 CMOCKA_INCLUDE_DIR	= $(THIRD_PARTY_DIR)/build-Debug/include
-CMOCKA_LIBRARY		= $(THIRD_PARTY_DIR)/build-Debug/lib/libcmocka.a		
+CMOCKA_LIBRARY		= $(THIRD_PARTY_DIR)/build-Debug/lib/libcmocka.a
+CMOCKA_BUILD_DIR	= $(THIRD_PARTY_DIR)/build-Debug		

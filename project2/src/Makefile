@@ -53,12 +53,14 @@ LIB_DEP_PATH = $(LIB_SRC:.c=.d)
 LIB_DEP = $(addprefix $(DEP_DIR)/,$(notdir $(LIB_DEP_PATH)))
 
 # For building the test directory
-TEST_EXE = test.out
 TEST_SRC := $(CONV_TEST) \
 			$(MEM_TEST) \
 			$(CIRBUF_TEST)
 
 TEST_OBJ = $(TEST_SRC:%.c=%.o)
+
+TEST_LDFLAGS := -L$(LIB_DIR) \
+           		-lproject1 
 
 # Default compiler if the user doesn't specify the PLATFORM
 CC=gcc
@@ -244,23 +246,33 @@ ifeq ($(PLATFORM),HOST)
 # Target Functionality: build and run the unit tests using the cmocka framework.  
 .PHONY: cmocka  
 cmocka: $(THIRD_PARTY_DIR)
-	@cd $< && \
-		make cmocka
+	@cd $< && make cmocka
 
-.PHONY: build-tests compile-all build-lib
-build-tests: compile-all build-lib
+.PHONY: compile-tests compile-all build-lib
+compile-tests: compile-all build-lib
 	@echo;
 	@echo "##################### Compiling Unit Tests ... $@ target on $(PLATFORM) ########################"
 	@echo;
 	cd $(TEST_DIR) && \
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -c $(TEST_SRC)  
+	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -c $(TEST_SRC)  
 
 .PHONY: unittests
-unittests: build-tests
+unittests: compile-tests
 	@echo;
-	@echo "##################### Building Unit Tests ... $@ target on $(PLATFORM) ########################"
+	@echo "##################### Building and Running Unit Tests ... $(CONV_TEST_EXE) on $(PLATFORM) ########################";
 	@echo;
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(TEST_EXE) $(OBJECTS) $(TEST_OBJ) $(CC_LDFLAGS) $(CMOCKA_LIBRARY)
+	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(CONV_TEST_EXE) $(CONV_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY)
+	-./$(CONV_TEST_EXE)
+	@echo;
+	@echo "##################### Building and Running Unit Tests ... $(MEM_TEST_EXE) on $(PLATFORM) ########################";
+	@echo;
+	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(MEM_TEST_EXE) $(MEM_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY) 
+	-./$(MEM_TEST_EXE)
+	@echo;
+	@echo "##################### Building and Running Unit Tests ... $(CIRBUF_TEST_EXE) on $(PLATFORM) ########################";
+	@echo;
+	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(CIRBUF_TEST_EXE) $(CIRBUF_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY) 
+	-./$(CIRBUF_TEST_EXE)
 
 endif
 
@@ -269,14 +281,13 @@ clean: FORCE
 	@echo;
 	@echo "##################### Cleaning up ... ########################"
 	@echo;
-	rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) $(TEST_DIR)/*.o *.map *.elf *.out $(LIB_DIR)
+	-rm -rf *.i *.asm $(OBJ_DIR) $(DEP_DIR) $(TEST_DIR)/*.o *.map *.elf *.out $(LIB_DIR)
 
 .PHONY: clobber
 clobber: clean
-	rm -rf $(THIRD_PARTY_DIR)/build-Debug
+	-rm -rf $(CMOCKA_BUILD_DIR) 
 
 FORCE:
-
 
 -include $(SRC_DEP) $(ASM_DEP) $(LIB_DEP)
 

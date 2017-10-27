@@ -17,12 +17,12 @@
 #include "common.h"
 
 typedef struct{
-	uint32_t *buffer_pointer;  /* Buffer pointer template */
-	uint32_t *aptr;			   /* temp pointer */
-	uint32_t *head;            /* Pointer to the Head or newest item */
-	uint32_t *tail;  		   /* Pointer to the tail or oldest item */
-	uint32_t size;			   /* buffer size */
-	uint32_t count;			   /* current item count in the buffer */
+	volatile uint32_t *buffer_pointer;  /* Buffer pointer template */
+	volatile uint32_t *aptr;			   /* temp pointer */
+	volatile uint32_t *head;            /* Pointer to the Head or newest item */
+	volatile uint32_t *tail;  		   /* Pointer to the tail or oldest item */
+	volatile uint32_t size;			   /* buffer size */
+	volatile uint32_t count;			   /* current item count in the buffer */
 }CB_t;
 
 typedef enum{
@@ -33,7 +33,7 @@ typedef enum{
     NO_LENGTH,					/* no length size allocated */
     BUFFER_ALLOCATION_FAILURE	/* buffer memory allocation failure */
  }CB_status;
-
+static uint32_t buffer_length=16;
 /**
  * @brief A function to initialize the buffer 
  *
@@ -80,7 +80,7 @@ CB_status CB_IsFull(CB_t *buf);
  *
  * @return an enumerated status of the buffer - success or failure
  */
-CB_status CB_AddItem(CB_t *buf, uint32_t *data);
+CB_status CB_AddItem(CB_t *buf, uint8_t *data);
 
 /**
  * @brief A function to remove item from the buffer 
@@ -94,7 +94,7 @@ CB_status CB_AddItem(CB_t *buf, uint32_t *data);
  *
  * @return an enumerated status of the buffer - success or failure
  */
-CB_status CB_RemoveItem(CB_t *buf, uint32_t *data_rem);
+CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem);
 
 /**
  * @brief A function to "peek" into the buffer 

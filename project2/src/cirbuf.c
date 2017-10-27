@@ -76,10 +76,8 @@ CB_status CB_AddItem(CB_t *buf, uint8_t *data)
  	else 
 	{     
 		*(buf->head)=*data;
-/*		printf("\ndata stored inside= %d", *(buf->head));
-		printf("\ncount in loop %d", buf->count); */
 		/* still to implement wrap around*/
-		(buf->head)=(buf->head)++; 
+		/* (buf->head)=(buf->head)++; */
 		if((buf->head)>((buf->buffer_pointer)+(buf->size)-1));
 			buf->head=buf->buffer_pointer;
 		

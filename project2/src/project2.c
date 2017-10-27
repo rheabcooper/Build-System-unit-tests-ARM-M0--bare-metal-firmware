@@ -8,10 +8,13 @@
  */
 
 #include "project2.h"
+#include "uart.h"
+#include "cirbuf.h"
 
 void project2(void) 
 {
-	#ifdef VERBOSE
-	printf("Hello Project2, we love you!!!\n");
-	#endif
+	UART_configure();
+
+
+
 }

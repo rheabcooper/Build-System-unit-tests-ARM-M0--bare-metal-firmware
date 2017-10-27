@@ -22,15 +22,14 @@
 #include "MKL25Z4.h"
 
 #define CLOCK_SETUP (1)
-#define MCGFLLCLK (0x04000000)
+#define BAUD (115200)
+#define OSR (16)
+#define CLOCK_FREQUENCY (48000000)
+#define SBR (((CLOCK_FREQUENCY)/(OSR))/(BAUD))
+
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
-#define OSR (15)
-#define BAUD (115200)
-#define CLOCK_FREQUENCY (41940000)
-#define SBR  ((CLOCK_FREQUENCY/(OSR+1))/BAUD)
-/* #define BDH (0x00)
-#define BDL	((uint8_t)SBR) */
+
 
 /**
  * @brief A function to set up the UART interface on the KL25Z 

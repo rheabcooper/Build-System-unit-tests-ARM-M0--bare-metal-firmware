@@ -33,7 +33,7 @@ typedef enum{
     NO_LENGTH,					/* no length size allocated */
     BUFFER_ALLOCATION_FAILURE	/* buffer memory allocation failure */
  }CB_status;
-static uint32_t buffer_length=16;
+
 /**
  * @brief A function to initialize the buffer 
  *

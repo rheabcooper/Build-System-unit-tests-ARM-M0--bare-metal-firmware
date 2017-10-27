@@ -12,20 +12,36 @@
  */
 
 #include "uart.h"
+#include "cirbuf.h"
 
 void UART_configure()
 {
-	SIM_SCGC4|=SIM_SCGC4_UART0_MASK;      /* enabling clock to UART0 */             
-	SIM_SOPT2|=SIM_SCGC4_UART0_MASK & MCGFLLCLK;
+	/* enabling clock to Port A */
+	SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;
+
+	/* enabling clock to UART0 */
+	SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;
+	SIM_SOPT2 &= ~SIM_SOPT2_UART0SRC_MASK;
+
+	/* FLL/PLL source to select 48 Mhz clock */
+	SIM_SOPT2 |= SIM_SOPT2_UART0SRC((CLOCK_SETUP));
+
 	UART0_C2 = 0x00;
-/*	UART0_BDH=BDH;
-	UART0_BDL=BDL; */
-	UART0_C4=UART0_C4_OSR_MASK & OSR;
-	UART0_C1=0x00;
-	UART0_C2=UART0_C2_TE_MASK|UART0_C2_RE_MASK|UART0_C2_RIE_MASK|UART0_C2_TIE_MASK;
-	SIM_SCGC5|=SIM_SCGC5_PORTA_MASK;       /* enabling clock to Port A */ 
-	PORTA_PCR1=0x02;         /* alternate function for PTA1 -UART0_RX */
-	PORTA_PCR2=0x02;         /* alternate function for PTA1 -UART0_RX */
+	UART0_C1 = 0x00;
+	UART0_C3 = 0x00;
+	UART0_S2 = 0x00;
+
+	UART0_BDH = (SBR >> 8) & UARTLP_BDH_SBR_MASK;
+	UART0_BDL = (SBR & UARTLP_BDL_SBR_MASK);
+	UART0_C4  = UARTLP_C4_OSR(OSR - 1);
+
+	PORTA_PCR1 = PORT_PCR_MUX(2);         /* alternate function for PTA1 -UART0_RX */
+	PORTA_PCR2 = PORT_PCR_MUX(2);         /* alternate function for PTA1 -UART0_RX */
+
+	/* enabling the transmitting, receiving, and receive/transmit interrupts */
+	UART0_C2 = UART0_C2_TE_MASK | UART0_C2_RE_MASK | UART0_C2_RIE_MASK | UART0_C2_TIE_MASK;
+
+	/* Interrupt enabling */
 	NVIC->ISER[0] |= 0x00001000;
 }
 
@@ -67,12 +83,14 @@ void UART_receive_n(uint32_t *data, uint32_t length)
 
 void UART_IRQhandler()
 {	
+
+
 	__disable_irq(); /* global disable IRQs */
 	if(0 != (UART0_C2 & UART0_C2_RIE_MASK))        
 	{
 		if(0 != (UART0_S1 & UART0_S1_RDRF_MASK))
 		{
-			/* UART_receive(); - will implement this later */  
+			UART0_D = UART_receive_n(data, length);
 		}
 		UART0_C2 &= ~UART0_C2_RIE_MASK;	
 	}
@@ -81,7 +99,7 @@ void UART_IRQhandler()
 	{
 		if(0 != (UART0_S1 & UART0_S1_TDRE_MASK))
 		{
-			/* UART_send(); - will implement this later */
+			UART_send_n(data, UART0_D);
 		} 
 		UART0_C2 &= ~UART0_C2_TIE_MASK;
 	}	

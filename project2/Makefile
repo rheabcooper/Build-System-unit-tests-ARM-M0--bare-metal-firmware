@@ -149,7 +149,7 @@ PLATFORM_FLAGS += -mcpu=$(CPU) \
 
 POSTCOMPILE = @mv $(OBJ_DIR)/*.d $(DEP_DIR)/.
 
-.PHONY: build compile-all build-lib
+.PHONY: all build compile-all build-lib
 .PHONY: clean
 
 ifeq ($(PLATFORM),KL25Z)
@@ -262,17 +262,17 @@ unittests: compile-tests
 	@echo "##################### Building and Running Unit Tests ... $(CONV_TEST_EXE) on $(PLATFORM) ########################";
 	@echo;
 	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(CONV_TEST_EXE) $(CONV_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY)
-	-./$(CONV_TEST_EXE)
+	-./$(CONV_TEST_EXE) 
 	@echo;
 	@echo "##################### Building and Running Unit Tests ... $(MEM_TEST_EXE) on $(PLATFORM) ########################";
 	@echo;
 	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(MEM_TEST_EXE) $(MEM_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY) 
-	-./$(MEM_TEST_EXE)
+	-./$(MEM_TEST_EXE) 
 	@echo;
 	@echo "##################### Building and Running Unit Tests ... $(CIRBUF_TEST_EXE) on $(PLATFORM) ########################";
 	@echo;
 	$(CC) $(CFLAGS) $(INCLUDES) -I$(CMOCKA_INCLUDE_DIR) -o $(CIRBUF_TEST_EXE) $(CIRBUF_TEST_OBJ) $(TEST_LDFLAGS) $(CMOCKA_LIBRARY) 
-	-./$(CIRBUF_TEST_EXE)
+	-./$(CIRBUF_TEST_EXE) 
 
 endif
 

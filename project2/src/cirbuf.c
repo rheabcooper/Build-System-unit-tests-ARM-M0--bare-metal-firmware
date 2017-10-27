@@ -61,7 +61,7 @@ CB_status CB_IsFull(CB_t *buf)
 	}
 }
 
-CB_status CB_AddItem(CB_t *buf, uint32_t *data)
+CB_status CB_AddItem(CB_t *buf, uint8_t *data)
 {   
 	if(NULL == buf)
 	{
@@ -79,14 +79,16 @@ CB_status CB_AddItem(CB_t *buf, uint32_t *data)
 /*		printf("\ndata stored inside= %d", *(buf->head));
 		printf("\ncount in loop %d", buf->count); */
 		/* still to implement wrap around*/
-		/* *(buf->head)=*(buf->head)++; */
+		(buf->head)=(buf->head)++; 
+		if((buf->head)>((buf->buffer_pointer)+(buf->size)-1));
+			buf->head=buf->buffer_pointer;
 		
 		buf->count++;
 	    return NO_ERROR;
 	}
 }
 
-CB_status CB_RemoveItem(CB_t *buf, uint32_t *data_rem)
+CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
 {  
 	if(NULL == buf)
 	{
@@ -103,7 +105,9 @@ CB_status CB_RemoveItem(CB_t *buf, uint32_t *data_rem)
 /*		printf("\ndata removed inside is %d", *data_rem); */
 		/*still to implement wrap around*/
         (buf->tail)++;
-		buf->count--;
+	if((buf->tail)>((buf->buffer_pointer)+(buf->size)-1));
+		buf->tail=buf->buffer_pointer;
+	buf->count--;
 /*        printf("\ncount after remove= %d",buf->count); */
 		return NO_ERROR;
 	}

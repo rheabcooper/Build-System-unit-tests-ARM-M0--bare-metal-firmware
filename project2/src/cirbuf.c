@@ -149,7 +149,7 @@ CB_status CB_Destroy(CB_t *buf)
 	}
 	else
 	{
-		free(buf->buffer_pointer);
+		free((void*)buf->buffer_pointer);
 		return NO_ERROR;
 	}
 }

@@ -12,6 +12,10 @@
 
 #include "common.h"
 
+uint8_t rec_data;
+uint32_t rec_data_count = 0;
+uint8_t analyse = 0;
+
 /**
  * @brief function to run project2 materials
  * 

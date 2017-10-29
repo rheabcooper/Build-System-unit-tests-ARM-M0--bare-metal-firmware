@@ -16,15 +16,14 @@
 CB_status CB_Init(CB_t *buf, uint32_t length)
 {
 	buf->size=length;
-	buf->buffer_pointer=malloc(length*sizeof(uint32_t*));
-
-	if(NULL == buf->buffer_pointer)
+	buf->buffer_pointer=(uint8_t*)malloc(length*sizeof(uint8_t));
+	if(buf->buffer_pointer==NULL)
 	{
 		return BUFFER_ALLOCATION_FAILURE;
 	}
-
 	buf->head=buf->buffer_pointer;
 	buf->tail=buf->buffer_pointer;
+	buf->aptr=buf->buffer_pointer;
 	buf->count=0;
 	return NO_ERROR;
 }
@@ -35,7 +34,7 @@ CB_status CB_IsEmpty(CB_t *buf)
 	{
 		return NULL_POINTER;
 	}
-	if(buf->tail == buf->head)
+	if(buf->tail == buf->head && buf->count==0)
 	{
 		return BUFFER_EMPTY;
 	}
@@ -62,75 +61,63 @@ CB_status CB_IsFull(CB_t *buf)
 }
 
 CB_status CB_AddItem(CB_t *buf, uint8_t *data)
-{   
-	if(NULL == buf)
-	{
+{
+	if(buf == NULL){
 		return NULL_POINTER;
 	}
-
-	if(buf->count == buf->size)
+	if((buf->count)!=buffer_length)
 	{
- 	     return BUFFER_FULL;
-	}
-
- 	else 
-	{     
 		*(buf->head)=*data;
-		/* still to implement wrap around*/
-		/* (buf->head)=(buf->head)++; */
-		if((buf->head)>((buf->buffer_pointer)+(buf->size)-1));
+		(buf->head)=(buf->head+1);
+		if((buf->head)>((buf->buffer_pointer)+(buffer_length-1)))
 			buf->head=buf->buffer_pointer;
-		
 		buf->count++;
-	    return NO_ERROR;
 	}
+	else
+	{
+		return BUFFER_FULL;
+        }	
+	return NO_ERROR;
 }
 
 CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
-{  
-	if(NULL == buf)
-	{
-		return NULL_POINTER;	
-    }
-
-	if(0 == buf->count)
-	{
-        return BUFFER_EMPTY;
-    }
-	else
-	{
-        *data_rem=*(buf->tail);
-/*		printf("\ndata removed inside is %d", *data_rem); */
-		/*still to implement wrap around*/
-        (buf->tail)++;
-	if((buf->tail)>((buf->buffer_pointer)+(buf->size)-1));
-		buf->tail=buf->buffer_pointer;
-	buf->count--;
-/*        printf("\ncount after remove= %d",buf->count); */
-		return NO_ERROR;
-	}
-} 
-
-CB_status CB_Peek(CB_t *buf, uint32_t position)
 {
-	if(NULL == buf)
+	if(buf == NULL)
+		return NULL_POINTER;	
+  	if(buf->count!=0)
 	{
-		return NULL_POINTER;
-	}
-	if(0 == buf->count)
+      		*(data_rem)=*(buf->tail);
+		(buf->tail)=(buf->tail)+1;
+		if((buf->tail)>((buf->buffer_pointer)+(buffer_length-1)))
+			buf->tail=buf->buffer_pointer;
+		buf->count--;
+        		
+	}			
+	else
 	{
 		return BUFFER_EMPTY;
 	}
+	return NO_ERROR;
+}
+
+CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t *ptr)
+{
+	if(buf==NULL){
+		return NULL_POINTER;
+	}
+	if(buf->count==0)
+		return BUFFER_EMPTY;
 	else
 	{
-		if(NULL != (buf->buffer_pointer + position))
-		{
+		*ptr=*((buf->buffer_pointer)+position);
+		if(ptr!=NULL)
+		{	
 			#ifdef VERBOSE
-			printf("Value a position %d is %d", position, *(buf->buffer_pointer + position));
+			printf("Value a position %d is %d", position ,*ptr);
 			#endif
 		}
 		else
-		{
+		{       
 			#ifdef VERBOSE
 			printf("no value");
 			#endif
@@ -138,6 +125,7 @@ CB_status CB_Peek(CB_t *buf, uint32_t position)
 		return NO_ERROR;
 	}
 }
+
 
 CB_status CB_Destroy(CB_t *buf)
 {
@@ -148,6 +136,9 @@ CB_status CB_Destroy(CB_t *buf)
 	else
 	{
 		free((void*)buf->buffer_pointer);
+		buf->buffer_pointer=NULL;
+		free((void*)buf);
+		buf=NULL;
 		return NO_ERROR;
 	}
 }

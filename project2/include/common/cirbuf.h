@@ -26,7 +26,7 @@ typedef struct{
 }CB_t;
 
 typedef enum{
-	NO_ERROR,					/* success or no error */
+    NO_ERROR,					/* success or no error */
     BUFFER_FULL,				/* the buffer is full */
     BUFFER_EMPTY,				/* the buffer is empty */
     NULL_POINTER,				/* the pointer is null */
@@ -107,12 +107,12 @@ CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem);
  *
  * @return an enumerated status of the buffer or an error code
  */
-CB_status CB_Peek(CB_t *buf, uint32_t position);
+CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t* ptr);
 
 /**
- * @brief A function to destroy he buffer 
+ * @brief A function to destroy the buffer 
  *
- * This function destroys an buffer. 
+ * This function destroys the buffer. 
  *
  * @param buf - unsigned 32-bit int buffer pointer to destroy
  *

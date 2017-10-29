@@ -19,7 +19,10 @@
 #include <cmocka.h>
 
 #include "memory.h"
-
+#define ZERO (0)
+#define ODD_LENGTH (5)
+#define EVEN_LENGTH (6)
+#define VALUE (1)
 
 void test_memmove_invalid_pointers(void **state)
 {
@@ -43,42 +46,71 @@ void test_memmove_dst_in_src_overlap(void **state)
 
 void test_memset_invalid_pointers(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t *src=NULL;
+	memory_status status = my_memset(src,ODD_LENGTH,VALUE);
+	assert_int_equal(status,NULL_POINTER);	
 }
 
 void test_memset_check_set(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t *src=&array[0];
+	memory_status status = my_memset(src,ODD_LENGTH,VALUE);
+	assert_int_equal(status,SUCCESS);	
 }
 
 void test_memzero_invalid_pointers(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t *src=NULL;
+	memory_status status = my_memzero(src,ODD_LENGTH);
+	assert_int_equal(status,NULL_POINTER);
 }
 
 void test_memzero_check_set(void **state)
-{
-	assert_int_equal(1,1);	
+{	
+	uint8_t *src=&array[0];
+	memory_status status = my_memzero(src,ODD_LENGTH);
+	assert_int_equal(status,SUCCESS);		
 }
 
 void test_reverse_invalid_pointers(void **state)
-{
-	assert_int_equal(1,1);	
+{	
+	uint8_t *src=NULL;
+	memory_status status = my_reverse(src,ODD_LENGTH);
+	assert_int_equal(status,NULL_POINTER);
 }	
 
 void test_reverse_check_odd_reverse(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t *src=&array[0];
+	memory_status status = my_reverse(src,ODD_LENGTH);
+	assert_int_equal(status,SUCCESS);	
 }
 
 void test_reverse_check_even_reverse(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t *src=&array[0];
+	memory_status status = my_reverse(src,EVEN_LENGTH);
+	assert_int_equal(status,SUCCESS);	
 }
 
 void test_reverse_check_characters(void **state)
 {
-	assert_int_equal(1,1);	
+	uint8_t flag=ZERO;
+	uint8_t src[256];
+	uint8_t copy[256];
+	for(i=0;i<256;i++){
+		src[i]=i;
+		copy[i]=i;
+	}
+	uint8_t *src_ptr=src;
+	my_reverse(src_ptr,256);
+	for(i=0;i<256;i++)
+	{
+		if(src[i]!=copy[256-i]);
+			flag++;
+	}
+	int zero=ZERO;	
+	assert_int_equal(flag,zero);	
 }
 
 int main(void)

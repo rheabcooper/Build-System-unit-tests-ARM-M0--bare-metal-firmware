@@ -30,6 +30,10 @@
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
 
+/*global variables that will be used in uart.c and project2.c */
+uint32_t rec_data_count=0;
+uint8_t rec_data;
+uint8_t analyse=0;
 
 /**
  * @brief A function to set up the UART interface on the KL25Z 
@@ -52,7 +56,7 @@ void UART_configure();
  *
  * @return void
  */
-void UART_send(uint8_t *data);
+void UART_send(uint8_t data);
 
 /**
  * @brief A function to receive a single byte data from an UART interface 

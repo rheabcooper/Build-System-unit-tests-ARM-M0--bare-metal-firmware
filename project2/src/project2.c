@@ -95,13 +95,10 @@ void data_analysis(){
 		misc++;
 	analyse=0;
 	if(rec_data_count==CB_RX_length)
-		dump_stats();
+		dump_stats(); 
 }
-	/*should only be done after entire data received*/
 void dump_stats(){
-	
-	//can also fill everything in the buffer at once but removing and sending to UART one byte by byte.. so keep enabling the TIE 
-	transmit_string(string_for_alp);  //fill in the circular buffer and enable the UART Tx interrupt
+	transmit_string(string_for_alp);  
 	transmit_integer(alphabets);  
 	transmit_string(string_for_num);
 	transmit_integer(numbers);
@@ -109,7 +106,6 @@ void dump_stats(){
 	transmit_integer(punctuations);
 	transmit_string(string_for_misc);
 	transmit_integer(misc);
-	
 }
 
 void project2(){

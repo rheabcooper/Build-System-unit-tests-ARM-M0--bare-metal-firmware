@@ -63,7 +63,7 @@ void UART_send(uint8_t *data);
  *
  * @return void 
  */
-void UART_receive(uint8_t *data);
+uint8_t UART_receive();
 
 /**
  * @brief A function to send a contiguous block of data over the UART interface
@@ -97,7 +97,7 @@ void UART_receive_n(uint32_t *data, uint32_t length);
  * 
  * @return void
  */
-void UART_IRQhandler();
+void UART0_IRQhandler();
 
 
 #endif /* __UART_H__ */

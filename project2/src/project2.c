@@ -6,6 +6,9 @@
  * @date October 15, 2017
  *
  */
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include "project2.h"
 #include "cirbuf.h"
 #include "conversion.h"

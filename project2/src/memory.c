@@ -15,7 +15,7 @@
 #define ZERO (0)
 int8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
-	if(src == NULL || dst == NULL)
+    if(src == NULL || dst == NULL)
     {
         	return INVALID_MEMORY_POINTER;
     }
@@ -41,7 +41,7 @@ int8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 
 
 
-int8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
+int8_t  my_memset(uint8_t * src, size_t length, uint8_t value)
 {
 	size_t element;
 	uint8_t flag=ZERO;
@@ -64,13 +64,13 @@ int8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
 		return FAILED;
 }
 
-int8_t * my_memzero(uint8_t * src, size_t length)
+int8_t  my_memzero(uint8_t * src, size_t length)
 {
 	size_t element;
 	if(src == NULL)
-    {
+        {
         	return NULL_POINTER;
-    }
+        }
 	for(element = 0; element < length; element++)
 	{
 		*(src + element) = 0;
@@ -86,12 +86,12 @@ int8_t * my_memzero(uint8_t * src, size_t length)
 		return FAILED;
 }
 
-int8_t * my_reverse(uint8_t * src, size_t length)
+int8_t  my_reverse(uint8_t * src, size_t length)
 {
 	if(src == NULL)
-    {
+        {
         return NULL_POINTER;
-    }
+        }
 	uint32_t element;
 	uint8_t temp;
 	for (element = 0; element < length/2; element++)

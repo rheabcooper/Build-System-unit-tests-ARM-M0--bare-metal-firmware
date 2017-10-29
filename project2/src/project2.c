@@ -6,12 +6,9 @@
  * @date October 15, 2017
  *
  */
-
 #include "project2.h"
-
 #include "cirbuf.h"
 #include "conversion.h"
-
 #include "uart.h"
 #include "MKL25Z4.h"
 
@@ -56,10 +53,9 @@ void transmit_char_host(uint8_t * data){
 void transmit_string_host(uint8_t * data){
 
 	while(*data_TX!='\0'){
-			CB_AddItem(CB_TX,data_TX);
-			data_TX++;
-		
-		}
+		CB_AddItem(CB_TX,data_TX);
+		data_TX++;	
+	}
 	
 	uint8_t *print_value=NULL;
 	while(CB_TX->count){

@@ -34,6 +34,14 @@ typedef enum{
     BUFFER_ALLOCATION_FAILURE	/* buffer memory allocation failure */
  }CB_status;
 
+/*Structure for transmitter circular buffer*/
+CB_t *CB_TX;
+
+/*Structure variable for receiver circular buffer*/
+CB_t *CB_RX;
+
+/*Variable which states the length of buffer*/
+static uint32_t  buffer_length=16;
 /**
  * @brief A function to initialize the buffer 
  *

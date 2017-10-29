@@ -79,7 +79,7 @@ void UART_receive_n(uint8_t *data,uint8_t count)
 	}
 }
 
-void UART0_IRQhandler()
+void UART0_IRQHandler()
 {	
 	__disable_irq(); // global disable IRQs
 	/* Check if interrupt is for TX or RX and handle accordingly

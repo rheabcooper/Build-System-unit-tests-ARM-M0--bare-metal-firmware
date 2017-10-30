@@ -98,7 +98,7 @@ int8_t test_memmove1() {
   ptra = &set[0];
   ptrb = &set[16];
   
-  /* Initialize the set to test values */
+  
   for( i = 0; i < MEM_SET_SIZE_B; i++)
   {
     set[i] = i;
@@ -138,7 +138,7 @@ int8_t test_memmove2() {
   ptra = &set[0];
   ptrb = &set[8];
 
-  /* Initialize the set to test values */
+  
   for( i = 0; i < MEM_SET_SIZE_B; i++) {
     set[i] = i;
   }
@@ -177,7 +177,7 @@ int8_t test_memmove3() {
   ptra = &set[8];
   ptrb = &set[0];
 
-  /* Initialize the set to test values */
+  
   for( i = 0; i < MEM_SET_SIZE_B; i++)
   {
     set[i] = i;
@@ -219,7 +219,7 @@ int8_t test_memcpy() {
   ptra = &set[0];
   ptrb = &set[16];
 
-  /* Initialize the set to test values */
+  
   for( i = 0; i < MEM_SET_SIZE_B; i++) {
     set[i] = i;
   }
@@ -258,7 +258,7 @@ int8_t test_memset()
   ptra = &set[0];
   ptrb = &set[16];
 
-  /* Initialize the set to test values */
+  
   for( i = 0; i < MEM_SET_SIZE_B; i++) 
   {
     set[i] = i;
@@ -270,7 +270,7 @@ int8_t test_memset()
   my_memzero(ptrb, MEM_ZERO_LENGTH);
   print_array(set, MEM_SET_SIZE_B);
   
-  /* Validate Set & Zero Functionality */
+  
   for (i = 0; i < MEM_ZERO_LENGTH; i++)
   {
     if (set[i] != 0xFF)

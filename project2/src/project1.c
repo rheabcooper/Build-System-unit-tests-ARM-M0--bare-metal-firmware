@@ -22,7 +22,7 @@
 #include "memory.h"
 #include "conversion.h"
 
-int8_t test_data1() {
+/*int8_t test_data1() {
   uint8_t * ptr;
   int32_t num = -4096;
   uint32_t digits;
@@ -351,3 +351,4 @@ void project1(void)
   printf("  FAILED: %d / %d\n", failed, TESTCOUNT);
   printf("--------------------------------\n");
 }
+*/

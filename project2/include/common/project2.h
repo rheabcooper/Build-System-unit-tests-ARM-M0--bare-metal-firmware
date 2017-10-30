@@ -90,8 +90,11 @@ void transmit_integer_host(int32_t integer_value);
  *
  */
 void data_analysis();
-
-
+/**
+ * @brief A function to display the analysis on the terminal once the rx buffer is full
+ *
+ */
+void dump_stats();
 
 /**
  * @brief function to run project2 materials

@@ -10,10 +10,12 @@
  * @date October 24, 2017
  *
  */
-
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include "uart.h"
 #include "cirbuf.h"
-#include "project2.h"
+#include "MKL25Z.h"
 
 void UART_configure()
 {
@@ -89,7 +91,7 @@ void UART0_IRQHandler()
 		uint8_t data;
 		uint16_t i;
 		while(CB_TX->count!=0){
-			CB_RemoveItem(CB_Tx,&data);
+			CB_RemoveItem(CB_TX,&data);
 			UART0_D=data;
         
         		for (i=2000;i>0;i--);  //wait for it to get sent
@@ -103,7 +105,7 @@ void UART0_IRQHandler()
      * analyse the data to check if it is an alphabet, number,
      * punctuation or a miscellaneous characters*/
 	else if((UART0_C2 & UART0_C2_RIE_MASK)!=0 ){
-	        if(UART0_S1 & UART0_S1_RDRF_MASK)!=0){
+	        if((UART0_S1 & UART0_S1_RDRF_MASK)!=0){
 			uint8_t c= UART0_D;   
 			rec_data = c;        //updating the global variable
     			rec_data_count++;

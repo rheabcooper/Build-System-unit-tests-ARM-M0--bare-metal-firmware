@@ -41,7 +41,7 @@ CB_t *CB_TX;
 CB_t *CB_RX;
 
 /*Variable which states the length of buffer*/
-static uint32_t  buffer_length=16;
+//static uint32_t  buffer_length=16;
 /**
  * @brief A function to initialize the buffer 
  *

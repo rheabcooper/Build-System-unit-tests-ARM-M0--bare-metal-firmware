@@ -31,7 +31,7 @@ void transmit_string(uint8_t * data){
 	
 	while(*data!='\0'){
 		CB_AddItem(CB_TX,data);
-		data_TX++;
+		data++;
 	}
 
 	/*To enable transmitter interrupt*/
@@ -55,9 +55,9 @@ void transmit_char_host(uint8_t * data){
 }
 void transmit_string_host(uint8_t * data){
 
-	while(*data_TX!='\0'){
-		CB_AddItem(CB_TX,data_TX);
-		data_TX++;	
+	while(*data!='\0'){
+		CB_AddItem(CB_TX,data);
+		data++;	
 	}
 	
 	uint8_t *print_value=NULL;
@@ -76,7 +76,7 @@ void transmit_integer_host(int32_t integer_value){
 	uint8_t *print_value=NULL;
 	while(CB_TX->count){
 		CB_RemoveItem(CB_TX,print_value);
-		printf("%c" , print_value);
+		printf("%d" , print_value);
 		print_value++;
 	}
 
@@ -87,7 +87,7 @@ void data_analysis(){
 	 * punctuation or a miscellaneous character*/
 	if(((c>='a') && (c<='z')) || ((c>='A') && (c<='Z')))
 	    alphabets++;
-	else if (c == '.' || c == ',' || c == '\' || c == ':' || c == ';' || c == '!' || c== '"')
+	else if (c == '.' || c == ',')
 	    punctuations++;
 	else if ((c>='0') && (c<= '9'))	
 		numbers++;  	
@@ -110,11 +110,11 @@ void dump_stats(){
 
 void project2(){
 	/*Create and Initialize Transmit Circular Buffer*/
-	CB_TX = (CB_t*) malloc(sizeof(CB));
+	CB_TX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_TX,CB_TX_length);
 	
 	/*Create and Initialize Receiver Circular Buffer*/
-    	CB_RX = (CB_t*) malloc(sizeof(CB));
+    	CB_RX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_RX,CB_RX_length);
 	
 	UART_configure();

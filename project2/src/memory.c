@@ -13,11 +13,12 @@
 
 #include "memory.h"
 #define ZERO (0)
-int8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
+
+int8_t my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
     if(src == NULL || dst == NULL)
     {
-        	return INVALID_MEMORY_POINTER;
+        	return NULL_POINTER;
     }
 	size_t element;
 	if(src < dst)
@@ -46,9 +47,9 @@ int8_t  my_memset(uint8_t * src, size_t length, uint8_t value)
 	size_t element;
 	uint8_t flag=ZERO;
 	if(src == NULL)
-    {
-        return NULL_POINTER;
-    }
+        {
+               return NULL_POINTER;
+        }
 	for(element = 0; element < length; element++)
 	{
 		*(src + element) = value;
@@ -67,6 +68,7 @@ int8_t  my_memset(uint8_t * src, size_t length, uint8_t value)
 int8_t  my_memzero(uint8_t * src, size_t length)
 {
 	size_t element;
+	uint8_t flag=ZERO;
 	if(src == NULL)
         {
         	return NULL_POINTER;
@@ -77,7 +79,7 @@ int8_t  my_memzero(uint8_t * src, size_t length)
 	}
 	for(element = 0; element < length; element++)
 	{
-		if(*(src + element) != value)
+		if(*(src + element) != 0)
 			flag++;
 	}
 	if(flag==ZERO)

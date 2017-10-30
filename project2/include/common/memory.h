@@ -37,9 +37,6 @@ typedef enum {
  * @return a pointer to the destination memory location
  */
 int8_t  my_memmove(uint8_t * src, uint8_t * dst, size_t length);
-
-
-
 /**
  * @brief A function to set a given value to the memory
  *
@@ -80,6 +77,6 @@ int8_t  my_memzero(uint8_t * src, size_t length);
  */
 int8_t  my_reverse(uint8_t * src, size_t length);
 
-/**
+
  
 #endif /* __MEMORY_H__ */

@@ -89,7 +89,7 @@ void UART0_IRQHandler()
 		uint8_t data;
 		uint16_t i;
 		while(CB_TX->count!=0){
-			CB_RemoveItem(CircBuffT,&data);
+			CB_RemoveItem(CB_Tx,&data);
 			UART0_D=data;
         
         		for (i=2000;i>0;i--);  //wait for it to get sent

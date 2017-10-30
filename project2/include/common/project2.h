@@ -12,9 +12,6 @@
 
 #include "common.h"
 
-uint8_t rec_data;
-uint32_t rec_data_count = 0;
-uint8_t analyse = 0;
 
 
 uint32_t CB_TX_length=576;

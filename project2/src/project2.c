@@ -6,6 +6,16 @@
  * @date October 15, 2017
  *
  */
+uint32_t CB_TX_length=576;
+uint32_t CB_RX_length=16;
+int32_t alphabets = 0;
+int32_t numbers = 0;
+int32_t punctuations = 0;
+int32_t misc = 0;
+uint8_t string_for_alp[]="Number of alphabets is : \n\r";
+uint8_t string_for_num[]="Number of numbers is : \n\r";
+uint8_t string_for_punc[]="Number of punctuations is : \n\r";
+uint8_t string_for_misc[]="Number of miscellaneous characters is : \n\r";
 
 #include "project2.h"
 

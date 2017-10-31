@@ -60,6 +60,7 @@ uint8_t UART_receive()
 	while(!(UART0_S1 & UART0_S1_RDRF_MASK)){ }
 	
 	c=UART0_D;
+	return c;
 }
 
 void UART_send_n(uint8_t *data,uint8_t count)

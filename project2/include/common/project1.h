@@ -21,7 +21,7 @@
 
 #include <stdint.h>
 
-#define DATA_SET_SIZE_W (10)
+/*#define DATA_SET_SIZE_W (10)
 #define MEM_SET_SIZE_B  (32)
 #define MEM_SET_SIZE_W  (8)
 #define MEM_ZERO_LENGTH (16)
@@ -40,7 +40,7 @@
  *
  * @return void
  */
-void project1(void);
+//void project1(void);
 
 /**
  * @brief function to run project1 data operations
@@ -50,7 +50,7 @@ void project1(void);
  *
  * @return void
  */
-int8_t test_data1();
+//int8_t test_data1();
 
 /**
  * @brief function to run project1 data operations
@@ -60,7 +60,7 @@ int8_t test_data1();
  *
  * @return void
  */
-int8_t test_data2();
+//int8_t test_data2();
 
 /**
  * @brief function to test the non-overlapped memmove operation
@@ -71,7 +71,7 @@ int8_t test_data2();
  *
  * @return void
  */
-int8_t test_memmove1();
+//int8_t test_memmove1();
 
 /**
  * @brief function to test an overlapped Memmove operation Part 1
@@ -83,7 +83,7 @@ int8_t test_memmove1();
  *
  * @return void
  */
-int8_t test_memmove2();
+//int8_t test_memmove2();
 
 /**
  * @brief function to run project1 memmove overlapped test
@@ -95,7 +95,7 @@ int8_t test_memmove2();
  *
  * @return void
  */
-int8_t test_memmove3();
+//int8_t test_memmove3();
 
 /**
  * @brief function to test the memcopy functionality
@@ -105,7 +105,7 @@ int8_t test_memmove3();
  *
  * @return void
  */
-int8_t test_memcpy();
+//int8_t test_memcpy();
 
 /**
  * @brief function to test the memset and memzero functionality
@@ -115,7 +115,7 @@ int8_t test_memcpy();
  *
  * @return void
  */
-int8_t test_memset();
+//int8_t test_memset();
 
 /**
  * @brief function to test the reverse functionality
@@ -125,6 +125,6 @@ int8_t test_memset();
  *
  * @return void
  */
-int8_t test_reverse();
+//int8_t test_reverse();
 
 #endif /* __PROJECT1_H__ */

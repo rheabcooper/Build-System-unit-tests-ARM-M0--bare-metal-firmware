@@ -18,9 +18,9 @@
 
 typedef struct{
 	volatile uint8_t *buffer_pointer;  /* Buffer pointer template */
-	volatile uint32_t *aptr;			   /* temp pointer */
-	volatile uint32_t *head;            /* Pointer to the Head or newest item */
-	volatile uint32_t *tail;  		   /* Pointer to the tail or oldest item */
+	volatile uint8_t *aptr;			   /* temp pointer */
+	volatile uint8_t *head;            /* Pointer to the Head or newest item */
+	volatile uint8_t *tail;  		   /* Pointer to the tail or oldest item */
 	volatile uint32_t size;			   /* buffer size */
 	volatile uint32_t count;			   /* current item count in the buffer */
 }CB_t;
@@ -41,7 +41,7 @@ CB_t *CB_TX;
 CB_t *CB_RX;
 
 /*Variable which states the length of buffer*/
-//static uint32_t  buffer_length=16;
+uint32_t  buffer_length=16;
 /**
  * @brief A function to initialize the buffer 
  *

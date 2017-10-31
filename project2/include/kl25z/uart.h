@@ -79,7 +79,7 @@ uint8_t UART_receive();
  *
  * @return void 
 */
-void UART_send_n(uint8_t *data, uint32_t length);
+void UART_send_n(uint8_t *data, uint8_t count);
 
 /**
  * @brief A function to receive a contiguous block of data from the UART interface
@@ -91,7 +91,7 @@ void UART_send_n(uint8_t *data, uint32_t length);
  *
  * @return void
  */
-void UART_receive_n(uint8_t *data, uint32_t length);
+void UART_receive_n(uint8_t *data, uint8_t count);
 
 /**
  * @brief A function to handle UART interrupts

@@ -17,7 +17,7 @@
 
 #ifndef __UART_H__
 #define __UART_H__
-
+#include <stdio.h>
 #include <stdint.h>
 #include "MKL25Z4.h"
 #include "cirbuf.h"
@@ -31,6 +31,10 @@
 
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
+uint8_t analyse=0;
+uint32_t rec_data_count=0;
+uint8_t rec_data;
+
 
 /**
  * @brief A function to set up the UART interface on the KL25Z 

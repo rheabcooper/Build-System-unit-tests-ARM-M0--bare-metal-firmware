@@ -31,8 +31,8 @@
 
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
-uint8_t analyse=0;
-uint32_t rec_data_count=0;
+uint8_t analyse;
+uint32_t rec_data_count;
 uint8_t rec_data;
 
 

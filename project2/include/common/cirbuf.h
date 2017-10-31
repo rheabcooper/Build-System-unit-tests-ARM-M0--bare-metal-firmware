@@ -15,7 +15,7 @@
 #define __CIRBUF_H__
 
 #include "common.h"
-#include "project2.h"
+//#include "project2.h"
 
 typedef struct{
 	volatile uint8_t *buffer_pointer;  /* Buffer pointer template */

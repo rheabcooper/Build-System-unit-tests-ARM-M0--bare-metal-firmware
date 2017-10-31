@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include "MKL25Z4.h"
 #include "cirbuf.h"
-#include "project2.h"
+//#include "project2.h"
 
 #define CLOCK_SETUP (1)
 #define BAUD (115200)

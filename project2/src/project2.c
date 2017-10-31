@@ -6,18 +6,12 @@
  * @date October 15, 2017
  *
  */
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
+
 #include "project2.h"
-#include "cirbuf.h"
-#include "conversion.h"
-#include "uart.h"
-#include "MKL25Z4.h"
 
 /*to transmit an integer from the UART of FRDM */
-void transmit_integer(int32_t integer_value){
-	
+void transmit_integer(int32_t integer_value)
+{	
 	uint8_t *char_value=NULL;
 	/*Function to convert integer to ascii*/
 	my_itoa(integer_value,char_value,BASE_10);
@@ -26,36 +20,41 @@ void transmit_integer(int32_t integer_value){
 	/*To enable transmit interrupt*/
 	UART0_C2|=UART_C2_TIE_MASK;
 }
+
 /*to transmit a string from the UART of FRDM */
-void transmit_string(uint8_t * data){
-	
-	while(*data!='\0'){
+void transmit_string(uint8_t * data)
+{	
+	while(*data!='\0')
+	{
 		CB_AddItem(CB_TX,data);
 		data++;
 	}
-
 	/*To enable transmitter interrupt*/
 	UART0_C2|=UART_C2_TIE_MASK;
 }
-void transmit_char(uint8_t * data){
 
+void transmit_char(uint8_t * data)
+{
 	CB_AddItem(CB_TX,data);
 	 
 	/*Enable the transmit interrupt*/
 	UART0_C2 |= UART_C2_TIE_MASK;
 }
 
-void transmit_char_host(uint8_t * data){
-	CB_AddItem(CB_TX,data);
+void transmit_char_host(uint8_t * data)
+{
+		CB_AddItem(CB_TX,data);
 		uint8_t data_rec;
 		
 		CB_RemoveItem(CB_TX,&data_rec);
-		printf("%c",data_rec);
+		printf("%c", data_rec);
 	
 }
-void transmit_string_host(uint8_t * data){
 
-	while(*data!='\0'){
+void transmit_string_host(uint8_t * data)
+{
+	while(*data!='\0')
+	{
 		CB_AddItem(CB_TX,data);
 		data++;	
 	}
@@ -63,12 +62,13 @@ void transmit_string_host(uint8_t * data){
 	uint8_t *print_value=NULL;
 	while(CB_TX->count){
 		CB_RemoveItem(CB_TX,print_value);
-		printf("%c" , print_value);
+		printf("%u", *print_value);
 		print_value++;
 	}
 }
-void transmit_integer_host(int32_t integer_value){
-	
+
+void transmit_integer_host(int32_t integer_value)
+{	
 	uint8_t *char_value=NULL;
 	/*Function to convert integer to ascii*/
 	my_itoa(integer_value,char_value,BASE_10);
@@ -76,12 +76,14 @@ void transmit_integer_host(int32_t integer_value){
 	uint8_t *print_value=NULL;
 	while(CB_TX->count){
 		CB_RemoveItem(CB_TX,print_value);
-		printf("%d" , print_value);
+		printf("%u", *print_value);
 		print_value++;
 	}
 
 }
-void data_analysis(){
+
+void data_analysis()
+{
 	uint8_t c = rec_data;
 	/* Check if data is an alphabet, number,
 	 * punctuation or a miscellaneous character*/
@@ -97,7 +99,9 @@ void data_analysis(){
 	if(rec_data_count==CB_RX_length)
 		dump_stats(); 
 }
-void dump_stats(){
+
+void dump_stats()
+{
 	transmit_string(string_for_alp);  
 	transmit_integer(alphabets);  
 	transmit_string(string_for_num);
@@ -109,6 +113,7 @@ void dump_stats(){
 }
 
 void project2(){
+
 	/*Create and Initialize Transmit Circular Buffer*/
 	CB_TX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_TX,CB_TX_length);
@@ -121,6 +126,10 @@ void project2(){
 	/*testing of sending characters from FRDM to terminal using the above functions*/
 	uint8_t test[4]={'1','2','3','4'};
 	uint8_t * data_TX = test;
+
+	/* Welcome Banner */
+	printf("\r\n\r\n======= Freescale Freedom FRDM-KL25Z ========\r\n");
+
 	transmit_char(data_TX);
 	//enable & disable transmit interrupt here
 	UART0_C2|=UART_C2_TIE_MASK;

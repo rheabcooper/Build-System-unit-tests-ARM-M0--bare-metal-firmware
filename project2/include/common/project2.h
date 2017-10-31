@@ -11,8 +11,10 @@
 #define __PROJECT2_H__
 
 #include "common.h"
-
-
+#include "cirbuf.h"
+#include "conversion.h"
+#include "uart.h"
+#include "MKL25Z4.h"
 
 uint32_t CB_TX_length=576;
 uint32_t CB_RX_length=16;
@@ -25,6 +27,13 @@ uint8_t string_for_num[]="Number of numbers is : \n\r";
 uint8_t string_for_punc[]="Number of punctuations is : \n\r";
 uint8_t string_for_misc[]="Number of miscellaneous characters is : \n\r";
 
+/*Variable which states the length of buffer*/
+uint32_t  buffer_length=16;
+
+/*global variables that will be used in uart.c and project2.c */
+uint32_t rec_data_count=0;
+uint8_t rec_data;
+uint8_t analyse=0;
 
 /**
  * @brief A function to transfer an integer from the FRDM to the terminal by converting to ascii

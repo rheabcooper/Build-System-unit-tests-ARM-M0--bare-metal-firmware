@@ -20,6 +20,8 @@
 
 #include <stdint.h>
 #include "MKL25Z4.h"
+#include "cirbuf.h"
+#include "project2.h"
 
 #define CLOCK_SETUP (1)
 #define BAUD (115200)
@@ -29,11 +31,6 @@
 
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
-
-/*global variables that will be used in uart.c and project2.c */
-uint32_t rec_data_count=0;
-uint8_t rec_data;
-uint8_t analyse=0;
 
 /**
  * @brief A function to set up the UART interface on the KL25Z 
@@ -75,11 +72,11 @@ uint8_t UART_receive();
  * This function takes in a pointer to the data to be sent and the length of data.
  *
  * @param data - unsigned 32-bit pointer data to be sent
- * @param length - length of the data 
+ * @param count - length of the data 
  *
  * @return void 
 */
-void UART_send_n(uint8_t *data, uint32_t length);
+void UART_send_n(uint8_t *data, uint8_t count);
 
 /**
  * @brief A function to receive a contiguous block of data from the UART interface
@@ -87,11 +84,11 @@ void UART_send_n(uint8_t *data, uint32_t length);
  * This function takes in a pointer to the data to be received and the length of data.
  *
  * @param data - unsigned 32-bit pointer data to be received
- * @param length - length of the data
+ * @param count - length of the data
  *
  * @return void
  */
-void UART_receive_n(uint8_t *data, uint32_t length);
+void UART_receive_n(uint8_t *data, uint8_t count);
 
 /**
  * @brief A function to handle UART interrupts

@@ -29,7 +29,7 @@
 #define TEST_MEMMOVE_LENGTH (16)
 #define TEST_ERROR          (1)
 #define TEST_NO_ERROR       (0)
-#define TESTCOUNT           (8)
+#define TESTCOUNT           (8) */
 
 /**
  * @brief function to run project1 materials

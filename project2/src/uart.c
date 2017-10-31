@@ -10,12 +10,8 @@
  * @date October 24, 2017
  *
  */
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
+
 #include "uart.h"
-#include "cirbuf.h"
-#include "MKL25Z.h"
 
 void UART_configure()
 {
@@ -50,7 +46,7 @@ void UART_configure()
 
 void UART_send(uint8_t data)
 {	
-	while(!(UART0_S1 & UART0_S1_TDRF_MASK)){ }
+	while(!(UART0_S1 & UART0_S1_TDRE_MASK)){ }
 	UART0_D = data;
 }
 
@@ -58,11 +54,11 @@ uint8_t UART_receive()
 {	
 	uint8_t c;
 	while(!(UART0_S1 & UART0_S1_RDRF_MASK)){ }
-	
 	c=UART0_D;
+	return c;
 }
 
-void UART_send_n(uint8_t *data,uint8_t count)
+void UART_send_n(uint8_t *data, uint8_t count)
 {
 	for(uint8_t i=0;i<=count;i++)
 	{
@@ -72,7 +68,7 @@ void UART_send_n(uint8_t *data,uint8_t count)
 	
 }	
 
-void UART_receive_n(uint8_t *data,uint8_t count)
+void UART_receive_n(uint8_t *data, uint8_t count)
 {	
 	for(uint8_t i=0;i<=count;i++)
 	{

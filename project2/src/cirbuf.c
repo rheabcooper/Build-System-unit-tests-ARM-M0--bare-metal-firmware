@@ -10,11 +10,8 @@
  * @date October 24, 2017
  *
  */
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include "cirbuf.h"
 
+#include "cirbuf.h"
 
 CB_status CB_Init(CB_t *buf, uint32_t length)
 {

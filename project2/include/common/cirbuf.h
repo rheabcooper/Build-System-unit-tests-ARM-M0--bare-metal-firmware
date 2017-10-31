@@ -17,7 +17,7 @@
 #include "common.h"
 
 typedef struct{
-	volatile uint32_t *buffer_pointer;  /* Buffer pointer template */
+	volatile uint8_t *buffer_pointer;  /* Buffer pointer template */
 	volatile uint32_t *aptr;			   /* temp pointer */
 	volatile uint32_t *head;            /* Pointer to the Head or newest item */
 	volatile uint32_t *tail;  		   /* Pointer to the tail or oldest item */

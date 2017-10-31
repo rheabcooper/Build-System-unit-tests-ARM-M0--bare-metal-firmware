@@ -66,7 +66,7 @@ void UART_send_n(uint8_t *data,uint8_t count)
 {
 	for(uint8_t i=0;i<=count;i++)
 	{
-		while(!(UART0_S1 & UART0_S1_TDRF_MASK)){ }
+		while(!(UART0_S1 & UART0_S1_TDRE_MASK)){ }
 		UART0_D=*(data+i);
 	}
 	

@@ -22,6 +22,9 @@
 #include <cmocka.h>
 
 #include "cirbuf.h"
+#define BUFFER_LENGTH (16)
+
+uint32_t buffer_length=BUFFER_LENGTH;
 
 void cirbuf_allocate_free_test(void **state)
 {

@@ -38,10 +38,12 @@ void test_memmove_invalid_pointers(void **state)
 	
 void test_memmove_no_overlap(void **state)
 {
-	  uint8_t *src = &array[0];
-	  uint8_t *dst = &array[16];
-  	  uint8_t i;
-  /* Initialize the set to test values */
+	uint8_t *src = &array[0];
+	uint8_t *dst = &array[16];
+	uint8_t i;
+	uint8_t flag=ZERO;
+
+    /* Initialize the set to test values */
   	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
@@ -50,7 +52,6 @@ void test_memmove_no_overlap(void **state)
   
   	my_memmove(src, dst, TEST_MEMMOVE_LENGTH);
  
-	uint8_t flag=ZERO;
   	for (i = 0; i < TEST_MEMMOVE_LENGTH; i++)
   	{
     		if (array[i + 16] != i)
@@ -59,67 +60,60 @@ void test_memmove_no_overlap(void **state)
 			break;
     		}
   	}
-	if(flag==ZERO)
-		memory_status status=SUCCESS;
-	assert_int_equal(status,SUCCESS);
+	assert_int_equal(flag,ZERO);
 }
 
 void test_memmove_src_in_dst_overlap(void **state)
 {
-	  uint8_t *src = &array[8];
-	  uint8_t *dst = &array[0];
-  	  uint8_t i;
-  /* Initialize the set to test values */
+	uint8_t *src = &array[8];
+	uint8_t *dst = &array[0];
+    uint8_t i;
+	uint8_t flag=ZERO;
+
+    /* Initialize the set to test values */
   	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
   	}
-
   
   	my_memmove(src, dst, TEST_MEMMOVE_LENGTH);
  
-	uint8_t flag=ZERO;
   	for (i = 0; i < TEST_MEMMOVE_LENGTH; i++)
   	{
-    		if (array[i] != array[i+8])
+    		if (array[i] != (i+8))
     		{
       			flag++;
-			break;
+				break;
     		}
   	}
-	if(flag==ZERO)
-		memory_status status=SUCCESS;
-	assert_int_equal(status,SUCCESS);	
-	
-	
+
+	assert_int_equal(flag,ZERO);		
 }
 
 void test_memmove_dst_in_src_overlap(void **state)
 {
-	  uint8_t *src = &array[0];
-	  uint8_t *dst = &array[8];
-  	  uint8_t i;
-  /* Initialize the set to test values */
+	uint8_t *src = &array[0];
+	uint8_t *dst = &array[8];
+	uint8_t i;
+	uint8_t flag=ZERO;
+
+    /* Initialize the set to test values */
   	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
   	}
 
-  
   	my_memmove(src, dst, TEST_MEMMOVE_LENGTH);
  
-	uint8_t flag=ZERO;
   	for (i = 0; i < TEST_MEMMOVE_LENGTH; i++)
   	{
     		if (array[i + 8] != i)
     		{
       			flag++;
-			break;
+				break;
     		}
   	}
-	if(flag==ZERO)
-		memory_status status=SUCCESS;
-	assert_int_equal(status,SUCCESS);	
+	assert_int_equal(flag,ZERO);	
 }
 
 void test_memset_invalid_pointers(void **state)
@@ -132,11 +126,13 @@ void test_memset_invalid_pointers(void **state)
 void test_memset_check_set(void **state)
 {	
 	uint8_t i;
+	uint8_t *src=&array[0];
+
 	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
   	}
-	uint8_t *src=&array[0];
+
 	memory_status status = my_memset(src,ODD_LENGTH,VALUE);
 	assert_int_equal(status,SUCCESS);	
 }
@@ -152,11 +148,13 @@ void test_memzero_invalid_pointers(void **state)
 void test_memzero_check_set(void **state)
 {	
 	uint8_t i;
+	uint8_t *src=&array[0];
+
 	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
   	}
-	uint8_t *src=&array[0];
+
 	memory_status status = my_memzero(src,ODD_LENGTH);
 	assert_int_equal(status,SUCCESS);		
 }
@@ -173,17 +171,24 @@ void test_reverse_check_odd_reverse(void **state)
 	uint8_t i;
 	uint8_t flag=ZERO;
 	uint8_t copy[LENGTH];
+	uint8_t *src=&array[0];
+
 	for( i = 0; i < LENGTH; i++)
   	{
-    		array[i] = i;
+    	array[i] = i;
+		copy[i] = i;
   	}
-	uint8_t *src=&array[0];
-	my_reverse(src,ODD_LENGTH);
-	for(i=0;i<ODD_LENGTH;i++)
+
+	my_reverse(src, ODD_LENGTH);
+
+	for( i = 0; i < ODD_LENGTH; i++)
 	{
-		if(array[i]!=copy[ODD_LENGTH-i])
+		if(array[i] != copy[ODD_LENGTH-1-i])
+		{
 			flag++;
+		}
 	}
+	
 	assert_int_equal(flag,ZERO);
 }
 
@@ -192,39 +197,51 @@ void test_reverse_check_even_reverse(void **state)
 	uint8_t i;
 	uint8_t flag=ZERO;
 	uint8_t copy[LENGTH];
+	uint8_t *src=&array[0];
+
 	for( i = 0; i < LENGTH; i++)
   	{
     		array[i] = i;
 		copy[i]=i;
   	}
-	uint8_t *src=&array[0];
+
 	my_reverse(src,EVEN_LENGTH);
+
 	for(i=0;i<EVEN_LENGTH;i++)
 	{
-		if(array[i]!=copy[EVEN_LENGTH-i])
+		if(array[i]!=copy[EVEN_LENGTH-1-i])
+		{
 			flag++;
+		}
 	}
+
 	assert_int_equal(flag,ZERO);	
 }
 
 void test_reverse_check_characters(void **state)
 {
+	uint16_t i;
 	uint8_t flag=ZERO;
-	uint8_t src[256];
 	uint8_t copy[256];
-	for(i=0;i<256;i++){
-		src[i]=i;
+	uint8_t *src=&array[0];
+
+	for(i = 0; i < 256; i++)
+	{
+		array[i]=i;
 		copy[i]=i;
 	}
-	uint8_t *src_ptr=src;
-	my_reverse(src_ptr,256);
+
+	my_reverse(src,256);
+
 	for(i=0;i<256;i++)
 	{
-		if(src[i]!=copy[256-i]);
+		if(array[i] != copy[256-1-i])
+		{
 			flag++;
+		}
 	}
-	int zero=ZERO;	
-	assert_int_equal(flag,zero);	
+
+	assert_int_equal(flag,ZERO);	
 }
 
 int main(void)

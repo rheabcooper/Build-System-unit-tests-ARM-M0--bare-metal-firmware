@@ -15,7 +15,10 @@
 #define __CIRBUF_H__
 
 #include "common.h"
-//#include "project2.h"
+
+uint32_t rec_data_count;
+uint8_t rec_data;
+uint8_t analyse;
 
 typedef struct{
 	volatile uint8_t *buffer_pointer;  /* Buffer pointer template */

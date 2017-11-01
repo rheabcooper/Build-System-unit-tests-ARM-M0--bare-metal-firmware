@@ -11,6 +11,8 @@
  *
  */
 
+#ifdef KL25Z
+
 #include "uart.h"
 
 void UART_configure()
@@ -114,3 +116,5 @@ void UART0_IRQHandler()
 	__enable_irq(); // global disable IRQs
 	
 }
+
+#endif /* ifdef KL25Z */

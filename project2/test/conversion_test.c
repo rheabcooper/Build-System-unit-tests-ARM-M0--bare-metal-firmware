@@ -20,15 +20,17 @@
 #include "conversion.h"
 
 #define ZERO (0)
+#define POS_NUM (1)
 
 void test_big_to_little_invalid_pointers(void** state)
 {
 	uint32_t * data = NULL; 	
 	uint32_t length = 10;
+	uint8_t retval;
 	/* pointer have not been allocated yet */
 
-	big_to_little32(data, length);
-	assert_non_null(data);
+	retval = big_to_little32(data, length);
+	assert_int_equal(retval, POS_NUM);
 }
 
 void test_big_to_little_valid_conversion(void **state)
@@ -47,10 +49,11 @@ void test_little_to_big_invalid_pointers(void** state)
 {
 	uint32_t * data = NULL; 	
 	uint32_t length = 10;
+	uint8_t retval;
 	/* pointer have not been allocated yet */
 
-	little_to_big32(data, length);
-	assert_non_null(data);
+	retval = little_to_big32(data, length);
+	assert_int_equal(retval, POS_NUM);
 }
 
 void test_little_to_big_valid_conversion(void **state)

@@ -17,11 +17,10 @@
 
 #ifndef __UART_H__
 #define __UART_H__
-#include <stdio.h>
-#include <stdint.h>
+
+#include "common.h"
 #include "MKL25Z4.h"
 #include "cirbuf.h"
-//#include "project2.h"
 
 #define CLOCK_SETUP (1)
 #define BAUD (115200)
@@ -31,10 +30,6 @@
 
 #define PTA1_ISFR_MASK (0x00000001) 
 #define PTA2_ISFR_MASK (0x00000002)
-uint8_t analyse;
-uint32_t rec_data_count;
-uint8_t rec_data;
-
 
 /**
  * @brief A function to set up the UART interface on the KL25Z 

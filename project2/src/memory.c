@@ -40,7 +40,22 @@ int8_t my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 	 
 }	
 
-
+uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length)
+{
+	size_t element;
+	uint32_t diff = abs(dst - src);
+	if (diff < length)
+	{
+		#ifdef VERBOSE
+		printf("Data Corruption Error!\n");
+		#endif		
+	}
+	for(element = 0; element < length; element++)
+	{
+		*(dst + element) = *(src + element);
+	}
+	return dst;
+}
 
 int8_t  my_memset(uint8_t * src, size_t length, uint8_t value)
 {
@@ -105,5 +120,23 @@ int8_t  my_reverse(uint8_t * src, size_t length)
 	return SUCCESS;
 }
 
+int32_t * reserve_words(size_t length)
+{
+	int32_t * ptr = NULL;
+	ptr = (int32_t *)malloc(length * sizeof(int32_t *));
+	if (NULL != ptr)
+	{
+		return ptr;
+	}
+	else
+	{
+		ptr = NULL;
+		return ptr;
+	}
+}
 
+void free_words(uint32_t * src)
+{
+	free(src);	
+}
 

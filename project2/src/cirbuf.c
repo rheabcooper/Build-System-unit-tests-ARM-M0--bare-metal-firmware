@@ -65,11 +65,11 @@ CB_status CB_AddItem(CB_t *buf, uint8_t *data)
 	if(buf == NULL){
 		return NULL_POINTER;
 	}
-	if((buf->count)!=buffer_length)
+	if((buf->count)!=buf->size)
 	{
 		*(buf->head)=*data;
 		(buf->head)=(buf->head+1);
-		if((buf->head)>((buf->buffer_pointer)+(buffer_length-1)))
+		if((buf->head)>((buf->buffer_pointer)+(buf->size-1)))
 			buf->head=buf->buffer_pointer;
 		buf->count++;
 	}
@@ -88,7 +88,7 @@ CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
 	{
       		*(data_rem)=*(buf->tail);
 		(buf->tail)=(buf->tail)+1;
-		if((buf->tail)>((buf->buffer_pointer)+(buffer_length-1)))
+		if((buf->tail)>((buf->buffer_pointer)+(buf->size-1)))
 			buf->tail=buf->buffer_pointer;
 		buf->count--;
         		

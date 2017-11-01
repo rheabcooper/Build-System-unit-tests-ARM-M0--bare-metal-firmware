@@ -8,6 +8,7 @@
  */
 
 #include "project2.h"
+
 uint32_t CB_TX_length=576;
 uint32_t CB_RX_length=16;
 int32_t alphabets = 0;
@@ -19,7 +20,7 @@ uint8_t string_for_num[]="Number of numbers is : \n\r";
 uint8_t string_for_punc[]="Number of punctuations is : \n\r";
 uint8_t string_for_misc[]="Number of miscellaneous characters is : \n\r";
 
-
+#ifdef KL25Z
 /*to transmit an integer from the UART of FRDM */
 void transmit_integer(int32_t integer_value)
 {	
@@ -37,7 +38,7 @@ void transmit_string(uint8_t * data)
 {	
 	while(*data!='\0')
 	{
-		CB_AddItem(CB_TX,data);
+		CB_AddItem(CB_TX, data);
 		data++;
 	}
 	/*To enable transmitter interrupt*/
@@ -51,6 +52,7 @@ void transmit_char(uint8_t * data)
 	/*Enable the transmit interrupt*/
 	UART0_C2 |= UART_C2_TIE_MASK;
 }
+#endif
 
 void transmit_char_host(uint8_t * data)
 {
@@ -113,6 +115,7 @@ void data_analysis()
 
 void dump_stats()
 {
+	#ifdef KL25Z
 	transmit_string(string_for_alp);  
 	transmit_integer(alphabets);  
 	transmit_string(string_for_num);
@@ -121,6 +124,18 @@ void dump_stats()
 	transmit_integer(punctuations);
 	transmit_string(string_for_misc);
 	transmit_integer(misc);
+	#endif
+	
+	#ifdef HOST
+	transmit_string_host(string_for_alp);  
+	transmit_integer_host(alphabets);  
+	transmit_string_host(string_for_num);
+	transmit_integer_host(numbers);
+	transmit_string_host(string_for_punc);
+	transmit_integer_host(punctuations);
+	transmit_string_host(string_for_misc);
+	transmit_integer_host(misc);
+	#endif
 }
 
 void project2(){
@@ -133,6 +148,7 @@ void project2(){
     	CB_RX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_RX,CB_RX_length);
 	
+	#ifdef KL25Z 
 	UART_configure();
 	/*testing of sending characters from FRDM to terminal using the above functions*/
 	uint8_t test[4]={'1','2','3','4'};
@@ -151,4 +167,5 @@ void project2(){
 			data_analysis();
 		}
 	}
+	#endif
 }

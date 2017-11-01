@@ -12,8 +12,13 @@
  *
  */
 
+#ifdef PROJECT1
 #include "project1.h"
+#endif 
+
+#ifdef PROJECT2
 #include "project2.h"
+#endif
 
 int main(void)
 {

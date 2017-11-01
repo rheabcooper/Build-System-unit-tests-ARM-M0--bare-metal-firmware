@@ -42,9 +42,9 @@ LIBRARY = $(LIB_DIR)/libproject1.a
 LIB_SRC := $(CONV_SRC) \
 			$(DEBUG_SRC) \
 			$(MEMORY_SRC) \
-			$(PROJ1_SRC) \
 			$(REVERSE_SRC) \
 			$(CIRBUF_SRC) \
+			$(PROJ1_SRC) \
 			$(PROJ2_SRC)	
 
 LIB_OBJ_PATH = $(LIB_SRC:.c=.o)

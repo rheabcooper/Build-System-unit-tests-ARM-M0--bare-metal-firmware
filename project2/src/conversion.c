@@ -123,8 +123,10 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 
 int8_t big_to_little32(uint32_t * data, uint32_t length)
 {
+	
 	uint32_t b0, b1, b2, b3, x0, x1, x2, x3;
 	int32_t element;
+	if(data!=NULL){	
 	for(element = 0; element < length; element++)
 	{
 		/* extracting the bytes before conversion */
@@ -158,12 +160,17 @@ int8_t big_to_little32(uint32_t * data, uint32_t length)
 		#endif
 		return -1;
 	}
+	}
+	else 
+		return 1;
 }
 
 int8_t little_to_big32(uint32_t * data, uint32_t length)
 {
 	uint32_t b0, b1, b2, b3, x0, x1, x2, x3;
 	int32_t element;
+	if(data!=NULL)
+	{	
 	for(element = 0; element < length; element++)
 	{
 		/* extracting the bytes before conversion */
@@ -197,4 +204,8 @@ int8_t little_to_big32(uint32_t * data, uint32_t length)
 		#endif
 		return -1;
 	}
+	}
+	else
+		return 1;
+
 }

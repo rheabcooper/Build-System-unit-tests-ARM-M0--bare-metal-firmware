@@ -148,6 +148,26 @@ void project2(){
     	CB_RX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_RX,CB_RX_length);
 	
+	#ifdef HOST
+	/*testing of sending characters from FRDM to terminal using the above functions*/
+	uint8_t test[4]={'1','2','3','4'};
+	uint8_t * data_TX = test;
+
+	/* Welcome Banner */
+	printf("\r\n\r\n======= Linux VM HOST ========\r\n");
+
+	transmit_char_host(data_TX);
+	//enable & disable transmit interrupt here
+	UART0_C2|=UART_C2_TIE_MASK;
+	/*wait for interrupt*/
+	while(1){
+	/*When UART receives data the variable is set to analyze data*/
+		if(analyse == 1){
+			data_analysis();
+		}
+	}
+	#endif
+
 	#ifdef KL25Z 
 	UART_configure();
 	/*testing of sending characters from FRDM to terminal using the above functions*/

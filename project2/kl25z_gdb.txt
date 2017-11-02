@@ -1,0 +1,19 @@
+# gdb start up script for KL25Z board on openOCD interface
+#  Kinetis L Series supports Program Longword (32-bit) execution only
+
+#openOCD: listen on port
+target remote localhost:3333
+
+#openOCD: reset device
+monitor reset init
+
+#openOCD: load/flash executable
+load 
+
+#openOCD: load debug symbols
+file /home/brian/repos/BMK-ecen5813-project1/project2/project2.elf
+
+#openOCD: set the breakpoints limit 
+set remote hardware-breakpoint-limit 2
+set remote hardware-watchpoint-limit 2
+

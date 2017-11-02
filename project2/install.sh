@@ -5,16 +5,15 @@
 #
 #
 
-BUILD="make build PLATFORM=KL25Z MAIN=PROJECT2"
-MOUNT_PORT="/dev/sdb1"
-MOUNT_DIR="mount_kl25z"
-PROJ2_EXE="project2.elf"
+# --- Build and Install Parameters
+BUILD_CONFIG="PLATFORM=KL25Z MAIN=PROJECT2"
+MOUNT_DIR="/media/brian/FRDM-KL25Z"
+PROJ_EXE="project2.elf"
 
-# Steps to complete the remote install on kl25z
-$BUILD
-mkdir $MOUNT_DIR
-sudo mount $MOUNT_PORT $MOUNT_DIR
-sudo cp $PROJ2_EXE ../$MOUNT_DIR
+
+# Shell command scripts to complete the remote install on kl25z
+make build $BUILD_CONFIG
+sudo cp $PROJ_EXE $MOUNT_DIR
 
 
 

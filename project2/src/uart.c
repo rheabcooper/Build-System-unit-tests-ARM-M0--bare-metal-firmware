@@ -22,28 +22,35 @@ void UART_configure()
 
 	/* enabling clock to UART0 */
 	SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;
-	SIM_SOPT2 &= ~SIM_SOPT2_UART0SRC_MASK;
+
+	/* disable the TX & RX register */
+	UART_C2 &= ~UART0_C2_TE_MASK & ~UART0_C2_RE_MASK;
 
 	/* FLL/PLL source to select 48 Mhz clock */
 	SIM_SOPT2 |= SIM_SOPT2_UART0SRC((CLOCK_SETUP));
+	SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK;
 
-	UART0_C2 = 0x00;
-	UART0_C1 = 0x00;
-	UART0_C3 = 0x00;
+	UART0_C1 = 0;
+	UART0_C3 = 0;
+	UART0_MA1 = 0;
+	UART0_MA2 = 0;
+	UART0_S1 |= 0x00;
 	UART0_S2 = 0x00;
 
 	UART0_BDH = (SBR >> 8) & UARTLP_BDH_SBR_MASK;
 	UART0_BDL = (SBR & UARTLP_BDL_SBR_MASK);
 	UART0_C4  = UARTLP_C4_OSR(OSR - 1);
 
-	PORTA_PCR1 = PORT_PCR_MUX(2);         /* alternate function for PTA1 -UART0_RX */
-	PORTA_PCR2 = PORT_PCR_MUX(2);         /* alternate function for PTA1 -UART0_RX */
+	/* set pins to uart0 RX/RX */
+	PORTA_PCR1 = PORT_PCR_ISF_MASK | PORT_PCR_MUX(2);         
+	PORTA_PCR2 = PORT_PCR_ISF_MASK | PORT_PCR_MUX(2);       
 
 	/* enabling the transmitting, receiving, and receive/transmit interrupts */
 	UART0_C2 = UART0_C2_TE_MASK | UART0_C2_RE_MASK | UART0_C2_RIE_MASK;
 
 	/* Interrupt enabling */
 	NVIC->ISER[0] |= 0x00001000;
+	enable_irq(INT_UART0);
 }
 
 void UART_send(uint8_t data)

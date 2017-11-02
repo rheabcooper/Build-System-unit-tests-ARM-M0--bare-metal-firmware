@@ -17,3 +17,9 @@ file /home/brian/repos/BMK-ecen5813-project1/project2/project2.elf
 set remote hardware-breakpoint-limit 2
 set remote hardware-watchpoint-limit 2
 
+#openOCD: poll the device
+monitor poll
+
+#openOCD: view arm registers on the board
+monitor reg
+

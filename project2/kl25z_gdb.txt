@@ -20,6 +20,13 @@ set remote hardware-watchpoint-limit 2
 #openOCD: poll the device
 monitor poll
 
+#openOCD: set any memory area not in the memory as accessible
+set mem inaccessible-by-default off
+
 #openOCD: view arm registers on the board
 monitor reg
+
+#openOCD: show the configured memory map on the target
+info mem
+
 

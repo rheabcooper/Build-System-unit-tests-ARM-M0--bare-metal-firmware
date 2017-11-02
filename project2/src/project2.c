@@ -140,6 +140,8 @@ void dump_stats()
 
 void project2(){
 
+	printf("Starting project2\n");
+	
 	/*Create and Initialize Transmit Circular Buffer*/
 	CB_TX = (CB_t*) malloc(sizeof(CB_t));
 	CB_Init(CB_TX,CB_TX_length);
@@ -169,13 +171,13 @@ void project2(){
 	#endif
 
 	#ifdef KL25Z 
+	/* Welcome Banner */
+	printf("\r\n\r\n======= Freescale Freedom FRDM-KL25Z ========\r\n");
+
 	UART_configure();
 	/*testing of sending characters from FRDM to terminal using the above functions*/
 	uint8_t test[4]={'1','2','3','4'};
 	uint8_t * data_TX = test;
-
-	/* Welcome Banner */
-	printf("\r\n\r\n======= Freescale Freedom FRDM-KL25Z ========\r\n");
 
 	transmit_char(data_TX);
 	//enable & disable transmit interrupt here

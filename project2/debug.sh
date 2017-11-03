@@ -6,7 +6,7 @@
 #---- Build and Debug parameters -----
 BUILD_CONFIG="PLATFORM=KL25Z MAIN=PROJECT2"
 PROJ_EXE="project2.elf"
-GDB_SCRIPT="kl25z_gdb.txt"
+GDB_SCRIPT="kl25z_gdb.gdb"
 
 
 # ---- Start the shell command script ----

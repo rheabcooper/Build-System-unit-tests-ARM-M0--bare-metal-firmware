@@ -15,7 +15,15 @@
 
 #ifdef KL25Z
 
-void GPIO_nrf_init();
+/**
+ * @brief A function to initialize the GPIO pins
+ *
+ * A function to initialize the GPIO pins associated
+ *  with the NRF and SPI devices
+ *
+ * @return void
+ */
+void GPIO_nrf_init(void);
 
 #endif
 

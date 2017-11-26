@@ -24,7 +24,7 @@ BBB_USER_DIR = /home/debian
 BBB_USER_BIN = $(BBB_USER_DIR)/bin
 
 # Project Master or Top Level Directory
-PROJ_DIR 		= $(MYDIR)/project2
+PROJ_DIR 		= $(MYDIR)/project3
 
 # Subdirectories under the Master Directory
 INC_DIR 		= $(PROJ_DIR)/include
@@ -48,6 +48,10 @@ UART_SRC		= $(SRC_DIR)/uart.c
 PROJ2_SRC		= $(SRC_DIR)/project2.c
 KL25Z_SYS_SRC	= $(SRC_DIR)/system_MKL25Z4.c
 KL25Z_SUP_SRC	= $(SRC_DIR)/startup_MKL25Z4.S
+PROJ3_SRC		= $(SRC_DIR)/project3.c
+GPIO_SRC		= $(SRC_DIR)/gpio.c
+SPI_SRC			= $(SRC_DIR)/spi.c
+NORDIC_SRC		= $(SRC_DIR)/nordic.c
 
 # Include Directory
 INC_CMN_DIR 	= $(INC_DIR)/common
@@ -60,6 +64,7 @@ PROJ1_INC		= $(INC_CMN_DIR)/project1.h
 REVERSE_INC		= $(INC_CMN_DIR)/reverse.h
 CIRBUF_INC		= $(INC_CMN_DIR)/cirbuf.h
 PROJ2_INC		= $(INC_CMN_DIR)/project2.h
+PROJ3_INC		= $(INC_CMN_DIR)/project3.h	
 
 INC_CMSIS_DIR	= $(INC_DIR)/CMSIS
 CM0PLUS_INC		= $(INC_CMSIS_DIR)/core_cm0plus.h
@@ -72,6 +77,9 @@ INC_KL25Z_DIR	= $(INC_DIR)/kl25z
 KL25Z_INC		= $(INC_KL25Z_DIR)/MKL25Z4.h
 SYS_KL25Z_INC	= $(INC_KL25Z_DIR)/system_MKL25Z4.h
 UART_INC		= $(INC_KL25Z_DIR)/uart.h
+GPIO_INC		= $(INC_KL25Z_DIR)/gpio.h
+SPI_INC			= $(INC_KL25Z_DIR)/spi.h
+NORDIC_INC		= $(INC_KL25Z_DIR)/nordic.h
 
 # Platform Directory
 KL25Z_LD		= $(PLATFORM_DIR)/MKL25Z128xxx4_flash.ld

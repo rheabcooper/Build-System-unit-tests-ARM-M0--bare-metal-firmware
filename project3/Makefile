@@ -16,7 +16,10 @@ SOURCES += $(MAIN_SRC)
 
 ifeq ($(PLATFORM),KL25Z)
 SOURCES += $(KL25Z_SYS_SRC) \
-		   $(UART_SRC) 
+		   $(UART_SRC) \
+		   $(GPIO_SRC) \
+		   $(SPI_SRC) \
+		   $(NORDIC_SRC) 
 ASM_SRC = $(KL25Z_SUP_SRC)
 endif
 
@@ -45,7 +48,8 @@ LIB_SRC := $(CONV_SRC) \
 			$(REVERSE_SRC) \
 			$(CIRBUF_SRC) \
 			$(PROJ1_SRC) \
-			$(PROJ2_SRC)	
+			$(PROJ2_SRC) \
+			$(PROJ3_SRC)	
 
 LIB_OBJ_PATH = $(LIB_SRC:.c=.o)
 LIB_OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(LIB_OBJ_PATH)))
@@ -109,6 +113,11 @@ EXECUTABLE = project2.elf
 MAP_FILE = project2.map
 CPPFLAGS += -DPROJECT2
 endif
+ifeq ($(MAIN),PROJECT3)
+EXECUTABLE = project3.elf
+MAP_FILE = project3.map
+CPPFLAGS += -DPROJECT3
+endif
 		
 ifeq ($(PLATFORM),HOST)
 CPPFLAGS += -DVERBOSE 
@@ -120,13 +129,13 @@ endif
 DEPFLAGS += -MD \
 			-MP
 
+CC_LDFLAGS += -Xlinker -Map=$(MAP_FILE) \
+           -L$(LIB_DIR) \
+           -lproject1 
+
 ifeq ($(PLATFORM),KL25Z)
 CC_LDFLAGS += -T$(KL25Z_LD)
 endif
-
-CC_LDFLAGS += -L$(LIB_DIR) \
-           -lproject1 \
-		   -Xlinker -Map=$(MAP_FILE)
 
 ifeq ($(PLATFORM),KL25Z)
 LD_LDFLAGS += -T$(KL25Z_LD)
@@ -158,7 +167,7 @@ build: compile-all build-lib
 	@echo "##################### Linking ... $@ target on $(PLATFORM) ########################"
 	@echo;
 #	$(LD) $(LD_LDFLAGS) $(INCLUDE) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ)
-	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS)
+	$(CC) $(PLATFORM_FLAGS) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) -o $(EXECUTABLE) $(OBJECTS) $(ASM_OBJ) $(CC_LDFLAGS) 
 	$(CODE_SIZE) $(EXECUTABLE) 
 
 %.i: %.c

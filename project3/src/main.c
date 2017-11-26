@@ -20,6 +20,10 @@
 #include "project2.h"
 #endif
 
+#ifdef PROJECT3
+#include "project3.h"
+#endif
+
 int main(void)
 {
 	#ifdef PROJECT1	
@@ -31,6 +35,10 @@ int main(void)
 		LED_Init();
 		#endif
 		project2();
+	#endif
+
+	#ifdef PROJECT3
+		project3();
 	#endif
 
 	return 0;

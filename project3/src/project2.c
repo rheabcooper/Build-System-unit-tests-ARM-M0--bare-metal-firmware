@@ -8,8 +8,9 @@
  */
 
 #include "project2.h"
+#ifdef KL25Z
 #include "uart.h"
-
+#endif
 uint32_t CB_TX_length=576;
 uint32_t CB_RX_length=5;
 int32_t alphabets = 0;
@@ -214,6 +215,7 @@ void project2()
 	#endif
 }
 
+#ifdef KL25Z
 void UART0_IRQHandler()
 {	
        	__disable_irq();  // global disable IRQs
@@ -309,3 +311,4 @@ void LED_Set(uint8_t val)
 		PTD->PSOR =	0x02;
 	}
 }
+#endif

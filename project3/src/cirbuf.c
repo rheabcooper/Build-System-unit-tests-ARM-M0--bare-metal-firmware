@@ -30,39 +30,49 @@ CB_status CB_Init(CB_t *buf, uint32_t length)
 
 CB_status CB_IsEmpty(CB_t *buf)
 {
+	START_CRITICAL();
 	if(NULL == buf)
 	{
+		END_CRITICAL();
 		return NULL_POINTER;
 	}
 	if(buf->tail == buf->head && buf->count==0)
 	{
+		END_CRITICAL();
 		return BUFFER_EMPTY;
 	}
 	else
 	{
+		END_CRITICAL();
 		return NO_ERROR;
 	}
+
+
 }
 
+
+
+
 CB_status CB_IsFull(CB_t *buf)
-{
+{	START_CRITICAL();
 	if(NULL == buf)
-	{
+	{	END_CRITICAL();
 		return NULL_POINTER;
 	}
 	if( buf->count == buf->size)
-	{
+	{	END_CRITICAL();
 		return BUFFER_FULL;
 	}
 	else
-	{
+	{	END_CRITICAL();
 		return NO_ERROR;
 	}
 }
 
 CB_status CB_AddItem(CB_t *buf, uint8_t *data)
-{
+{	START_CRITICAL();
 	if(buf == NULL){
+		END_CRITICAL();
 		return NULL_POINTER;
 	}
 	if((buf->count)!=buf->size)
@@ -74,19 +84,23 @@ CB_status CB_AddItem(CB_t *buf, uint8_t *data)
 		buf->count++;
 	}
 	else
-	{
+	{	END_CRITICAL();
 		return BUFFER_FULL;
-        }	
+    }
+	END_CRITICAL();
 	return NO_ERROR;
 }
 
 CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
-{
+{	START_CRITICAL();
 	if(buf == NULL)
-		return NULL_POINTER;	
-  	if(buf->count!=0)
 	{
-      		*(data_rem)=*(buf->tail);
+		END_CRITICAL();
+		return NULL_POINTER;	
+  	}
+	if(buf->count!=0)
+	{
+      	*(data_rem)=*(buf->tail);
 		(buf->tail)=(buf->tail)+1;
 		if((buf->tail)>((buf->buffer_pointer)+(buf->size-1)))
 			buf->tail=buf->buffer_pointer;
@@ -94,19 +108,23 @@ CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
         		
 	}			
 	else
-	{
+	{	END_CRITICAL();
 		return BUFFER_EMPTY;
 	}
+	END_CRITICAL();
 	return NO_ERROR;
 }
 
 CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t *ptr)
-{
+{START_CRITICAL();
 	if(buf==NULL){
+		END_CRITICAL();
 		return NULL_POINTER;
 	}
-	if(buf->count==0)
+	if(buf->count==0){
+		END_CRITICAL();
 		return BUFFER_EMPTY;
+	}
 	else
 	{
 		*ptr=*((buf->buffer_pointer)+position);
@@ -122,15 +140,16 @@ CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t *ptr)
 			printf("no value");
 			#endif
 		}
+		END_CRITICAL();
 		return NO_ERROR;
 	}
 }
 
 
 CB_status CB_Destroy(CB_t *buf)
-{
+{START_CRITICAL();
 	if(NULL == buf)
-	{
+	{	END_CRITICAL();
 		return NULL_POINTER;
 	}
 	else
@@ -139,6 +158,7 @@ CB_status CB_Destroy(CB_t *buf)
 		buf->buffer_pointer=NULL;
 		free((void*)buf);
 		buf=NULL;
+		END_CRITICAL();
 		return NO_ERROR;
 	}
 }

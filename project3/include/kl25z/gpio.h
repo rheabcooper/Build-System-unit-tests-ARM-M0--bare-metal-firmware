@@ -1,30 +1,19 @@
-/**
- * @file gpio.h 
- * @brief This file contains the functions for initializng 
- *        the GPIO pins associated with the NRF and SPI devices.  
+/*
+ * gpio.h
  *
- * These functions were originally developed by Brian Kelly 
- *
- * @author Brian Kelly 
- * @date November 26, 2017
- *
+ *  Created on: Dec 3, 2017
+ *      Author: rhco4796
  */
 
-#ifndef __GPIO_H__
-#define __GPIO_H__
+#ifndef INCLUDES_GPIO_H_
+#define INCLUDES_GPIO_H_
 
-#ifdef KL25Z
 
-/**
- * @brief A function to initialize the GPIO pins
- *
- * A function to initialize the GPIO pins associated
- *  with the NRF and SPI devices
- *
- * @return void
- */
-void GPIO_nrf_init(void);
+void GPIO_nrf_init();
+void GPIO_led_init();
 
-#endif
 
-#endif /* __GPIO_H__ */
+
+
+
+#endif /* INCLUDES_GPIO_H_ */

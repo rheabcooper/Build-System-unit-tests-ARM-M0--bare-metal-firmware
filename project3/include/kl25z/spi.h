@@ -1,66 +1,65 @@
-/**
- * @file spi.h
- * @brief This file contains the functions for SPI interface
- *			of the Freedom Freescale board.  
+/*
+ * spi.h
  *
- * These functions were originally developed by Brian Kelly.
+ *  Created on: Dec 5, 2017
+ *      Author: rhco4796
+ */
+/*
+ * spi.h
  *
- * @author Brian Kelly 
- * @date November 24, 2017
- *
+ *  Created on: Dec 3, 2017
+ *      Author: rhco4796
  */
 
-#ifndef __SPI_H__
-#define __SPI_H__
+#ifndef INCLUDES_SPI_H_
+#define INCLUDES_SPI_H_
 
-#ifdef KL25Z
 
 #include <stdint.h>
+#include <stdio.h>
+#include <MKL25Z4.h>
+#define CE (1<<5)
+#define nrf_transmit_enable()	(GPIOD_PSOR = CE)       //ce should be 1 to enable tx rx
+#define nrf_transmit_disable() 	(GPIOD_PCOR = CE)
 
-/**
- * @brief A function to initialize the SPI controller
- *
- * A function to initialize the SPI controller
- *
- * @return void
- */
-void SPI_init(void);
+#define CSN (1<<0)
+#define nrf_chip_enable() 		(GPIOD_PCOR = CSN)  // csn is active low
+#define nrf_chip_disable()		(GPIOD_PSOR = CSN)
 
-/**
- * @brief A function to read a single byte data from the SPI bus
- *
- * @param byte - unsigned 8-bit byte data to be read 
- *
- * @return void
- */
-void SPI_read_byte(uint8_t byte);
+#define INTERRUPT (1<<0)
 
-/**
- * @brief A function to send a single byte data on the SPI bus
- *
- * @param byte - unsigned 8-bit byte data to be sent 
- *
- * @return void
- */
-void SPI_write_byte(uint8_t byte);
+void SPI_init();
 
-/**
- * @brief A function to send numerous bytes on the SPI bus
- *
- * @param byte - unsigned 8-bit pointer to a byte array 
- * @param length - a length of how many bytes to send 
- *
- * @return void
- */
+/************************************************************
+* SPI_read_byte() - Function to read a single byte
+* uint8_t * byte - Pointer to the location where returned
+* 				   data is to be stored
+*************************************************************/
+void SPI_read_byte(uint8_t * byte);
+
+/************************************************************
+* SPI_write_byte() - Function to write a single byte
+* uint8_t byte - Data byte to be written
+* uint8_t (return) - Value returned after writing DUMMY byte
+*************************************************************/
+uint8_t SPI_write_byte(uint8_t byte);
+
+/************************************************************
+* SPI_send_packet() - Function to send an array of data
+* uint8_t * p - Pointer to the data array that is to be sent
+* size_t length - Length of the packet
+*************************************************************/
 void SPI_send_packet(uint8_t * p, size_t length);
 
-/**
- * @brief A function to block until SPI transmit buffer has completed transmitting
- *
- * @return void
- */
+/************************************************************
+* SPI_flush() - Function to block until transmit buffer is
+* 				empty
+*************************************************************/
 void SPI_flush();
 
-#endif
 
-#endif /* __SPI_H__ */
+
+
+#endif /* INCLUDES_SPI_H_ */
+
+

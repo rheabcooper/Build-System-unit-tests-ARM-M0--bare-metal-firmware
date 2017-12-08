@@ -15,7 +15,7 @@
 #include "conversion.h"
 #include "reverse.h"
 
-uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
+uint8_t my_itoa(uint32_t data, uint8_t * ptr, uint32_t base)
 {
 	uint32_t length = 0;  /* first element in the array */
 	int8_t sign;         /* sign representation */

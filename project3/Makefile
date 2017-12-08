@@ -92,7 +92,7 @@ ARCH = armv6-m
 FLOAT = soft
 FPU = fpv4-sp-d16
 SPECS = nosys.specs
-CODE_SIZE = arm-none-eabi-size -B
+CODE_SIZE = arm-none-eabi-size -A
 LD = arm-none-eabi-ld 
 LD_ARCH = armelf
 endif
@@ -247,7 +247,7 @@ ifeq ($(PLATFORM),BBB)
 # Target Functionality:  copy to the BBB's OS and execute it remotely.  
 .PHONY: upload build
 upload: build
-	@scp $(SRC_DIR)/$(EXECUTABLE) $(BBB_ROOT):$(BBB_USER_BIN)
+	@scp $(EXECUTABLE) $(BBB_ROOT):$(BBB_USER_BIN)
 	@ssh $(BBB_ROOT) -X $(BBB_USER_BIN)/$(EXECUTABLE)
 endif
 

@@ -122,8 +122,7 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 }
 
 int8_t big_to_little32(uint32_t * data, uint32_t length)
-{
-	
+{	
 	uint32_t b0, b1, b2, b3, x0, x1, x2, x3;
 	int32_t element;
 	if(data!=NULL){	
@@ -200,12 +199,12 @@ int8_t little_to_big32(uint32_t * data, uint32_t length)
 	else
 	{
 		#ifdef VERBOSE
-		printf("Error!  Cannot convert from big endian to little endian!\n");
+ 		printf("Error!  Cannot convert from big endian to little endian!\n");
 		#endif
 		return -1;
 	}
 	}
-	else
+	else 
 		return 1;
 
-}
+} 

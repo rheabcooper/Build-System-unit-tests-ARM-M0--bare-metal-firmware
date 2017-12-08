@@ -13,6 +13,11 @@
 
 #include "cirbuf.h"
 
+#ifdef KL25Z
+#define START_CRITICAL() (__enable_irq())
+#define END_CRITICAL()   (__disable_irq())
+#endif
+
 CB_status CB_Init(CB_t *buf, uint32_t length)
 {
 	buf->size=length;
@@ -30,20 +35,28 @@ CB_status CB_Init(CB_t *buf, uint32_t length)
 
 CB_status CB_IsEmpty(CB_t *buf)
 {
+	#ifdef KL25Z
 	START_CRITICAL();
+	#endif 
 	if(NULL == buf)
 	{
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NULL_POINTER;
 	}
 	if(buf->tail == buf->head && buf->count==0)
 	{
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return BUFFER_EMPTY;
 	}
 	else
 	{
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NO_ERROR;
 	}
 
@@ -54,25 +67,42 @@ CB_status CB_IsEmpty(CB_t *buf)
 
 
 CB_status CB_IsFull(CB_t *buf)
-{	START_CRITICAL();
+{	
+	#ifdef KL25Z
+	START_CRITICAL();
+	#endif 
 	if(NULL == buf)
-	{	END_CRITICAL();
+	{		
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return NULL_POINTER;
 	}
 	if( buf->count == buf->size)
-	{	END_CRITICAL();
+	{	
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return BUFFER_FULL;
 	}
 	else
-	{	END_CRITICAL();
+	{	
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return NO_ERROR;
 	}
 }
 
 CB_status CB_AddItem(CB_t *buf, uint8_t *data)
-{	START_CRITICAL();
+{	
+	#ifdef KL25Z
+	START_CRITICAL();
+	#endif 
 	if(buf == NULL){
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NULL_POINTER;
 	}
 	if((buf->count)!=buf->size)
@@ -84,18 +114,29 @@ CB_status CB_AddItem(CB_t *buf, uint8_t *data)
 		buf->count++;
 	}
 	else
-	{	END_CRITICAL();
+	{	
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return BUFFER_FULL;
     }
+	
+	#ifdef KL25Z
 	END_CRITICAL();
+	#endif
 	return NO_ERROR;
 }
 
 CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
-{	START_CRITICAL();
+{	
+	#ifdef KL25Z
+	START_CRITICAL();
+	#endif 
 	if(buf == NULL)
 	{
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NULL_POINTER;	
   	}
 	if(buf->count!=0)
@@ -108,21 +149,34 @@ CB_status CB_RemoveItem(CB_t *buf, uint8_t *data_rem)
         		
 	}			
 	else
-	{	END_CRITICAL();
+	{	
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return BUFFER_EMPTY;
 	}
+
+	#ifdef KL25Z
 	END_CRITICAL();
+	#endif
 	return NO_ERROR;
 }
 
 CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t *ptr)
-{START_CRITICAL();
+{
+	#ifdef KL25Z
+	START_CRITICAL();
+	#endif 
 	if(buf==NULL){
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NULL_POINTER;
 	}
 	if(buf->count==0){
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return BUFFER_EMPTY;
 	}
 	else
@@ -140,16 +194,24 @@ CB_status CB_Peek(CB_t *buf, uint32_t position,uint8_t *ptr)
 			printf("no value");
 			#endif
 		}
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NO_ERROR;
 	}
 }
 
 
 CB_status CB_Destroy(CB_t *buf)
-{START_CRITICAL();
+{
+	#ifdef KL25Z
+	START_CRITICAL();
+	#endif 
 	if(NULL == buf)
-	{	END_CRITICAL();
+	{	
+		#ifdef KL25Z
+		END_CRITICAL();
+		#endif
 		return NULL_POINTER;
 	}
 	else
@@ -158,7 +220,9 @@ CB_status CB_Destroy(CB_t *buf)
 		buf->buffer_pointer=NULL;
 		free((void*)buf);
 		buf=NULL;
+		#ifdef KL25Z
 		END_CRITICAL();
+		#endif
 		return NO_ERROR;
 	}
 }

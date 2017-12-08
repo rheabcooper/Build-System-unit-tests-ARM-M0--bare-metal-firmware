@@ -21,4 +21,8 @@
  */
 void project3(void);
 
+void memmove_profile(void);
+
+void memset_profile(void);
+
 #endif /* __PROJECT3_H__ */

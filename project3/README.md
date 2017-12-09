@@ -144,10 +144,10 @@ CONCLUSIONS:
 
 1. NON-DMA VERSION ON FRDM (i.e. the functions implemented by us) are the slowest. Especially memset since we are also checking in the function and returning a status flag.
 
-2. -03 FLAG increases its efficiency a little especially on the BBB
+2. -03 FLAG increases its efficiency a little especially on the BBB.
 
 3. DMA is faster than standard library versions as the size of data increases.
 
 4. NON-DMA functions are faster on the BBB than on the FRDM.
 
-5. Standard library functions are faster on the BBB than on the FRDM.
+5. Standard library functions are faster on the BBB than on the FRDM for larger sizes.

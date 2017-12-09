@@ -37,7 +37,7 @@
  *
  * @return length of the converted data
  */
-uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base);
+uint8_t my_itoa(uint32_t data, uint8_t * ptr, uint32_t base);
 
 /**
  * @brief A function to covert data from an ASCII string into an integer data type

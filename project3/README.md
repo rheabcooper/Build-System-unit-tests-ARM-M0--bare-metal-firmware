@@ -62,9 +62,11 @@ memset Time - 1000 bytes: 23 microseconds
 
 memset Time - 5000 bytes: 108 microseconds
 
+
 FRDM:
 
 10 BYTES:
+
 Time in microseconds for STANDARD MEMMOVE is 7
 
 Time in microseconds for STANDARD MEMSET is 7
@@ -83,6 +85,7 @@ Time in microseconds for NONDMA MEMZERO(-03) is 32
 
 
 100 BYTES:
+
 Time in microseconds for STANDARD MEMMOVE is 46
 
 Time in microseconds for STANDARD MEMSET is 37
@@ -101,6 +104,7 @@ Time in microseconds for NONDMA MEMZERO(-03) is 236
 
 
 1000 BYTES:
+
 Time in microseconds for STANDARD MEMMOVE is 432
 
 Time in microseconds for STANDARD MEMSET is 337
@@ -118,6 +122,7 @@ Time in microseconds for NONDMA MEMMOVE (-O3) is 1535
 Time in microseconds for NONDMA MEMZERO(-03) is 2252
 
 5000 BYTES:
+
 Time in microseconds for STANDARD MEMMOVE is 2150
 
 Time in microseconds for STANDARD MEMSET is 1673
@@ -136,8 +141,13 @@ Time in microseconds for NONDMA MEMZERO(-03) is 1842
 
 
 CONCLUSIONS:
+
 1. NON-DMA VERSION ON FRDM (i.e. the functions implemented by us) are the slowest. Especially memset since we are also checking in the function and returning a status flag.
+
 2. -03 FLAG increases its efficiency a little especially on the BBB
+
 3. DMA is faster than standard library versions as the size of data increases.
+
 4. NON-DMA functions are faster on the BBB than on the FRDM.
+
 5. Standard library functions are faster on the BBB than on the FRDM.

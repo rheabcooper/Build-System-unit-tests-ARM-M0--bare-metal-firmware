@@ -367,98 +367,102 @@ void	LED_set(int	value) {
 }
 void Profiler(void){
 
-#ifdef dma
+void Profiler(void){
+	Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
+#ifdef dmabyte
+	            uint8_t *source1;
+				source1=(uint8_t*)calloc(size,sizeof(uint8_t));
+				uint8_t *source4;
+				source4=(uint8_t*)malloc(size*sizeof(uint8_t));
+			    Timer_start();
+				memmove_DMA_byte((uint8_t*)source1,(uint8_t*)source4,(uint32_t) size); //  23
+	            Timer_stop();
+	            free(source1);
+				val1= TPM0_CNT * CLOCK_INVERSE;
+	#ifdef DPRINT
+				uint8_t dma1[] = "\n\rTime in microseconds for dma MEMMOVE-BYTE is ";
 
-			uint8_t *source;
-			source=calloc(size,sizeof(uint8_t));
-			uint8_t dest[size];
-			Timer_start();
-			memmove_DMA_byte((uint8_t*)source,(uint8_t*)&dest[0],(uint32_t) size); //  23
-      Timer_stop();
-			val1= TPM0_CNT * CLOCK_INVERSE;
-#ifdef DPRINT
-			uint8_t dma1[] = "\n\rTime in microseconds for dma MEMMOVE-BYTE is ";
-			Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
-			create_log(result_log,PROFILING_RESULT,sizeof(dma1),dma1);
-			log_item(result_log);
-			LOG_RAW_INT(val1,3);
-#endif
-			
-      Timer_start();
-			memmove_DMA_halfword((uint16_t*)source,(uint16_t*)&dest[0],(uint32_t) size); // 24,
-			Timer_stop();
-      val2= TPM0_CNT * CLOCK_INVERSE;
-			uint8_t dma2[] = "\n\rTime in microseconds for dma MEMMOVE-HALFWORD is ";
-#ifdef DPRINT
+				create_log(result_log,PROFILING_RESULT,sizeof(dma1),dma1);
+				log_item(result_log);
+				LOG_RAW_INT(val1,3);
+	#endif
 
-			create_log(result_log,PROFILING_RESULT,sizeof(dma2),dma2);
-			log_item(result_log);
-			LOG_RAW_INT(val2,3);
+				Timer_start();
+				memzero_DMA_byte((uint8_t*)source4,(uint32_t)size); //23, 21
+				Timer_stop();
+				free(source4);
+	      val4= TPM0_CNT * CLOCK_INVERSE;
+	#ifdef DPRINT
+				uint8_t dma4[] = "\n\rTime in microseconds for dma MEMSET-BYTE is ";
+				create_log(result_log,PROFILING_RESULT,sizeof(dma4),dma4);
+				log_item(result_log);
+				LOG_RAW_INT(val4,3);
+	#endif
+
 #endif
-			Timer_start();
-			memmove_DMA_word((uint32_t*)source,(uint32_t*)&dest[0],(uint32_t) size);// 22, 29
-			Timer_stop();
-      val3= TPM0_CNT * CLOCK_INVERSE;
-			uint8_t dma3[] = "\nTime in microseconds for dma MEMMOVE-WORD is ";
-#ifdef DPRINT
-			create_log(result_log,PROFILING_RESULT,sizeof(dma3),dma3);
-			log_item(result_log);
-			LOG_RAW_INT(val3,3);
+
+
+
+
+#ifdef dmaword
+				uint8_t *source3;
+				source3=(uint8_t*)calloc(size,sizeof(uint8_t));
+				uint8_t *source6;
+				source6=(uint8_t*)malloc(size*sizeof(uint8_t));
+				//uint8_t dest3[size];
+				Timer_start();
+				memmove_DMA_word((uint32_t*)source3,(uint32_t*)source6,(uint32_t) size);// 22, 29
+				Timer_stop();
+				free(source3);
+	            val3= TPM0_CNT * CLOCK_INVERSE;
+				uint8_t dma3[] = "\nTime in microseconds for dma MEMMOVE-WORD is ";
+	#ifdef DPRINT
+				create_log(result_log,PROFILING_RESULT,sizeof(dma3),dma3);
+				log_item(result_log);
+				LOG_RAW_INT(val3,3);
+	#endif
+
+				Timer_start();
+				memzero_DMA_word((uint32_t*)source6,(uint32_t)size); //30,27
+				Timer_stop();
+				free(source6);
+				val6= TPM0_CNT * CLOCK_INVERSE;
+	#ifdef DPRINT
+				uint8_t dma6[] = "\n\rTime in microseconds for dma MEMSET-WORD is ";
+				create_log(result_log,PROFILING_RESULT,sizeof(dma6),dma6);
+				log_item(result_log);
+				destroy_log(result_log);
+				LOG_RAW_INT(val6,3);
+	#endif
 #endif
-			Timer_start();
-			memzero_DMA_byte((uint8_t*)source,(uint32_t)size); //23, 21
-			Timer_stop();
-      val4= TPM0_CNT * CLOCK_INVERSE;
-#ifdef DPRINT
-			uint8_t dma4[] = "\n\rTime in microseconds for dma MEMSET-BYTE is ";
-			create_log(result_log,PROFILING_RESULT,sizeof(dma4),dma4);
-			log_item(result_log);
-			LOG_RAW_INT(val4,3);
-#endif
-			Timer_start();
-			memzero_DMA_halfword((uint16_t*)source,(uint32_t)size); //,22
-			Timer_stop();
-      val5= TPM0_CNT * CLOCK_INVERSE;
-#ifdef DPRINT
-			uint8_t dma5[] = "\n\rTime in microseconds for dma MEMSET-HALFWORD is ";
-			create_log(result_log,PROFILING_RESULT,sizeof(dma5),dma5);
-			log_item(result_log);
-			LOG_RAW_INT(val5,3);
-#endif
-			Timer_start();
-			memzero_DMA_word((uint32_t*)source,(uint32_t)size); //30,27
-			Timer_stop();
-      val6= TPM0_CNT * CLOCK_INVERSE;
-#ifdef DPRINT
-			uint8_t dma6[] = "\n\rTime in microseconds for dma MEMSET-WORD is ";
-			create_log(result_log,PROFILING_RESULT,sizeof(dma6),dma6);
-			log_item(result_log);
-			destroy_log(result_log);
-			LOG_RAW_INT(val6,3);
-#endif
-#endif
+
+
+
 
 #ifdef NONDMA
 
 			uint8_t *source;
-			source=calloc(size,sizeof(uint8_t));
-		uint8_t dest[size];
-			//uint8_t source[size];
+			source=(uint8_t*)calloc(size,sizeof(uint8_t));
+			uint8_t *dest;
+			dest=(uint8_t*)malloc(size*sizeof(uint8_t));
 			Timer_start();
-			my_memmove((uint8_t*)&source[0],(uint8_t*)&dest[0],(uint32_t) size);
+			my_memmove((uint8_t*)source,(uint8_t*)dest,(uint32_t) size);
 			Timer_stop();
+			free(source);
 			val1= TPM0_CNT * CLOCK_INVERSE;
 #ifdef DPRINT
 			uint8_t nondma1[] = "\n\rTime in microseconds for nondma MEMMOVE is ";
-			Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
+
 			create_log(result_log,PROFILING_RESULT,sizeof(nondma1),nondma1);
 			log_item(result_log);
 			//destroy_log(result_log);
 			LOG_RAW_INT(val1,3);
 #endif
 			Timer_start();
-			my_memset((uint8_t*)source,5,(uint32_t)size);
+			uint8_t val=5;
+			my_memset((uint8_t*)dest,(size_t)size,val);
 			Timer_stop();
+			free(dest);
 			val2= TPM0_CNT * CLOCK_INVERSE;
 #ifdef DPRINT
 			uint8_t nondma2[] = "\n\rTime in microseconds for nondma MEMZERO is ";
@@ -479,30 +483,32 @@ void Profiler(void){
 #ifdef STANDARD
 
 
-			uint8_t *source;
-			source=calloc(size,sizeof(uint8_t));
-		//int8_t *dest;
-//	dest=malloc(size*sizeof(uint8_t));
-			uint8_t dest[5000];
+			uint8_t *src;
+			src=(uint8_t*)calloc(size,sizeof(uint8_t));
+			uint8_t *dst;
+			dst=(uint8_t*)malloc(size*sizeof(uint8_t));
 			Timer_start();
-			memmove((uint8_t*)source,(uint8_t*)&dest[0],(size_t) size);
+			memmove((uint8_t*)src,(uint8_t*)dst,(size_t) size);
+			Timer_stop();
 			val1= TPM0_CNT * CLOCK_INVERSE;
+			free(src);
 			uint8_t std1[] = "\n\rTime in microseconds for STANDARD MEMMOVE is ";
 #ifdef DPRINT
-			Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
+
 			create_log(result_log,PROFILING_RESULT,sizeof(std1),std1);
 			log_item(result_log);
 			LOG_RAW_INT(val1,3);
 #endif
 
-			int memval=0;
+			int memval=5;
 			Timer_start();
-			memset((uint8_t*)source,memval,(size_t)size);
+			memset((uint8_t*)dst,memval,(size_t)size);
 			Timer_stop();
 			val4= TPM0_CNT * CLOCK_INVERSE;
+			free(dst);
 			uint8_t std2[] = "\n\rTime in microseconds for STANDARD MEMSET is ";
 #ifdef DPRINT
-			//Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
+
 			create_log(result_log,PROFILING_RESULT,sizeof(std2),std2);
 			log_item(result_log);
 			destroy_log(result_log);
@@ -511,8 +517,6 @@ void Profiler(void){
 
 
 #endif
-
-
 
 
 

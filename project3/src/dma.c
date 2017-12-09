@@ -128,7 +128,7 @@ void memmove_DMA_halfword(uint16_t *src, uint16_t *dst, size_t length){
 					DMAMUX0_CHCFG0|=DMA_SOURCE;
 					DMAMUX0_CHCFG0|=DMA_CHANNEL_ENABLE;
 					DMA_DCR0|=DMA_START_ENABLE;
-
+					NVIC_EnableIRQ(DMA0_IRQn);
 
 				}
 				else
@@ -144,7 +144,7 @@ void memmove_DMA_halfword(uint16_t *src, uint16_t *dst, size_t length){
 					DMAMUX0_CHCFG0|=DMA_SOURCE;
 					DMAMUX0_CHCFG0|=DMA_CHANNEL_ENABLE;
 					DMA_DCR0|=DMA_START_ENABLE;
-
+					NVIC_EnableIRQ(DMA0_IRQn);
 
 				}
 
@@ -154,7 +154,7 @@ void memmove_DMA_halfword(uint16_t *src, uint16_t *dst, size_t length){
 				uint8_t * dst1= (uint8_t *)dst + length;
 				my_memmove(src1,dst1,(uint32_t)remainder);
 			}
-		NVIC_EnableIRQ(DMA0_IRQn);
+
 }
 
 void memmove_DMA_word(uint32_t *src,uint32_t *dst, size_t length){
@@ -188,7 +188,7 @@ void memmove_DMA_word(uint32_t *src,uint32_t *dst, size_t length){
 							DMAMUX0_CHCFG0|=DMA_SOURCE;
 							DMAMUX0_CHCFG0|=DMA_CHANNEL_ENABLE;
 							DMA_DCR0|=DMA_START_ENABLE;
-
+							NVIC_EnableIRQ(DMA0_IRQn);
 
 						}
 						else
@@ -204,7 +204,7 @@ void memmove_DMA_word(uint32_t *src,uint32_t *dst, size_t length){
 							DMAMUX0_CHCFG0|=DMA_SOURCE;
 							DMAMUX0_CHCFG0|=DMA_CHANNEL_ENABLE;
 							DMA_DCR0|=DMA_START_ENABLE;
-
+							NVIC_EnableIRQ(DMA0_IRQn);
 
 						}
 		/*remaining bytes transferred by my_memmoove*/
@@ -213,34 +213,13 @@ void memmove_DMA_word(uint32_t *src,uint32_t *dst, size_t length){
 			uint8_t * dst1= (uint8_t *)dst + length;
 			my_memmove(src1,dst1,(uint32_t)remainder);
 		}
-		NVIC_EnableIRQ(DMA0_IRQn);
+
 }
 
 void memzero_DMA_byte(uint8_t *src,uint32_t length){
-	   /* DMA_DAR0=(uint32_t)src;
 
-		uint8_t value=0;
-
-
-		DMA_SAR0=(uint32_t)&value;
-
-
-		DMA_DCR0=DMA_DCR0_8BIT;
-
-
-		DMA_DSR_BCR0=length;
-
-		DMAMUX0_CHCFG0|=DMA_CHANNEL0;
-
-		DMAMUX0_CHCFG0|=DMA_ENABLE_TRANSFER;
-
-
-		DMA_DCR0|=DMA_START_BIT_ENABLE;
-
-		NVIC_EnableIRQ(DMA0_IRQn);
-*/
         DMA_DAR0=(uint32_t)src;
-		uint8_t value=0;
+		uint8_t value=5;
 	    /*assign the value of source address to address of 0*/
 		DMA_SAR0=(uint32_t)&value;
 		DMA_DCR0|=DMA_INTERRUPT_ENABLE;
@@ -259,15 +238,12 @@ void memzero_DMA_halfword(uint16_t *src,uint32_t length){
 		remainder=length % 2;
 		length=length-remainder;
 
-		uint16_t value=0;
-
-
-					    /*assign the value of source address to address of 0*/
-						DMA_SAR0=(uint32_t)&value;
-						DMA_DAR0=(uint32_t)src;
+		        uint16_t value=5;
+		        DMA_DAR0=(uint32_t)src;
+				DMA_SAR0=(uint32_t)&value;
 				DMA_DCR0|=DMA_INTERRUPT_ENABLE;
-				DMA_DCR0|=DMA_SSIZE_HALFWORD;
-				DMA_DCR0|=DMA_DSIZE_HALFWORD;
+				DMA_DCR0|=DMA_SSIZE_BYTE;
+				DMA_DCR0|=DMA_DSIZE_BYTE;
 				DMA_DCR0|=DMA_DINC;
 				DMA_DSR_BCR0=length;
 				DMAMUX0_CHCFG0|=DMA_SOURCE;
@@ -288,7 +264,7 @@ void memzero_DMA_word(uint32_t *src,uint32_t length){
 	uint8_t remainder=0;
 		remainder=length % 4;
 		length=length-remainder;
-		uint32_t value=0;
+		uint32_t value=5;
 
 
 			    /*assign the value of source address to address of 0*/

@@ -263,7 +263,7 @@ void memset_profile(void)
 #define NONDMA
 //#define NRF
 #define DPRINT
-uint8_t log=1;     //logging on by default
+uint8_t LOG=1;     //logging on by default
 uint8_t data;
 uint8_t c;
 uint32_t sec=0;
@@ -544,7 +544,7 @@ void project3(){
 
 
 #ifdef DPRINT
-  if(log!=0){
+  if(LOG!=0){
 		create_log(main_log,LOGGER_INITIALIZED,0,NULL); //
 		log_item(main_log);
 		create_log(main_log,GPIO_INITIALIZED,0,NULL); //
@@ -561,7 +561,7 @@ void project3(){
 #ifdef PROFILER
 		//if(log==1){
 #ifdef DPRINT
-	if(log!=0){
+	if(LOG!=0){
     uint8_t payload_string1[] = "Profiling Started";
 		uint8_t *data_pr=payload_string1;
 		Log_t * profiler_log = (Log_t *) malloc(sizeof(Log_t));
@@ -573,7 +573,7 @@ void project3(){
 	
 	Profiler();
 #ifdef DPRINT
-  if(log!=0){
+  if(LOG!=0){
 	uint8_t payload_string2[] = "Profiling Completed";
 	uint8_t *data_pr2=payload_string2;
 	create_log(profiler_log,PROFILING_COMPLETED,sizeof(payload_string2),payload_string2); //
@@ -588,7 +588,7 @@ void project3(){
 	uint8_t c,x;
 	SPI_init();
   #ifdef DPRINT
-  if(log!=0){
+  if(LOG!=0){
     uint8_t payload_string_nrf[] = "NRF DEMO";
 		Log_t * nrf_log = (Log_t *) malloc(sizeof(Log_t));
 		create_log(nrf_log,INFO,sizeof(payload_string_nrf),payload_string_nrf);
@@ -680,7 +680,7 @@ void RTC_Seconds_IRQHandler(void) {
 #ifdef DPRINT
 
 	create_log(rtc_log,HEARTBEAT,0,NULL); //
-	if(log!=0)
+	if(LOG!=0)
 	log_item(rtc_log);
 #endif
 	__enable_irq();
@@ -710,10 +710,10 @@ void UART0_IRQHandler(void)
 		        	UART0->D=c;   //TO DISPLAY ON TERMINAL
 		        	analyse=1;
 
-	if(log!=0 && c=='1')           //if logging on
-		log=0; //turn off
+	if(LOG!=0 && c=='1')           //if logging on
+		LOG=0; //turn off
 		else if(log==0 && c=='1')
-		log=1;
+		LOG=1;
 		        	UART0_C2|=UART_C2_TIE_MASK;/////////////////////////////////////////////////////////////////
 	}
 

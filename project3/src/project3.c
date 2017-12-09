@@ -1,25 +1,5 @@
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include "conversion.h"
-#include "memory.h"
-#include <time.h>
-#include <sys/time.h>
-#include "project2.h"
-#include "project3.h"
-#include "cirbuf.h"
-#include "profiling.h"
-
 #ifdef KL25Z
-
-#include "dma.h"
-#include "logger_queue.h"
-#include "logger.h"
-#include "nordic.h"
-#include "spi.h"
-#include "gpio.h"
-#include "rtc.h"
 
 #define TEN
 #define PROFILER
@@ -406,11 +386,21 @@ void project3(){
 #endif
 #endif
 
+#ifdef HOST
 	memmove_stdlib_profile();
 	memset_stdlib_profile();
 
 	memmove_profile();
 	memset_profile();
+#endif
+
+#ifdef BBB
+	memmove_stdlib_profile();
+	memset_stdlib_profile();
+
+	memmove_profile();
+	memset_profile();
+#endif
 
 }
 

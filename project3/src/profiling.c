@@ -2,16 +2,10 @@
  * profiling.c
  *
  *  Created on: Dec 1, 2017
- *      Author: rhco4796
+ *  @author: Rhea Cooper and Brian Kelly
  */
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include "conversion.h"
-#include "memory.h"
-#include <time.h>
-#include <sys/time.h>
+
 #include "profiling.h"
 
 #define MEMMOVE_BYTES_SIZE_A (20)
@@ -31,7 +25,6 @@ uint32_t time_delta;
 
 
 #ifdef KL25Z
-#include "dma.h"
 
 #define RESET_VALUE (0x00)
 #define PRESCALAR (0x04)
@@ -97,7 +90,7 @@ void memmove_stdlib_profile(void)
 	} 
  
 	gettimeofday(&start, NULL);
-	memmove(a, b, MEMMOVE_BYTES_SIZE_A);
+	memmove(b, a, MEMMOVE_BYTES_SIZE_A);
 	gettimeofday(&finish, NULL);
 	
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -117,7 +110,7 @@ void memmove_stdlib_profile(void)
 	} 
  
 	gettimeofday(&start, NULL);
-	memmove(a, b, MEMMOVE_BYTES_SIZE_B);
+	memmove(b, a, MEMMOVE_BYTES_SIZE_B);
 	gettimeofday(&finish, NULL);
 	
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -137,7 +130,7 @@ void memmove_stdlib_profile(void)
 	} 
  
 	gettimeofday(&start, NULL);
-	memmove(a, b, MEMMOVE_BYTES_SIZE_C);
+	memmove(b, a, MEMMOVE_BYTES_SIZE_C);
 	gettimeofday(&finish, NULL);
 
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -157,7 +150,7 @@ void memmove_stdlib_profile(void)
 	} 
  
 	gettimeofday(&start, NULL);
-	memmove(a, b, MEMMOVE_BYTES_SIZE_D);
+	memmove(b, a, MEMMOVE_BYTES_SIZE_D);
 	gettimeofday(&finish, NULL);
 
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -373,12 +366,10 @@ void memmove_profile(void)
 void memset_profile(void)
 {
 	uint8_t * a;
-//	uint8_t * b;
 	uint8_t * space;
 
 	space = (uint8_t*) reserve_words( MEMSET_BYTES_SIZE_A );
 	a = &space[0];
-//	b = &space[10];
 
 	for(uint32_t i = 0; i < MEMSET_BYTES_SIZE_A; i++)
 	{
@@ -387,7 +378,6 @@ void memset_profile(void)
  
 	gettimeofday(&start, NULL);
 	my_memset(a, MEMSET_BYTES_SIZE_A, 0xAF);
-//	my_memzero(b, 10);
 	gettimeofday(&finish, NULL);
 
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -399,7 +389,6 @@ void memset_profile(void)
 
 	space = (uint8_t*) reserve_words( MEMSET_BYTES_SIZE_B );
 	a = &space[0];
-//	b = &space[100];
 
 	for(uint32_t i = 0; i < MEMMOVE_BYTES_SIZE_B; i++)
 	{
@@ -408,7 +397,6 @@ void memset_profile(void)
  
 	gettimeofday(&start, NULL);
 	my_memset(a, MEMSET_BYTES_SIZE_B, 0xAF);
-//	my_memzero(b, 100);
 	gettimeofday(&finish, NULL);
 
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -420,7 +408,6 @@ void memset_profile(void)
 
 	space = (uint8_t*) reserve_words( MEMSET_BYTES_SIZE_C );
 	a = &space[0];
-//	b = &space[1000];
 
 	for(uint32_t i = 0; i < MEMSET_BYTES_SIZE_C; i++)
 	{
@@ -429,7 +416,6 @@ void memset_profile(void)
  
 	gettimeofday(&start, NULL);
 	my_memset(a, MEMSET_BYTES_SIZE_C, 0xAF);
-//	my_memzero(b, 1000);
 	gettimeofday(&finish, NULL);
 	
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
@@ -441,7 +427,6 @@ void memset_profile(void)
 
 	space = (uint8_t*) reserve_words( MEMSET_BYTES_SIZE_D );
 	a = &space[0];
-//	b = &space[5000];
 
 	for(uint32_t i = 0; i < MEMSET_BYTES_SIZE_D; i++)
 	{
@@ -450,7 +435,6 @@ void memset_profile(void)
  
 	gettimeofday(&start, NULL);
 	my_memset(a, MEMSET_BYTES_SIZE_D, 0xAF);
-//	my_memzero(b, 5000);
 	gettimeofday(&finish, NULL);
 
 	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;

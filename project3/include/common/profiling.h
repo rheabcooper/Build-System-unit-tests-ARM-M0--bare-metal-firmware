@@ -10,8 +10,16 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdio.h>
+#include "conversion.h"
+#include "memory.h"
+#include <time.h>
+#include <sys/time.h>
 
 #ifdef KL25Z
+#include "dma.h"
+
 void Timer_init();
 
 void Timer_start();

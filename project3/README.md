@@ -6,10 +6,10 @@ Profiling Results
  
 Standard Library Version for BBB
 
-memmove Time - 10 bytes: 58 microseconds
-memmove Time - 100 bytes: 5 microseconds
-memmove Time - 1000 bytes: 14 microseconds
-memmove Time - 5000 bytes: 69 microseconds
+memmove Time - 10 bytes: 42 microseconds
+memmove Time - 100 bytes: 4 microseconds
+memmove Time - 1000 bytes: 12 microseconds
+memmove Time - 5000 bytes: 73 microseconds
 
 memset Time - 10 bytes: 19 microseconds
 memset Time - 100 bytes: 4 microseconds

@@ -18,7 +18,7 @@
 uint8_t my_itoa(uint32_t data, uint8_t * ptr, uint32_t base)
 {
 	uint32_t length = 0;  /* first element in the array */
-	int8_t sign;         /* sign representation */
+	int8_t sign = 1;         /* sign representation */
 	uint8_t rem; 	     /* remainder variable for the base */
 	char hex;		     /* hexadecimal value for base 16 */
 
@@ -137,7 +137,7 @@ int8_t big_to_little32(uint32_t * data, uint32_t length)
 		/* shifting the bytes for conversion */
 		*(data + element)=(BYTE4 & *(data + element))<<24|
                          ((BYTE3 & *(data + element))>>8)<<16|
-                         ((BYTE2 & *(data + element))>>16)<<8|
+                        ((BYTE2 & *(data + element))>>16)<<8|
                          ((BYTE1 & *(data + element))>>24);
 	}
 	for (uint32_t element = 0; element < length; element++)
@@ -172,7 +172,7 @@ int8_t little_to_big32(uint32_t * data, uint32_t length)
 	{	
 	for(element = 0; element < length; element++)
 	{
-		/* extracting the bytes before conversion */
+	/* extracting the bytes before conversion */
 		b0 = BYTE4 & *(data + element);
 		b1 = (BYTE3 & *(data + element)) >> 8;
 		b2 = (BYTE2 & *(data + element)) >> 16;
@@ -206,5 +206,4 @@ int8_t little_to_big32(uint32_t * data, uint32_t length)
 	}
 	else 
 		return 1;
-
 } 

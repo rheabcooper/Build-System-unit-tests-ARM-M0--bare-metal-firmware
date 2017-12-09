@@ -6,39 +6,37 @@ Profiling Results
  
 Standard Library Version for BBB
 
-memmove Time - 10 bytes: 9 microseconds
-memmove Time - 100 bytes: 19 microseconds
-memmove Time - 1000 bytes: 151 microseconds
-memmove Time - 5000 bytes: 1129 microseconds
+memmove Time - 10 bytes: 58 microseconds
+memmove Time - 100 bytes: 5 microseconds
+memmove Time - 1000 bytes: 14 microseconds
+memmove Time - 5000 bytes: 69 microseconds
 
-memset Time - 10 bytes: 9 microseconds
-memset Time - 100 bytes: 32 microseconds
-memset Time - 1000 bytes: 290 microseconds
-memset Time - 5000 bytes: 1577 microseconds
+memset Time - 10 bytes: 19 microseconds
+memset Time - 100 bytes: 4 microseconds
+memset Time - 1000 bytes: 4 microseconds
+memset Time - 5000 bytes: 9 microseconds
 
 Non-DMA Version for BBB
 
-memmove Time - 10 bytes: 9 microseconds
-memmove Time - 100 bytes: 18 microseconds
-memmove Time - 1000 bytes: 152 microseconds
-memmove Time - 5000 bytes: 755 microseconds
+memmove Time - 10 bytes: 6 microseconds
+memmove Time - 100 bytes: 17 microseconds
+memmove Time - 1000 bytes: 147 microseconds
+memmove Time - 5000 bytes: 884 microseconds
 
-memset Time - 10 bytes: 9 microseconds
-memset Time - 100 bytes: 31 microseconds
-memset Time - 1000 bytes: 292 microseconds
-memset Time - 5000 bytes: 1695 microseconds
+memset Time - 10 bytes: 5 microseconds
+memset Time - 100 bytes: 13 microseconds
+memset Time - 1000 bytes: 100 microseconds
+memset Time - 5000 bytes: 487 microseconds
 
 Non-DMA Version using -O3 for BBB
 
-memmove Time - 10 bytes: 7 microseconds
-memmove Time - 100 bytes: 6 microseconds
-memmove Time - 1000 bytes: 37 microseconds
-memmove Time - 5000 bytes: 185 microseconds
+memmove Time - 10 bytes: 4 microseconds
+memmove Time - 100 bytes: 5 microseconds
+memmove Time - 1000 bytes: 32 microseconds
+memmove Time - 5000 bytes: 182 microseconds
 
-memset Time - 10 bytes: 18 microseconds
-memset Time - 100 bytes: 9 microseconds
-memset Time - 1000 bytes: 69 microseconds
-memset Time - 5000 bytes: 322 microseconds
-
-
+memset Time - 10 bytes: 4 microseconds
+memset Time - 100 bytes: 5 microseconds
+memset Time - 1000 bytes: 23 microseconds
+memset Time - 5000 bytes: 108 microseconds
 

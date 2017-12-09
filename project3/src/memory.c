@@ -18,7 +18,7 @@ int8_t my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
     if(src == NULL || dst == NULL)
     {
-        	return NULL_POINTER;
+        	return NULL_PTR;
     }
 	size_t element;
 	if(src < dst)
@@ -63,7 +63,7 @@ int8_t  my_memset(uint8_t * src, size_t length, uint8_t value)
 	uint8_t flag=ZERO;
 	if(src == NULL)
         {
-               return NULL_POINTER;
+               return NULL_PTR;
         }
 	for(element = 0; element < length; element++)
 	{
@@ -86,7 +86,7 @@ int8_t  my_memzero(uint8_t * src, size_t length)
 	uint8_t flag=ZERO;
 	if(src == NULL)
         {
-        	return NULL_POINTER;
+        	return NULL_PTR;
         }
 	for(element = 0; element < length; element++)
 	{
@@ -107,7 +107,7 @@ int8_t  my_reverse(uint8_t * src, size_t length)
 {
 	if(src == NULL)
         {
-        return NULL_POINTER;
+        return NULL_PTR;
         }
 	uint32_t element;
 	uint8_t temp;

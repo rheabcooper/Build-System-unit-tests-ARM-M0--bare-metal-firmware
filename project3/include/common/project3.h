@@ -19,14 +19,16 @@
  *
  * @return void
  */
-
-void	LED_init(void);
-void	LED_set(int	value);
-void Profiler(void);
 void project3(void);
 
-void memmove_profile(void);
+#ifdef KL25Z
+void LED_init(void);
 
-void memset_profile(void);
+void LED_set(int value);
+
+void Profiler(void);
+#endif
+
+
 
 #endif /* __PROJECT3_H__ */

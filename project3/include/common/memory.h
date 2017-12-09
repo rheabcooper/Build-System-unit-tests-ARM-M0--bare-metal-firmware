@@ -18,7 +18,7 @@
 
 typedef enum {
 	SUCCESS,
-	NULL_POINTER,
+	NULL_PTR,
 	FAILED
 }memory_status;
 

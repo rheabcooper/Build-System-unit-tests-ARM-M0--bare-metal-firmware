@@ -52,6 +52,11 @@ PROJ3_SRC		= $(SRC_DIR)/project3.c
 GPIO_SRC		= $(SRC_DIR)/gpio.c
 SPI_SRC			= $(SRC_DIR)/spi.c
 NORDIC_SRC		= $(SRC_DIR)/nordic.c
+DMA_SRC			= $(SRC_DIR)/dma.c
+LOGGER_SRC		= $(SRC_DIR)/logger.c
+LOG_QUEUE_SRC	= $(SRC_DIR)/logger_queue.c
+PROFILE_SRC		= $(SRC_DIR)/profiling.c
+RTC_SRC			= $(SRC_DIR)/rtc.c
 
 # Include Directory
 INC_CMN_DIR 	= $(INC_DIR)/common
@@ -64,7 +69,10 @@ PROJ1_INC		= $(INC_CMN_DIR)/project1.h
 REVERSE_INC		= $(INC_CMN_DIR)/reverse.h
 CIRBUF_INC		= $(INC_CMN_DIR)/cirbuf.h
 PROJ2_INC		= $(INC_CMN_DIR)/project2.h
-PROJ3_INC		= $(INC_CMN_DIR)/project3.h	
+PROJ3_INC		= $(INC_CMN_DIR)/project3.h
+LOGGER_INC		= $(INC_CMN_DIR)/logger.h
+LOG_QUEUE_INC	= $(INC_CMN_DIR)/logger_queue.h
+PROFILE_INC		= $(INC_CMN_DIR)/profiling.h	
 
 INC_CMSIS_DIR	= $(INC_DIR)/CMSIS
 CM0PLUS_INC		= $(INC_CMSIS_DIR)/core_cm0plus.h
@@ -80,6 +88,8 @@ UART_INC		= $(INC_KL25Z_DIR)/uart.h
 GPIO_INC		= $(INC_KL25Z_DIR)/gpio.h
 SPI_INC			= $(INC_KL25Z_DIR)/spi.h
 NORDIC_INC		= $(INC_KL25Z_DIR)/nordic.h
+DMA_INC			= $(INC_KL25Z_DIR)/dma.h
+RTC_INC			= $(INC_KL25Z_DIR)/rtc.h
 
 # Platform Directory
 KL25Z_LD		= $(PLATFORM_DIR)/MKL25Z128xxx4_flash.ld

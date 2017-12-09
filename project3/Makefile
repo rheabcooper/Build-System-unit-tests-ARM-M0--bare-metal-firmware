@@ -19,7 +19,11 @@ SOURCES += $(KL25Z_SYS_SRC) \
 		   $(UART_SRC) \
 		   $(GPIO_SRC) \
 		   $(SPI_SRC) \
-		   $(NORDIC_SRC) 
+		   $(NORDIC_SRC) \
+		   $(RTC_SRC) \
+		   $(LOGGER_SRC) \
+		   $(LOG_QUEUE_SRC) \
+		   $(DMA_SRC)
 ASM_SRC = $(KL25Z_SUP_SRC)
 endif
 
@@ -47,6 +51,7 @@ LIB_SRC := $(CONV_SRC) \
 			$(MEMORY_SRC) \
 			$(REVERSE_SRC) \
 			$(CIRBUF_SRC) \
+		    $(PROFILE_SRC) \
 			$(PROJ1_SRC) \
 			$(PROJ2_SRC) \
 			$(PROJ3_SRC)	

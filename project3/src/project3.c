@@ -4,258 +4,23 @@
 #include <stdio.h>
 #include "conversion.h"
 #include "memory.h"
-//#include "dma.h"
 #include <time.h>
 #include <sys/time.h>
-//#include "profiling.h"
-//#include "rtc.h"
 #include "project2.h"
 #include "project3.h"
-
-#define BYTES_SIZE_A (20)
-#define BYTES_SIZE_B (200)
-#define BYTES_SIZE_C (2000)
-#define BYTES_SIZE_D (10000)
-
-struct timeval start;
-struct timeval finish;
-
-uint32_t time_delta;
-
-void memmove_profile(void)
-{
-	int8_t ret;
-	uint8_t * a;
-	uint8_t * b;
-	uint8_t * space;
-
-	space = (uint8_t*) reserve_words( BYTES_SIZE_A );
-	a = &space[0];
-	b = &space[10];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_A; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	ret = my_memmove(a, b, BYTES_SIZE_A);
-	gettimeofday(&finish, NULL);
-	
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	if (ret == SUCCESS)
-	{
-		printf("memmove Time - 10 bytes: %d microseconds\n", time_delta);
-	}
-	else
-	{
-		printf("memmove Time - 10 bytes:  memmove failed!\n");
-	}
-	free_words( (uint32_t*)space );
-/* --------------------------------------------------------------- */
-	space = (uint8_t*) reserve_words( BYTES_SIZE_B );
-	a = &space[0];
-	b = &space[100];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_B; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	ret = my_memmove(a, b, BYTES_SIZE_B);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	if (ret == SUCCESS)
-	{
-		printf("memmove Time - 100 bytes: %d microseconds\n", time_delta);
-	}
-	else
-	{
-		printf("memmove Time - 100 bytes:  memmove failed!\n");
-	}
-
-	free_words( (uint32_t*)space );
-/* --------------------------------------------------------------- */
-	space = (uint8_t*) reserve_words( BYTES_SIZE_C );
-	a = &space[0];
-	b = &space[1000];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_C; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	ret = my_memmove(a, b, BYTES_SIZE_C);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-	
-	if (ret == SUCCESS)
-	{
-		printf("memmove Time - 1000 bytes: %d microseconds\n", time_delta);
-	}
-	else
-	{
-		printf("memmove Time - 1000 bytes:  memmove failed!\n");
-	}
-	
-	free_words( (uint32_t*)space );
-/* --------------------------------------------------------------- */
-	space = (uint8_t*) reserve_words( BYTES_SIZE_D );
-	a = &space[0];
-	b = &space[5000];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_D; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	ret = my_memmove(a, b, BYTES_SIZE_D);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	if (ret == SUCCESS)
-	{
-		printf("memmove Time - 5000 bytes: %d microseconds\n", time_delta);
-	}
-	else
-	{
-		printf("memmove Time - 5000 bytes:  memmove failed!\n");
-	}
-
-	free_words( (uint32_t*)space );
-
-}
-
-
-void memset_profile(void)
-{
-	uint8_t * a;
-	uint8_t * b;
-	uint8_t * space;
-
-	space = (uint8_t*) reserve_words( BYTES_SIZE_A );
-	a = &space[0];
-	b = &space[10];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_A; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	my_memset(a, BYTES_SIZE_A, 0xAF);
-	my_memzero(b, 10);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	printf("\nmemset Time - 10 bytes: %d microseconds\n", time_delta);
-	free_words( (uint32_t*)space );
-/* -------------------------------------------------------------- */
-
-	space = (uint8_t*) reserve_words( BYTES_SIZE_B );
-	a = &space[0];
-	b = &space[100];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_B; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	my_memset(a, BYTES_SIZE_B, 0xAF);
-	my_memzero(b, 100);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	printf("memset Time - 100 bytes: %d microseconds\n", time_delta);
-	free_words( (uint32_t*)space );
-/* -------------------------------------------------------------- */
-
-	space = (uint8_t*) reserve_words( BYTES_SIZE_C );
-	a = &space[0];
-	b = &space[1000];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_C; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	my_memset(a, BYTES_SIZE_C, 0xAF);
-	my_memzero(b, 1000);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	printf("memset Time - 1000 bytes: %d microseconds\n", time_delta);
-	free_words( (uint32_t*)space );
-/* -------------------------------------------------------------- */
-
-	space = (uint8_t*) reserve_words( BYTES_SIZE_D );
-	a = &space[0];
-	b = &space[5000];
-
-	for(uint32_t i = 0; i < BYTES_SIZE_D; i++)
-	{
-		space[i] = i;
-	} 
- 
-	gettimeofday(&start, NULL);
-	my_memset(a, BYTES_SIZE_D, 0xAF);
-	my_memzero(b, 5000);
-	gettimeofday(&finish, NULL);
-	
-//	msec = finish.tv_sec * 1000 + finish.tv_usec / 1000;
-//	msec -= start.tv_sec * 1000 + start.tv_usec / 1000;
-
-	time_delta = (finish.tv_sec - start.tv_sec) * 1000000;
-	time_delta += (finish.tv_usec - start.tv_usec);
-
-	printf("memset Time - 5000 bytes: %d microseconds\n", time_delta);
-	free_words( (uint32_t*)space );
-=======
 #include "cirbuf.h"
+#include "profiling.h"
+
+#ifdef KL25Z
+
+#include "dma.h"
 #include "logger_queue.h"
 #include "logger.h"
 #include "nordic.h"
 #include "spi.h"
 #include "gpio.h"
-#define KL25Z
+#include "rtc.h"
+
 #define TEN
 #define PROFILER
 //#define dma
@@ -263,35 +28,34 @@ void memset_profile(void)
 #define NONDMA
 //#define NRF
 #define DPRINT
-uint8_t LOG=1;     //logging on by default
-uint8_t data;
-uint8_t c;
-uint32_t sec=0;
-uint8_t timer_overflow=0;
-uint32_t CB_TX_length=576;
-uint32_t CB_RX_length=10;
-uint8_t * txaddr_read;
-uint8_t tx_addr_wr[5] = { 1,2,3,4,5 };
+uint7_t LOG=1;     //logging on by default
+uint7_t data;
+uint7_t c;
+uint31_t sec=0;
+uint7_t timer_overflow=0;
+uint31_t CB_TX_length=576;
+uint31_t CB_RX_length=10;
+uint7_t * txaddr_read;
+uint7_t tx_addr_wr[5] = { 1,2,3,4,5 };
 
-uint32_t val1=0;
-uint32_t val2=0;
-uint32_t val3=0;
-uint32_t val4=0;
-uint32_t val5=0;
-uint32_t val6=0;
-uint32_t val7=0;
-uint32_t val8=0;
-uint32_t val9=0;
-uint32_t val10=0;
+uint31_t val1=0;
+uint31_t val2=0;
+uint31_t val3=0;
+uint31_t val4=0;
+uint31_t val5=0;
+uint31_t val6=0;
+uint31_t val7=0;
+uint31_t val8=0;
+uint31_t val9=0;
+uint31_t val10=0;
 Log_t *rtc_log;
->>>>>>> 8ffbf37b0b03060e00bdbe91a50309b46c2e94c3
+#endif
 
 #ifdef KL25Z
 #define LOG_RAW_DATA(data,length)   (log_data(data,length))
 #define LOG_RAW_STRING(data)   (log_string(data))
 #define LOG_RAW_INT(data,length)   (log_integer(data,length))
 #define LOG_FLUSH()                       (log_flush())
-
 
 #else
 #define LOG_RAW_DATA(data,length)   (log_data_host(data,length))
@@ -300,29 +64,31 @@ Log_t *rtc_log;
 #define LOG_FLUSH()                    (log_flush())
 #endif
 
-
+#ifdef KL25Z
 #ifdef TEN
-uint32_t size=10;
+uint31_t size=10;
 #endif
 
 #ifdef HUNDRED
-uint32_t size=100;
+uint31_t size=100;
 
 #endif
 
 #ifdef THOUSAND
-uint32_t size=1000;
-
+uint31_t size=1000;
 
 #endif
 
 #ifdef FIVE_THOUSAND
-uint32_t size=5000;
-//nt8_t A[5000];
+uint31_t size=5000;
 #endif
 
 #define CLOCK_INVERSE (0.0477)
 
+#endif
+
+
+#ifdef KL25Z
 void	LED_init(void){
 	SIM->SCGC5	|=	0x400;
 	SIM->SCGC5	|=	0x1000;
@@ -342,6 +108,7 @@ void	LED_init(void){
 	PTD->PDDR	|=	0x02;										/*	make	PTD1	as	output	pin	*/
 	PTD->PSOR	=	0x02;
 }
+
 void	LED_set(int	value) {
 	if	(value	&  1)
 
@@ -365,9 +132,10 @@ void	LED_set(int	value) {
 	    PTD->PSOR	=	0x02;
 
 }
-void Profiler(void){
 
-void Profiler(void){
+
+void Profiler(void)
+{
 	Log_t * result_log = (Log_t *) malloc(sizeof(Log_t));
 #ifdef dmabyte
 	            uint8_t *source1;
@@ -473,11 +241,7 @@ void Profiler(void){
 			LOG_RAW_INT(val2,3);
 #endif
 
-
 #endif
-
-
-
 
 
 #ifdef STANDARD
@@ -518,10 +282,8 @@ void Profiler(void){
 
 #endif
 
-
-
 }
-
+#endif
 
 void project3(){
 
@@ -641,21 +403,18 @@ void project3(){
 		LOG_RAW_STRING(" ");
 	}
 
-
-
 #endif
 #endif
 
-#ifdef BBB
+	memmove_stdlib_profile();
+	memset_stdlib_profile();
+
 	memmove_profile();
 	memset_profile();
 
-#endif
-
-
-
 }
 
+#ifdef KL25Z
 void DMA0_IRQHandler(void){
 __disable_irq();
 
@@ -714,13 +473,11 @@ void UART0_IRQHandler(void)
 		LOG=0; //turn off
 		else if(log==0 && c=='1')
 		LOG=1;
-		        	UART0_C2|=UART_C2_TIE_MASK;/////////////////////////////////////////////////////////////////
+		        	UART0_C2|=UART_C2_TIE_MASK;
 	}
 
 	__enable_irq();
-
-////////////////////////////////////////////////////////////////////////////////
 }
-
+#endif
 
 

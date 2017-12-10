@@ -1,9 +1,7 @@
 
 #include "dma.h"
 
-#define DMA_ENABLE_TRANSFER (0x80)
-#define DMA_STA
-#include "dma.h"
+
 
 #define DMA_ENABLE_TRANSFER (0x80)
 #define DMA_START_BIT_ENABLE (0x10000)
